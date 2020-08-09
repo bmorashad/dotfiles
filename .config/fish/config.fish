@@ -107,7 +107,7 @@ function rename_note_with_fzf
       set note_dir (dirname $note)
       set is_exist (ls $note_dir | grep $new_name.md | wc -l)
       if test $is_exist -gt 0
-        printf '\033[0;31mError: \033[0mnote exist with the same name\n' 
+        printf '\033[0;31merror: \033[0mnote exist with the same name\n' 
       # proceed
       else
         mv $note $note_dir/$new_name.md
@@ -116,12 +116,12 @@ function rename_note_with_fzf
       end
     end
   else
-    printf '\033[0;31mError: \033[0mnote name must be provided to rename \n' 
+    printf '\033[0;31merror: \033[0mnote name must be provided to rename \n' 
   end
 end
 
 function new_note_with_fzf
-  notes new myNotes $argv
+  notes new $DEFAULT_CATEGORY $argv
 end
 
 function remove_note 
@@ -129,11 +129,15 @@ function remove_note
     set note (notes ls -A --oneline |  fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
     if ! test -z "$note"
       mv $note $NOTES_CLI_HOME/.trash 
+      printf "These files were removed\n"
+      printf "\u001b[34m$note\n"
     end
   else
     set note (notes ls -A --oneline |  fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
     if ! test -z "$note"
       mv $note $NOTES_CLI_HOME/.trash 
+      printf "These files were removed\n"
+      printf "\u001b[34m$note\n"
     end
   end
 end
@@ -143,8 +147,17 @@ function restore_notes
   if ! test -z "$notes_to_restore" 
     echo $notes_to_restore | while read -l note 
     set category_dir (grep -m 1 'Category' $NOTES_CLI_HOME/.trash/$note | cut -d ' ' -f 3)
-    mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir   
+    if test -f $NOTES_CLI_HOME/$category_dir/$note
+      printf '\033[0;31merror: \033[0ma note with the same name already exist :/\n' 
+      echo setting restore name...
+      set restore_name (echo $note | sed 's/\.md.*//' | awk '{print $0"_RESTORED.md"}') 
+      mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir/$restore_name
+      printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored as \u001b[33m$category_dir\u001b[0m/\u001b[32m$restore_name\n";
+    else
+      mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir   
+      printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored\n";
     end
+  end
   end
 end
 # install fonts
@@ -221,3 +234,4 @@ set PATH /home/bmora/.notes-cli $PATH
 export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
 export NOTES_CLI_HOME='/home/bmora/.notes'
+export DEFAULT_CATEGORY='myNotes'
