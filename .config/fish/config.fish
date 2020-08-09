@@ -32,7 +32,11 @@ end
 function install_with_fzf 
   if count $argv > /dev/null
     # eopkg search $argv | fzf --ansi -m | awk '{print $1}' | tr '\n' ' ' | xargs -r sudo eopkg it $argv;
-    eopkg search $argv | fzf --ansi -m | awk '{print $1}' | xargs -o -r sudo eopkg it;
+    if test $argv[-1] = "-e" 
+      eopkg search $argv[1..-2] | fzf --ansi -m -0 -e | awk '{print $1}' | xargs -o -r sudo eopkg it;
+    else
+      eopkg search $argv | fzf --ansi -m -0 | awk '{print $1}' | xargs -o -r sudo eopkg it;
+    end
   else
     # eopkg la | fzf --ansi -m | awk '{print $1}' | tr '\n' ' ' | xargs -r sudo eopkg it $argv;
     eopkg la | fzf --ansi -m | awk '{print $1}' | xargs -o -r sudo eopkg it;
