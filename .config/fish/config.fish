@@ -32,8 +32,22 @@ end
 function install_with_fzf 
   if count $argv > /dev/null
     # eopkg search $argv | fzf --ansi -m | awk '{print $1}' | tr '\n' ' ' | xargs -r sudo eopkg it $argv;
-    if test $argv[-1] = "-e" 
-      eopkg search $argv[1..-2] | fzf --ansi -m -0 -e | awk '{print $1}' | xargs -o -r sudo eopkg it;
+    # Begin Test
+    
+    # set arg_str_len (expr length "$argv")
+    # set rest_str (echo $argv | cut -s -d "-" -f 2-)
+    # set rest_str_len (expr length "$rest_str")
+    # set dash_indx (expr $arg_str_len - $rest_str_len)
+    # set pre_dash_indx (expr $dash_indx - 1)
+
+    # if test (expr substr "$argv" $pre_dash_indx 1) = " "
+      # echo "yes"
+    # end
+    
+    # End
+
+    if test (expr substr $argv[-1] 1 1) = "-" 
+      eopkg search $argv[1..-2] | fzf --ansi -m -0 $argv[-1] | awk '{print $1}' | xargs -o -r sudo eopkg it;
     else
       eopkg search $argv | fzf --ansi -m -0 | awk '{print $1}' | xargs -o -r sudo eopkg it;
     end
@@ -88,6 +102,21 @@ end
 
 
 # Notes With FZF
+
+function preview_note_with_fzf
+  if count $argv > /dev/null
+      set note (notes ls -A --oneline |  fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
+      if ! test -z (echo $note)
+        glow -p $note
+      end
+    else
+      set note (notes ls -A --oneline |  fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
+      if ! test -z (echo $note)
+        glow -p $note
+      end
+    end
+end
+
 function notes_with_fzf
   if count $argv > /dev/null
     set note (notes ls -A --oneline |  fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
@@ -235,6 +264,7 @@ set JAVA_HOME /opt/jdk1.8.0_241
 # status --is-interactive; and source (jenv init -|psub)
 # status --is-interactive; and jenv init - fish | source
 
+set PATH /home/bmora/go/bin $PATH
 set PATH /home/bmora/.notes-cli $PATH
 export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
