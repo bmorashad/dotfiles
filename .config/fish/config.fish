@@ -270,3 +270,4 @@ export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
 export NOTES_CLI_HOME='/home/bmora/.notes'
 export DEFAULT_CATEGORY='myNotes'
+export PAGER=bat
