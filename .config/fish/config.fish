@@ -158,6 +158,7 @@ function restore_notes
       mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir/$restore_name
       printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored as \u001b[33m$category_dir\u001b[0m/\u001b[32m$restore_name\n";
     else
+      mkdir -p $NOTES_CLI_HOME/$category_dir
       mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir   
       printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored\n";
     end
