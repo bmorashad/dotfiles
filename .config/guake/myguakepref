@@ -33,7 +33,7 @@ use-scrollbar=true
 use-trayicon=false
 use-vte-titles=true
 window-halignment=0
-window-height=82
+window-height=100
 window-losefocus=false
 window-ontop=false
 window-refocus=true
@@ -49,14 +49,24 @@ show-hide='<Alt>e'
 
 [keybindings/local]
 close-tab='<Primary>w'
-focus-terminal-left='<Primary><Shift>n'
-focus-terminal-right='<Primary>question'
-new-tab='<Alt>1'
-next-tab='<Alt>3'
-previous-tab='<Alt>2'
+close-terminal='<Primary>asterisk'
+decrease-height='<Primary>minus'
+focus-terminal-down='<Primary><Shift>j'
+focus-terminal-left='<Primary><Shift>h'
+focus-terminal-right='<Primary><Shift>l'
+focus-terminal-up='<Primary><Shift>k'
+increase-height='<Primary>equal'
+new-tab='<Primary>t'
+new-tab-home='<Primary>question'
+next-tab='<Primary><Shift>n'
+previous-tab='<Primary><Shift>b'
+search-on-web='<Primary>parenright'
 search-terminal='<Primary>f'
-split-tab-horizontal='<Primary>greater'
-split-tab-vertical='<Primary>less'
+split-tab-horizontal='<Primary>less'
+split-tab-vertical='<Primary>greater'
+zoom-in='<Primary>braceright'
+zoom-in-alt='<Primary>Down'
+zoom-out='<Primary>braceleft'
 
 [style/background]
 transparency=99
