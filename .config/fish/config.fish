@@ -248,14 +248,9 @@ end
 
 
 # jenv for fish
-function jenv
-  bash -i -c "jenv $argv"
-end
-
-function nvm
-  bash -i -c "nvm $argv"
-end
-
+# function jenv
+  # bash -i -c "jenv $argv"
+# end
 
 set JAVA_HOME /opt/jdk1.8.0_241
 
