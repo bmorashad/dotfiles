@@ -33,7 +33,7 @@ use-scrollbar=true
 use-trayicon=false
 use-vte-titles=true
 window-halignment=0
-window-height=100
+window-height=96
 window-losefocus=false
 window-ontop=false
 window-refocus=true
@@ -69,11 +69,11 @@ zoom-in-alt='<Primary>Down'
 zoom-out='<Primary>braceleft'
 
 [style/background]
-transparency=99
+transparency=100
 
 [style/font]
 allow-bold=true
 bold-is-bright=true
-palette='#1f1f1f1f1f1f:#f7f711111818:#2c2cc5c55d5d:#ececb9b90f0f:#2a2a8484d2d2:#4e4e5959b7b7:#0f0f8080d5d5:#d6d6dadae4e4:#214a258b23d5:#dede34342e2e:#1d1dd2d26060:#f2f2bdbd0909:#0f0f8080d5d5:#52524f4fb9b9:#0f0f7c7cdada:#ffffffffffff:#d6d6dadae4e4:#131313131313'
+palette='#1f1f1f1f1f1f:#f7f711111818:#2c2cc5c55d5d:#ececb9b90f0f:#2a2a8484d2d2:#4e4e5959b7b7:#0f0f8080d5d5:#d6d6dadae4e4:#214a258b23d5:#dede34342e2e:#1d1dd2d26060:#f2f2bdbd0909:#0000acf8ffff:#a0fc35c2ffff:#0f0f7c7cdada:#ffffffffffff:#d6d6dadae4e4:#131313131313'
 palette-name='Custom'
 style='JetBrainsMono Nerd Font 11'
