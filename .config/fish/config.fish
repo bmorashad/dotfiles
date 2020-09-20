@@ -67,7 +67,7 @@ end
 
 # fzf  shortcuts
 function open_with_fzf 
-  builtin cd $HOME && fd -a -t f -H -I | fzf -m --preview="xdg-mime query default {}" | xargs -ro -d "\n" xdg-open 2>&-;
+  builtin cd $HOME && fd -t f -d 6 | fzf -m --preview="xdg-mime query default {}" | xargs -ro -d "\n" xdg-open 2>&-;
 end
 
 function nvi_with_fzf 
