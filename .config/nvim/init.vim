@@ -1,15 +1,22 @@
+" let g:python3_host_prog='/home/bmora/.py_env/py3_env/bin/python3'
+" let g:python_host_prog='/home/bmora/.py_env/bin/python'
+
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
+" JSX 8/28/20
+Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'yuezk/vim-js'
+" js 8/28/20
+Plug 'pangloss/vim-javascript'
+
 " Testin
+" To Be Enabled
 Plug 'easymotion/vim-easymotion'
 
 " Motions
+" To Be Enabled
 Plug 'unblevable/quick-scope'
-
-" To Be Learnt
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
 
 " Theme
 " Plug 'danilo-augusto/vim-afterglow', {'as': 'afterglow'}
@@ -18,17 +25,21 @@ Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePl
 " Plug 'kamykn/dark-theme.vim', {'as': 'dark-theme'}
 " Plug 'joshdick/onedark.vim', {'as': 'onedark'}
 " Plug 'phanviet/vim-monokai-pro'
-Plug 'patstockwell/vim-monokai-tasty'
+" Plug 'patstockwell/vim-monokai-tasty'
 Plug 'christophermca/meta5', {'as': 'meta5'}
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'tomasiser/vim-code-dark', {'as': 'codedark'}
+Plug 'rakr/vim-one'
 
 " Floating terminal
 " Plug 'voldikss/vim-floaterm'
 
 " Syntax highlight
+" To Be Enabled
 Plug 'sheerun/vim-polyglot'
 
 " Smooth Scroll
+" To Be Enabled
 Plug 'psliwka/vim-smoothie'
 
 " Plug 'lilydjwg/colorizer'
@@ -37,31 +48,28 @@ Plug 'psliwka/vim-smoothie'
 " Plug 'KabbAmine/vCoolor.vim' 
 
 Plug 'alvan/vim-closetag'
-" Completion alternative
-" Plug 'ms-jpq/nap', {'branch': 'nap', 'do': ':UpdateRemotePlugins'}
 
-" NERDTree alternative
-" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
-
-Plug 'pangloss/vim-javascript'
+" Plug 'pangloss/vim-javascript'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
+Plug 'junegunn/fzf.vim'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 
 " Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-" Plug 'christoomey/vim-tmux-navigator'
-"
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
 " Initialize plugin system
+" Just Look
+Plug 'itchyny/lightline.vim'
+
 call plug#end()
+
 
 " Testing
 map  <Leader>f <Plug>(easymotion-bd-f)
@@ -76,6 +84,7 @@ if has('persistent_undo')      "check if your vim version supports it
 endif 
 
 :let mapleader = " "
+let g:vim_jsx_pretty_colorful_config = 1
 
 augroup qs_colors
   autocmd!
@@ -87,15 +96,18 @@ augroup END
 nmap S <Plug>(easymotion-overwin-f2)
 map F <Plug>(easymotion-bd-w)
 nmap F <Plug>(easymotion-overwin-w)
-
+nnoremap s S
 ":syntax on
 
-" colorscheme meta5 
 " let g:airline_theme='monokai_tasty'
 " let g:vim_monokai_tasty_italic = 1
-" set termguicolors
 
+set termguicolors
+set background=dark
 colorscheme codedark 
+let g:one_allow_italics = 1
+let g:lightline = { 'colorscheme': 'one' }
+let g:palenight_terminal_italics=1
 
 " change default background color
 " hi Normal guibg=#1a1a1a
@@ -106,12 +118,18 @@ colorscheme codedark
 
 " enable mouse navigation
 :set mouse=a
+" case insesitive search
+:set ignorecase
+
+set splitright
+set splitbelow
+" set clipboard=unamedplus
 
 " Color Picker key map
 nnoremap <A-c> :Pickachu<CR>
 
 " default key remaps change
-nnoremap s S
+" nnoremap s S
 nnoremap w W
 nnoremap K }
 nnoremap <A-o> }
@@ -176,6 +194,12 @@ let g:NERDTreeGitStatusWithFlags = 1
 
 let g:NERDTreeIgnore = ['^node_modules$']
 
+let g:vim_jsx_pretty_highlight_close_tag = 1
+" code folding javascript
+augroup javascript_folding
+    au!
+    au FileType javascript setlocal foldmethod=syntax
+augroup END
 " vim-prettier
 "let g:prettier#quickfix_enabled = 0
 "let g:prettier#quickfix_auto_focus = 0
@@ -201,10 +225,10 @@ set nu
 set cursorline
 set smarttab
 set cindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 " always uses spaces instead of tab characters
-set expandtab
+" set expandtab
 
 " sync open file with NERDTree
 " " Check if NERDTree is open or active
@@ -225,12 +249,13 @@ set expandtab
 " autocmd BufEnter * call SyncTree()
 
 " coc config
+"\ 'coc-prettier', 
 let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ 'coc-pairs',
       \ 'coc-tsserver',
-      \ 'coc-prettier', 
       \ 'coc-json', 
+      \ 'coc-eslint',
       \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
@@ -279,16 +304,16 @@ nmap <silent> gr <Plug>(coc-references)
 " Use K to show documentation in preview window
 nnoremap <silent> ^ :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+" function! s:show_documentation()
+"  if (index(['vim','help'], &filetype) >= 0)
+"    execute 'h '.expand('<cword>')
+"  else
+"    call CocAction('doHover')
+"  endif
+" endfunction
 
 " Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
