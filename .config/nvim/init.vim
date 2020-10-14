@@ -135,6 +135,10 @@ nnoremap K }
 nnoremap <A-o> }
 nnoremap <A-i> {
 
+" switch buffers
+map gn :bn<cr>
+map gp :bp<cr>
+
 " copy to system clipboard
 noremap <C-c> "+y
 noremap <C-p> "+p
@@ -154,6 +158,10 @@ nmap : <Plug>(SmoothieUpwards)
 " Mouse Scroll
 nmap <ScrollWheelUp> <Plug>(SmoothieUpwards)
 nmap <ScrollWheelDown> <Plug>(SmoothieDownwards)
+
+" Better tabbing
+vnoremap < <gv
+vnoremap > >gv
 
 " inoremap jk <ESC>
 nnoremap ; :

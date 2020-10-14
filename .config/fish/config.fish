@@ -252,12 +252,21 @@ end
   # bash -i -c "jenv $argv"
 # end
 
-set JAVA_HOME /opt/jdk1.8.0_241
+set JAVA_HOME /opt/jdk1.8.0_241 $JAVA_HOME
 
 
 # set PATH $HOME/.jenv/bin $PATH
 # status --is-interactive; and source (jenv init -|psub)
 # status --is-interactive; and jenv init - fish | source
+
+# SBT (for playframework)
+set PATH /home/bmora/sbt-1.4.0/sbt/bin $PATH
+#JENV
+set PATH /home/bmora/.jenv/bin $PATH
+
+#JDK
+set PATH /opt/jdk1.8.0_241/bin $PATH
+set PATH /opt/jdk-11.0.6/bin $PATH
 
 set PATH /home/bmora/go/bin $PATH
 set PATH /home/bmora/.notes-cli $PATH
