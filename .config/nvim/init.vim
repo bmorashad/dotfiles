@@ -331,6 +331,7 @@ nmap ,r <Plug>(coc-rename)
 " xmap <leader>f  <Plug>(coc-format-selected)
 " nmap <leader>f  <Plug>(coc-format-selected)
 
+" Toggle spell check
 
 " augroup mygroup
   " autocmd!
