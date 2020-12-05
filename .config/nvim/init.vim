@@ -136,8 +136,9 @@ nnoremap <A-o> }
 nnoremap <A-i> {
 
 " switch buffers
-map gn :bn<cr>
-map gp :bp<cr>
+nnoremap <C-b> :bn<cr>
+" map gn :bn<cr>
+" map gp :bp<cr>
 
 " copy to system clipboard
 noremap <C-c> "+y
