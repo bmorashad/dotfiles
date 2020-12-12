@@ -137,6 +137,7 @@ nnoremap <A-i> {
 
 " switch buffers
 nnoremap <C-b> :bn<cr>
+nnoremap ,a :bn<cr>
 " map gn :bn<cr>
 " map gp :bp<cr>
 
