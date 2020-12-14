@@ -28,6 +28,11 @@ function fcoc -d "Fuzzy-find and checkout a commit"
   git log --pretty=oneline --abbrev-commit --reverse | fzf --tac +s -e | awk '{print $1;}' | read -l result; and git checkout "$result"
 end
 
+# Download from youtube
+function ydl -d "youtube-dlc download playlist at highest quality"
+	youtube-dlc -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' -c --playlist-start 1
+end
+
 # eopkg with fzf
 function install_with_fzf 
 	# if arguments passed(i.e install_with_fzf neovim)
