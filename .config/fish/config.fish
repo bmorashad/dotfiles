@@ -33,6 +33,15 @@ function ydl -d "youtube-dlc download playlist at highest quality"
 	youtube-dlc -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' -c --playlist-start 1
 end
 
+# Copy File Content
+function copy_to_new_file -d "copy all files with given extension to a new file withing a dir"
+	if count $argv > /dev/null
+		fd -e $argv[1] -0 | xargs -0 -r cat >> copied.txt
+	else
+		fd -t f -0 | xargs -0 -r cat >> copied.txt
+	end
+end
+
 # eopkg with fzf
 function install_with_fzf 
 	# if arguments passed(i.e install_with_fzf neovim)
