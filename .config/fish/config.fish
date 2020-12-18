@@ -36,9 +36,11 @@ end
 # Copy File Content
 function copy_to_new_file -d "copy all files with given extension to a new file withing a dir"
 	if count $argv > /dev/null
-		fd -e $argv[1] -0 | xargs -0 -r cat >> copied.txt
+		# fd -e $argv[1] -0 | xargs -0 -r cat >> copied.txt
+		fd -e $argv[1] -X cat >> copied.txt
 	else
-		fd -t f -0 | xargs -0 -r cat >> copied.txt
+		# fd -t f -0 | xargs -0 -r cat >> copied.txt
+		fd -t f -X cat >> copied.txt
 	end
 end
 
