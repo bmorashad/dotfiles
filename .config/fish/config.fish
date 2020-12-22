@@ -305,8 +305,14 @@ set PATH /opt/jdk-11.0.6/bin $PATH
 set PATH /home/bmora/go/bin $PATH
 set PATH /home/bmora/.notes-cli $PATH
 
+# diff-so-fancy(better diff)
+set PATH /home/bmora/diff-so-fancy $PATH
+
 export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
 export NOTES_CLI_HOME='/home/bmora/.notes'
 export DEFAULT_CATEGORY='myNotes'
 export PAGER=bat
+
+# Start autojump zoxide
+zoxide init fish | source
