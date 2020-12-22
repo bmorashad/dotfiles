@@ -1,0 +1,13 @@
+[user]
+	email = bmorashad@gmail.com
+	name = bsucker98
+[filesystem "Oracle Corporation|1.8.0_241|tmpfs"]
+	timestampResolution = 1001 milliseconds
+	minRacyThreshold = 0 nanoseconds
+
+; replace git diff with git delta
+
+[core]
+	pager = delta --dark --diff-so-fancy --navigate --keep-plus-minus-markers --tabs=2 --line-numbers-left-format='{nm:^4}' --line-numbers-right-format='{np:^4}' -n --plus-style=green --minus-style=red
+[delta]
+	; plus-style=normal
