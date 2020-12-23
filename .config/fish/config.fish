@@ -21,11 +21,11 @@ end
 # GIT
 
 function fco -d "Fuzzy-find and checkout a branch"
-  git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
+	git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
 end
 
 function fcoc -d "Fuzzy-find and checkout a commit"
-  git log --pretty=oneline --abbrev-commit --reverse | fzf --tac +s -e | awk '{print $1;}' | read -l result; and git checkout "$result"
+	git log --pretty=oneline --abbrev-commit --reverse | fzf --tac +s -e | awk '{print $1;}' | read -l result; and git checkout "$result"
 end
 
 # Download from youtube
@@ -56,7 +56,7 @@ function install_with_fzf
 			# else pass the all args to eopkg search
 			eopkg search $argv | fzf --ansi -m -0 | awk '{print $1}' | xargs -o -r sudo eopkg it;
 		end
-	# if no arguments passed(i.e install_with_fzf)
+		# if no arguments passed(i.e install_with_fzf)
 	else
 		# eopkg la | fzf --ansi -m | awk '{print $1}' | tr '\n' ' ' | xargs -r sudo eopkg it $argv;
 		eopkg la | fzf --ansi -m | awk '{print $1}' | xargs -o -r sudo eopkg it;
@@ -312,7 +312,11 @@ export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
 export NOTES_CLI_HOME='/home/bmora/.notes'
 export DEFAULT_CATEGORY='myNotes'
-export PAGER=bat
+
+#FZF styles
+export FZF_DEFAULT_OPTS='--height "80%" --color hl:46,hl+:46 --color prompt:166,border:32 --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
+# commented due to a bug: https://github.com/sharkdp/bat/issues/1413
+# export PAGER=bat
 
 # Start autojump zoxide
 zoxide init fish | source

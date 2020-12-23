@@ -52,8 +52,12 @@ Plug 'alvan/vim-closetag'
 " Plug 'pangloss/vim-javascript'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdtree'
+" fzf in rust(alternative)
+" Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
+" fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
@@ -171,7 +175,7 @@ nnoremap ,w <C-W><C-W>
 " nnoremap H Hzz
 " map <C-n> :NERDTreeToggle<CR>
 nnoremap ,e :NERDTreeToggle<CR>
-map <C-p> :FZF 
+" map <C-p> :FZF 
 
 " comment, uncomment
 vmap ,c <plug>NERDCommenterToggle
@@ -179,9 +183,12 @@ nmap ,c <plug>NERDCommenterToggle
 let g:NERDSpaceDelims = 1
 
 " fzf
-nnoremap ,d :FZF ~/Documents/<cr>
-nnoremap ,f :FZF<cr>  
-nnoremap ,g :FZF ~/<cr>
+" fzf bug fix
+" set shell= /bin/bash
+set rtp+=/usr/share/fzf
+" nnoremap ,d :FZF ~/Documents/<cr>
+nnoremap ,f :Files<cr>  
+" nnoremap ,g :FZF ~/<cr>
 
 " open NERDTree automatically
 "autocmd StdinReadPre * let s:std_in=1
