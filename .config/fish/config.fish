@@ -25,9 +25,9 @@ function kill_process --description "Kill processes"
 
 	if test "x$__kp__pid" != "x"
 		if test "x$argv[1]" != "x"
-			echo $__kp__pid | xargs kill $argv[1]
+			echo $__kp__pid | xargs -p kill $argv[1]
 		else
-			echo $__kp__pid | xargs kill -9
+			echo $__kp__pid | xargs -p kill -9
 		end
 		kill_process
 	end
