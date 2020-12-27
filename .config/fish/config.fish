@@ -20,7 +20,7 @@ end
 
 # kill process
 function kill_process --description "Kill processes"
-	set -l __kp__pid (procs | fzf --height '50%' -m | awk '{print $1}')
+	set -l __kp__pid (procs --color="always" | fzf --ansi --height '50%' -m | awk '{print $1}')
 	set -l __kp__kc $argv[1]
 
 	if test "x$__kp__pid" != "x"
@@ -29,7 +29,7 @@ function kill_process --description "Kill processes"
 		else
 			echo $__kp__pid | xargs -p kill -9
 		end
-		kill_process
+		# kill_process
 	end
 end
 
