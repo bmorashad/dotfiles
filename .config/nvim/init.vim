@@ -242,8 +242,8 @@ set nu
 set cursorline
 set smarttab
 set cindent
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 " always uses spaces instead of tab characters
 " set expandtab
 
