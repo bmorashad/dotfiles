@@ -25,7 +25,9 @@ Plug 'unblevable/quick-scope'
 " Plug 'kamykn/dark-theme.vim', {'as': 'dark-theme'}
 " Plug 'joshdick/onedark.vim', {'as': 'onedark'}
 " Plug 'phanviet/vim-monokai-pro'
-" Plug 'patstockwell/vim-monokai-tasty'
+Plug 'chriskempson/base16-vim'
+Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
+Plug 'patstockwell/vim-monokai-tasty'
 Plug 'christophermca/meta5', {'as': 'meta5'}
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'tomasiser/vim-code-dark', {'as': 'codedark'}
@@ -55,7 +57,8 @@ Plug 'scrooloose/nerdtree'
 " fzf in rust(alternative)
 " Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
 " fzf
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }  "From missing semester Jose FZF plugin, makes Ctrl-P unnecessary
 Plug 'junegunn/fzf.vim'
 
 " Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -108,7 +111,8 @@ nnoremap s S
 
 set termguicolors
 set background=dark
-colorscheme codedark 
+let g:vim_monokai_tasty_italic = 1
+colorscheme codedark
 let g:one_allow_italics = 1
 let g:lightline = { 'colorscheme': 'one' }
 let g:palenight_terminal_italics=1
