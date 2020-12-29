@@ -249,8 +249,8 @@ set nu
 set cursorline
 set smarttab
 set cindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 " always uses spaces instead of tab characters
 " set expandtab
 
@@ -358,13 +358,13 @@ nmap ,r <Plug>(coc-rename)
 " augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-" xmap <leader>n  <Plug>(coc-codeaction-selected)
-" nmap <leader>m  <Plug>(coc-codeaction-selected)
+xmap <leader>n  <Plug>(coc-codeaction-selected)
+nmap <leader>m  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
 " nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
-" nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Create mappings for function text object, requires document symbols feature of languageserver.
 xmap if <Plug>(coc-funcobj-i)
