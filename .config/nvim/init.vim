@@ -99,6 +99,9 @@ augroup qs_colors
   autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 augroup END 
 
+" save sudo files with w!!
+cmap w!! w !sudo tee % >/dev/null
+
 " easymotion
 nmap S <Plug>(easymotion-overwin-f2)
 map F <Plug>(easymotion-bd-w)
