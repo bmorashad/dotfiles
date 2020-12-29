@@ -305,7 +305,7 @@ set JAVA_HOME /opt/jdk1.8.0_241 $JAVA_HOME
 zoxide init fish | source
 
 
-# set PATH $HOME/.jenv/bin $PATH
+set PATH $HOME/.jenv/bin $PATH
 # status --is-interactive; and source (jenv init -|psub)
 # status --is-interactive; and jenv init - fish | source
 
