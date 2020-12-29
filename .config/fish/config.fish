@@ -18,6 +18,12 @@ end
   #end
 #end
 
+# make dir if not exist and cd into
+function mcd --description "mkdir if not exist and cd into"
+	mkdir -p $argv[1]
+	cd $argv[1]
+end
+
 # kill process
 function kill_process --description "Kill processes"
 	set -l __kp__pid (procs --color="always" | fzf --ansi --height '50%' -m | awk '{print $1}')
@@ -192,6 +198,12 @@ function new_note_with_fzf
 	notes new $DEFAULT_CATEGORY $argv
 end
 
+function notes_change_category
+	if count $argv > /dev/null
+		export DEFAULT_CATEGORY=$argv[1]
+	end
+end
+
 function remove_note 
 	if count $argv > /dev/null
 		set note (notes ls -A --oneline |  fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
@@ -328,10 +340,11 @@ export EDITOR=nvim
 export NOTES_CLI_HOME='/home/bmora/.notes'
 export DEFAULT_CATEGORY='myNotes'
 
-#FZF styles
+# FZF styles
 export FZF_DEFAULT_OPTS='--height "80%" --color hl:46,hl+:46 --color prompt:166,border:32 --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
 # commented due to a bug: https://github.com/sharkdp/bat/issues/1413
 # export PAGER=bat
+# export PAGER="most"
 
 # Start autojump zoxide
 zoxide init fish | source
