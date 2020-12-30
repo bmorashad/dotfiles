@@ -322,8 +322,6 @@ set PATH /home/bmora/.spring-boot-cli/bin $PATH
 set PATH /home/bmora/sbt-1.4.0/sbt/bin $PATH
 #JENV
 set PATH /home/bmora/.jenv/bin $PATH
-#Homebrew
-eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 #JDK
 set PATH /opt/jdk1.8.0_241/bin $PATH
