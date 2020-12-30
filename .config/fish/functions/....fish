@@ -1,0 +1,4 @@
+# Defined in - @ line 1
+function ... --wraps='echo ../../' --wraps='echo string join../../; ' --wraps='echo string join../../' --wraps='echo (string join ../../)' --wraps='set p string join ../../' --wraps='set p string join ../../; echo ' --wraps=set\ p\ \'string\ join\ ../../\;\ echo\ \' --wraps='string join ../../  | xargs cd' --wraps='string join0 ../../  | xargs cd' --wraps='string join0 ../../  | xargs --null cd' --wraps='string join0 ../../  | xargs --null echo' --wraps='string join0 ../../ | xargs --null echo' --wraps='string join0 ../../ | xargs --null c' --wraps='string join0 ../../ | xargs --null cd' --wraps='string join0 ../../ | xargs cd' --wraps='echo ../../ | xargs --null cd' --wraps='echo ../../ | xargs cd' --wraps='cd (string join0 ../../)' --wraps='cd (string join0 ../../ )' --wraps='cd (string join0 ../../../)' --wraps='cd ../../' --description 'alias ...=cd ../../'
+  cd ../../ $argv;
+end
