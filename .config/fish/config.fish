@@ -294,6 +294,10 @@ echo $valid_fonts | sed '/^[[:space:]]*$/d' | fzf -m
 end
 
 
+set PATH /usr/local/bin $PATH
+# rust cargo bin
+set PATH $HOME/.cargo/bin $PATH
+
 # jenv for fish
 # function jenv
 # bash -i -c "jenv $argv"
