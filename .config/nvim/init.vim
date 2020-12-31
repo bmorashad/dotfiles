@@ -1,3 +1,4 @@
+" cSpell:disable "
 " let g:python3_host_prog='/home/bmora/.py_env/py3_env/bin/python3'
 " let g:python_host_prog='/home/bmora/.py_env/bin/python'
 
@@ -25,6 +26,7 @@ Plug 'unblevable/quick-scope'
 " Plug 'kamykn/dark-theme.vim', {'as': 'dark-theme'}
 " Plug 'joshdick/onedark.vim', {'as': 'onedark'}
 " Plug 'phanviet/vim-monokai-pro'
+Plug 'itchyny/landscape'
 Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
 Plug 'patstockwell/vim-monokai-tasty'
@@ -114,6 +116,7 @@ nnoremap s S
 
 set termguicolors
 " let g:vim_monokai_tasty_italic = 1
+let g:lightline = { 'colorscheme': 'gruvbox' }
 let g:gruvbox_italic = '1'
 let g:gruvbox_transparent_bg = '1'
 let g:gruvbox_contrast_dark = 'hard'
@@ -121,7 +124,6 @@ let g:gruvbox_invert_signs = '1'
 colorscheme gruvbox
 set background=dark
 let g:one_allow_italics = 1
-let g:lightline = { 'colorscheme': 'gruvbox' }
 let g:palenight_terminal_italics=1
 
 " change default background color
