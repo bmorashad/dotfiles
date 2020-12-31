@@ -113,11 +113,15 @@ nnoremap s S
 " let g:vim_monokai_tasty_italic = 1
 
 set termguicolors
+" let g:vim_monokai_tasty_italic = 1
+let g:gruvbox_italic = '1'
+let g:gruvbox_transparent_bg = '1'
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_invert_signs = '1'
+colorscheme gruvbox
 set background=dark
-let g:vim_monokai_tasty_italic = 1
-colorscheme codedark
 let g:one_allow_italics = 1
-let g:lightline = { 'colorscheme': 'one' }
+let g:lightline = { 'colorscheme': 'gruvbox' }
 let g:palenight_terminal_italics=1
 
 " change default background color
@@ -129,7 +133,7 @@ let g:palenight_terminal_italics=1
 
 " enable mouse navigation
 :set mouse=a
-" case insesitive search
+" case insensitive search
 :set ignorecase
 
 set splitright
