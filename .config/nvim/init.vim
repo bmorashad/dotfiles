@@ -26,7 +26,7 @@ Plug 'unblevable/quick-scope'
 " Plug 'kamykn/dark-theme.vim', {'as': 'dark-theme'}
 " Plug 'joshdick/onedark.vim', {'as': 'onedark'}
 " Plug 'phanviet/vim-monokai-pro'
-Plug 'itchyny/landscape'
+Plug 'itchyny/landscape.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
 Plug 'patstockwell/vim-monokai-tasty'
