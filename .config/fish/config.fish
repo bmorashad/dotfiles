@@ -309,7 +309,7 @@ set JAVA_HOME /opt/jdk1.8.0_241 $JAVA_HOME
 zoxide init fish | source
 
 
-set PATH $HOME/.jenv/bin $PATH
+set PATH $GITHUB_APP_DIR/.jenv/bin $PATH
 # status --is-interactive; and source (jenv init -|psub)
 # status --is-interactive; and jenv init - fish | source
 
@@ -325,7 +325,7 @@ set PATH /home/bmora/.spring-boot-cli/bin $PATH
 # SBT (for playframework)
 set PATH /home/bmora/sbt-1.4.0/sbt/bin $PATH
 #JENV
-set PATH /home/bmora/.jenv/bin $PATH
+set PATH $GITHUB_APP_DIR/.jenv/bin $PATH
 
 #JDK
 set PATH /opt/jdk1.8.0_241/bin $PATH
@@ -337,12 +337,12 @@ set PATH /home/bmora/go/bin $PATH
 # diff-so-fancy(better diff)
 set PATH /home/bmora/diff-so-fancy $PATH
 
-export THIRDPARTY_APP_DIR='$HOME/.thirdparty-app'
-export GITHUB_APP_DIR='$THIRDPARTY_APP_DIR/github'
+export THIRDPARTY_APP_DIR=''$HOME'/.thirdparty-app'
+export GITHUB_APP_DIR=''$THIRDPARTY_APP_DIR'/github'
 
 export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
-export NOTES_CLI_HOME='$HOME/.notes'
+export NOTES_CLI_HOME=''$HOME'/.notes'
 export DEFAULT_CATEGORY='myNotes'
 
 # FZF styles

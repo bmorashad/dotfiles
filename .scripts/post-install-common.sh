@@ -68,9 +68,8 @@ sudo snap install postman
 # NOTE: available in snap as well
 flatpak install flathub md.obsidian.Obsidian
 
-
 # Popicle: USB Flasher writter in Rust By Pop OS Team
 echo "cloning popsicle from https://github.com/pop-os/popsicle..."
-git clone git@github.com:pop-os/popsicle.git ~/.thirtparty-apps/github
+git clone git@github.com:pop-os/popsicle.git $GITHUB_APP_DIR
 echo "installing popsicle..."
-(cd ~/.thirtparty-apps/github/popsicle; make && sudo make install)
+(cd $GITHUB_APP_DIR/popsicle; make && sudo make install)
