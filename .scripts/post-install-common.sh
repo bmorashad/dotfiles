@@ -2,7 +2,7 @@
 
 sudo eopkg inskcape gimp vorta dia filezilla insomnia handbrake knotesmailspring mpv mongodb-compass docker mongodb \
 	xournalapp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio \
-	mypaint opentshot-qt meld terminator vivaldi-stable
+	mypaint opentshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger
 
 # Solus Official ThirdParty
 echo "This might take some time..."
@@ -73,3 +73,5 @@ echo "cloning popsicle from https://github.com/pop-os/popsicle..."
 git clone git@github.com:pop-os/popsicle.git $GITHUB_APP_DIR
 echo "installing popsicle..."
 (cd $GITHUB_APP_DIR/popsicle; make && sudo make install)
+
+echo "tada done :)"

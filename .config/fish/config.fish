@@ -120,7 +120,7 @@ function cd_with_fzf
 	if  count $argv > /dev/null
 		builtin cd $HOME && builtin cd (fd -i -t d -d 10 | fzf -q "$argv" --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)
 	else 
-		# builtin cd / && builtin cd (fd -i -t d -d 10 . . /home/bmora/.config -E /home/burhan | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)
+		# builtin cd / && builtin cd (fd -i -t d -d 10 . . $HOME/.config -E /home/burhan | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)
 		builtin cd $HOME && builtin cd (fd -i -t d -d 10 | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)
 	end
 end
@@ -273,7 +273,7 @@ function show_not_installed_available_fonts
 	set noodle
 	set font_path_store
 	set not_valid
-	set font_paths (dirname (fd . /home/bmora -t f -e ttf -e otf -d 5 | sort | uniq ) | uniq | string collect)
+	set font_paths (dirname (fd . $HOME -t f -e ttf -e otf -d 5 | sort | uniq ) | uniq | string collect)
 	set installed_font_paths (dirname (fd . /usr/share/fonts/truetype -t f -e ttf -e otf | sort | uniq ) | uniq | string collect)
 	echo "$font_paths" | while read font_path; 
 	set font_path_store (echo $font_path | string collect)
@@ -309,40 +309,40 @@ set JAVA_HOME /opt/jdk1.8.0_241 $JAVA_HOME
 zoxide init fish | source
 
 
-set PATH $GITHUB_APP_DIR/.jenv/bin $PATH
+set PATH $HOME/.jenv/bin $PATH
 # status --is-interactive; and source (jenv init -|psub)
 # status --is-interactive; and jenv init - fish | source
 
 
 #Expo CLI
-set PATH /home/bmora/.nvm/versions/node/v12.18.3/lib/node_modules/npm/node_modules/bin $PATH
+set PATH $HOME/.nvm/versions/node/v12.18.3/lib/node_modules/npm/node_modules/bin $PATH
 
 # Spring Boot CLI Path
-# export SPRING_HOME = '/home/bmora/.spring-boot-cli'
-set PATH /home/bmora/.spring-boot-cli/bin $PATH
+# export SPRING_HOME = "$HOME/.spring-boot-cli"
+set PATH $HOME/.spring-boot-cli/bin $PATH
 
 
 # SBT (for playframework)
-set PATH /home/bmora/sbt-1.4.0/sbt/bin $PATH
+set PATH $HOME/sbt-1.4.0/sbt/bin $PATH
 #JENV
-set PATH $GITHUB_APP_DIR/.jenv/bin $PATH
+set PATH $HOME/.jenv/bin $PATH
 
 #JDK
 set PATH /opt/jdk1.8.0_241/bin $PATH
 set PATH /opt/jdk-11.0.6/bin $PATH
 
-# set PATH /home/bmora/.notes-cli $PATH
-set PATH /home/bmora/go/bin $PATH
+# set PATH $HOME/.notes-cli $PATH
+set PATH $HOME/go/bin $PATH
 
 # diff-so-fancy(better diff)
-set PATH /home/bmora/diff-so-fancy $PATH
+set PATH $HOME/diff-so-fancy $PATH
 
-export THIRDPARTY_APP_DIR=''$HOME'/.thirdparty-app'
-export GITHUB_APP_DIR=''$THIRDPARTY_APP_DIR'/github'
+export THIRDPARTY_APP_DIR="$HOME/.thirdparty-app"
+export GITHUB_APP_DIR="$THIRDPARTY_APP_DIR'/github"
 
 export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
-export NOTES_CLI_HOME=''$HOME'/.notes'
+export NOTES_CLI_HOME="$HOME/.notes"
 export DEFAULT_CATEGORY='myNotes'
 
 # FZF styles
