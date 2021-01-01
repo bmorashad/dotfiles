@@ -49,7 +49,6 @@ cp ~/.jenv/fish/jenv.fish ~/.config/fish/functions/jenv.fish
 cp ~/.jenv/fish/export.fish ~/.config/fish/functions/export.fish
 # add java paths to jenv
 echo "run jenv add /opt/jdk-11<version> after installing jdk 11"
-echo "run jenv add /opt/jdk-8<version> after installing jdk 8"
 # test if jenv successfull
 jenv doctor
 echo "if anything went wrong refer: https://github.com/jenv/jenv"
