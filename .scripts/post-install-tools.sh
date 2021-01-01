@@ -2,7 +2,7 @@
 
 sudo eopkg install \ 
 fd ripgrep autokey-py3 fish rush go cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer broot \
-glow
+glow borg virtualenv
 # install rust tools not in eopkg
 cargo install git-delta dust procs zoxide
 # install my cli notes app
@@ -23,7 +23,7 @@ source ~/.config/fish/config.fish
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 # jenv: java version manager
-git clone https://github.com/jenv/jenv.git ~/.jenv
+git clone https://github.com/jenv/jenv.git ~/thirdparty-apps/github.jenv
 # add to bash (to work properly with fish)
 echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.bash_profile
 echo 'eval "$(jenv init -)"' >> ~/.bash_profile

@@ -337,9 +337,12 @@ set PATH /home/bmora/go/bin $PATH
 # diff-so-fancy(better diff)
 set PATH /home/bmora/diff-so-fancy $PATH
 
+export THIRDPARTY_APP_DIR='$HOME/.thirdparty-app'
+export GITHUB_APP_DIR='$THIRDPARTY_APP_DIR/github'
+
 export NOTES_CLI_EDITOR=nvim
 export EDITOR=nvim
-export NOTES_CLI_HOME='/home/bmora/.notes'
+export NOTES_CLI_HOME='$HOME/.notes'
 export DEFAULT_CATEGORY='myNotes'
 
 # FZF styles
