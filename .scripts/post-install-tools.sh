@@ -27,8 +27,10 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 echo "\ninstalling jenv..."
 git clone https://github.com/jenv/jenv.git ~/.jenv
 # add to bash (to work properly with fish)
-echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.bash_profile
-echo 'eval "$(jenv init -)"' >> ~/.bash_profile
+# echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.bash_profile
+# echo 'eval "$(jenv init -)"' >> ~/.bash_profile
+echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.profile
+echo 'eval "$(jenv init -)"' >> ~/.profile
 # RESTART SHELL
 exec $SHELL -l
 
