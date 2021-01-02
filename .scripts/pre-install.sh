@@ -24,6 +24,7 @@ echo "exporting python env to bash_profile..."
 echo "export PYTHON_ENV=~/.py_env" >> ~/.bash_profile
 echo "export PYTHON_ENV3=$PYTHON_ENV/py_env3" >> ~/.bash_profile
 echo "sourcing .bash_profile..."
+source ~/.bash_profile
 
 echo "====pre-install-status: done :)===="
 
