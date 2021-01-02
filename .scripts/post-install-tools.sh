@@ -6,21 +6,25 @@ fd ripgrep autokey-py3 fish rush go cargo htop bat exa alacritty tmux tdrop xdot
 glow borg virtualenv
 
 # Rust
+echo "installing cli tools written in rust"
 cargo install git-delta dust procs zoxide
 cargo install --locked --all-features --path $GITHUB_APP_DIR
 
 # Golang
 # install my cli notes app
+echo "installing my cli notes app..."
 GO111MODULE=on go get -u github.com/rhysd/notes-cli/cmd/notes
 
 
 # vim-plug: plugin manager for vim
 # https://github.com/junegunn/vim-plug
+echo "\ninstalling vim-plug..."
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # jenv: java version manager
 # this needs to be installed both on fish and bash inorder to work on fish
+echo "\ninstalling jenv..."
 git clone https://github.com/jenv/jenv.git ~/.jenv
 # add to bash (to work properly with fish)
 echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.bash_profile
