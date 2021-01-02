@@ -1,0 +1,4 @@
+# Scripts
+
+## Naming Convention
+- [script]

@@ -27,14 +27,8 @@ set --universal nvm_default_version v14
 echo "installing bass - bash commands in fish..."
 fisher install edc/bass
 
-echo "creating ~/.py_env/py_env3"
-mkdir -p ~/.py_env/py_env3
 echo "make python3 virtual env"
-virtualenv python3 ~/.py_env/py_env3
-
-echo "exporting python env dir to .profile..."
-echo "export PYTHON_ENV=~/.py_env" >> ~/.profile
-echo "export PYTHON_ENV3=$PYTHON_ENV/py_env3" >> ~/.profile
+virtualenv python3 $PYTHON3_ENV_DIR
 
 # source new changes to fish shell
 echo "source new changes to fish shell"
