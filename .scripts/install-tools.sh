@@ -8,7 +8,8 @@ glow borg virtualenv rofi
 # Rust
 echo "installing cli tools written in rust"
 cargo install git-delta dust procs zoxide
-cargo install --locked --all-features --path $GITHUB_APP_DIR
+git clone https://github.com/ms-jpq/sad $GITHUB_APP_DIR
+(cd $GITHUB_APP_DIR/sad && cargo install --locked --all-features --path .)
 
 # Golang
 # install my cli notes app
