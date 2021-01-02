@@ -27,6 +27,11 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 echo "\ninstalling jenv..."
 git clone https://github.com/jenv/jenv.git ~/.jenv
 # add to bash (to work properly with fish)
+
+# NOTE: Solus uses .profile by default
+# reference: https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html
+# After reading that file, it looks for ~/.bash_profile, ~/.bash_login, and ~/.profile, in that order, and reads and executes commands from the first one that exists and is readable
+
 # echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.bash_profile
 # echo 'eval "$(jenv init -)"' >> ~/.bash_profile
 echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.profile
