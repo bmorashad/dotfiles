@@ -1,5 +1,9 @@
 # /bin/bash
 
+BOLD='\033[1m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 # Solus Repo
 sudo eopkg install \ 
 fd ripgrep autokey-py3 fish rush go cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer broot \
@@ -8,8 +12,12 @@ glow borg virtualenv rofi
 # Rust
 echo "installing cli tools written in rust"
 cargo install git-delta dust procs zoxide
-git clone https://github.com/ms-jpq/sad $GITHUB_APP_DIR
+
+echo "cloning sad for sed (https://github.com/ms-jpq/sad)"
+git clone https://github.com/ms-jpq/sad $GITHUB_APP_DIR/sad
+echo "installing sad in a subshell"
 (cd $GITHUB_APP_DIR/sad && cargo install --locked --all-features --path .)
+echo -e "${RED}${BOLD}NOTE:${NC} make sure sad installation is successfull by running sad\n"
 
 # Golang
 # install my cli notes app

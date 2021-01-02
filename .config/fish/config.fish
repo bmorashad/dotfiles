@@ -339,7 +339,7 @@ set PATH $HOME/diff-so-fancy $PATH
 
 # directory for thridparty apps
 export THIRDPARTY_APP_DIR="$HOME/.thirdparty-app"
-export GITHUB_APP_DIR="$THIRDPARTY_APP_DIR'/github"
+export GITHUB_APP_DIR="$THIRDPARTY_APP_DIR/github"
 
 # virtual python env directory
 export PYTHON_ENV_DIR="$HOME/.py_env"
