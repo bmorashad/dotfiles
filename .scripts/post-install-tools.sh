@@ -13,20 +13,6 @@ cargo install --locked --all-features --path $GITHUB_APP_DIR
 # install my cli notes app
 GO111MODULE=on go get -u github.com/rhysd/notes-cli/cmd/notes
 
-# install fisher plugin manager for fish
-# https://github.com/jorgebucaran/fisher
-# old command
-# curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-# new command
-curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-
-# install nvm for fish (not the mainstream)
-fisher add jorgebucaran/nvm.fish
-
-# install bass: bash script(command) execution from fish
-fisher add edc/bass
-# source new changes to fish shell
-source ~/.config/fish/config.fish
 
 # vim-plug: plugin manager for vim
 # https://github.com/junegunn/vim-plug
@@ -34,6 +20,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # jenv: java version manager
+# this needs to be installed both on fish and bash inorder to work on fish
 git clone https://github.com/jenv/jenv.git ~/.jenv
 # add to bash (to work properly with fish)
 echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.bash_profile
