@@ -345,8 +345,9 @@ export GITHUB_APP_DIR="$THIRDPARTY_APP_DIR/github"
 export PYTHON_ENV_DIR="$HOME/.py_env"
 export PYTHON3_ENV_DIR="$PYTHON_ENV_DIR/py_env3"
 
-export NOTES_CLI_EDITOR=nvim
-export EDITOR=nvim
+# export EDITOR=nvim
+
+export NOTES_CLI_EDITOR="nvim '+ normal G'"
 export NOTES_CLI_HOME="$HOME/.notes"
 export DEFAULT_CATEGORY='myNotes'
 
