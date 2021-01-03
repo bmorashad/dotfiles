@@ -294,8 +294,20 @@ echo $valid_fonts | sed '/^[[:space:]]*$/d' | fzf -m
 end
 
 # switch local python3 evn
-function switch_to_local_py3_env
+function activate_local_py_env3
 	source $PYTHON_ENV3_DIR/bin/activate.fish
+end
+function deactivate_local_py_env3
+	if test -n "$VIRTUAL_ENV"
+		deactivate
+	end
+end
+
+function restart_shell
+	exec fish -l
+end
+function reload_shell
+	source $HOME/.config/fish/config.fish
 end
 
 
