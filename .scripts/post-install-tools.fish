@@ -28,7 +28,7 @@ echo "installing bass - bash commands in fish..."
 fisher install edc/bass
 
 echo "make python3 virtual env"
-virtualenv python3 $PYTHON3_ENV_DIR
+virtualenv python3 $PYTHON_ENV3_DIR
 
 # source new changes to fish shell
 echo "source new changes to fish shell"

@@ -293,6 +293,11 @@ end
 echo $valid_fonts | sed '/^[[:space:]]*$/d' | fzf -m
 end
 
+# switch local python3 evn
+function switch_to_local_py3_env
+	source $PYTHON_ENV3_DIR/bin/activate.fish
+end
+
 
 set PATH /usr/local/bin $PATH
 # rust cargo bin
@@ -343,7 +348,7 @@ export GITHUB_APP_DIR="$THIRDPARTY_APP_DIR/github"
 
 # virtual python env directory
 export PYTHON_ENV_DIR="$HOME/.py_env"
-export PYTHON3_ENV_DIR="$PYTHON_ENV_DIR/py_env3"
+export PYTHON_ENV3_DIR="$PYTHON_ENV_DIR/py_env3"
 
 # export EDITOR=nvim
 
