@@ -7,7 +7,7 @@ NC='\033[0m' # No Color
 # Solus Repo
 sudo eopkg install \ 
 fd ripgrep autokey-py3 fish rush go cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer broot \
-glow borg virtualenv rofi pipenv
+glow borg virtualenv rofi pipenv xev
 
 # Rust
 echo "installing cli tools written in rust"
