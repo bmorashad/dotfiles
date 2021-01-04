@@ -103,8 +103,8 @@ cmap w!! w !sudo tee % >/dev/null
 
 " easymotion
 nmap S <Plug>(easymotion-overwin-f2)
-map F <Plug>(easymotion-bd-w)
-nmap F <Plug>(easymotion-overwin-w)
+map S <Plug>(easymotion-bd-w)
+nmap S <Plug>(easymotion-overwin-w)
 nnoremap s S
 ":syntax on
 
@@ -361,8 +361,10 @@ nmap ,r <Plug>(coc-rename)
 " augroup end
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+" xmap <leader>n  <Plug>(coc-codeaction-selected)
+" nmap <leader>m  <Plug>(coc-codeaction-selected)
 xmap <leader>n  <Plug>(coc-codeaction-selected)
-nmap <leader>m  <Plug>(coc-codeaction-selected)
+nmap <leader>n  <Plug>(coc-codeaction-selected)
 
 " Remap for do codeAction of current line
 " nmap <leader>ac  <Plug>(coc-codeaction)
