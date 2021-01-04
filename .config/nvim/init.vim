@@ -411,11 +411,11 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 
 " Python Path
 " TODO: add setup of this in bootstrap.sh
-if filereadable(expand('~') . '/.py_env/py_env2/bin/python')
-	let g:python_host_prog = expand('~') . '/.py_env/py_env2/bin/python'
-endif
-if filereadable(expand('~') . '/.py_env/py_env3/bin/python')
-	let g:python3_host_prog = expand('~') . '/.py_env/py_env3/bin/python'
-endif
-" let g:python3_host_prog='/home/bmora/.py_env/py_env3/bin/python'
-" let g:python_host_prog='/home/bmora/.py_env/py_env2/bin/python'
+" if filereadable(expand('~') . '/.py_env/py_env2/bin/python')
+	" let g:python_host_prog = expand('~') . '/.py_env/py_env2/bin/python'
+" endif
+" if filereadable(expand('~') . '/.py_env/py_env3/bin/python')
+	" let g:python3_host_prog = expand('~') . '/.py_env/py_env3/bin/python'
+" endif
+let g:python3_host_prog='/home/bmora/.py_env/py_env3/bin/python'
+let g:python_host_prog='/home/bmora/.py_env/py_env2/bin/python'
