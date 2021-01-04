@@ -26,5 +26,6 @@ mkdir -p ~/.py_env/py_env3
 echo "exporting python env dir to .profile..."
 echo "export PYTHON_ENV_DIR=$HOME/.py_env" >> ~/.profile
 echo "export PYTHON_ENV3_DIR=$PYTHON_ENV_DIR/py_env3" >> ~/.profile
+echo "export PYTHON_ENV2_DIR=$PYTHON_ENV_DIR/py_env2" >> ~/.profile
 
 echo "====pre-install-status: done :)===="

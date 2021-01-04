@@ -1,7 +1,4 @@
 " cSpell:disable "
-" let g:python3_host_prog='/home/bmora/.py_env/py3_env/bin/python3'
-" let g:python_host_prog='/home/bmora/.py_env/bin/python'
-
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
@@ -411,3 +408,14 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " " Resume latest coc list
 " nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" Python Path
+" TODO: add setup of this in bootstrap.sh
+if filereadable(expand('~') . '/.py_env/py_env2/bin/python')
+	let g:python_host_prog = expand('~') . '/.py_env/py_env2/bin/python'
+endif
+if filereadable(expand('~') . '/.py_env/py_env3/bin/python')
+	let g:python3_host_prog = expand('~') . '/.py_env/py_env3/bin/python'
+endif
+" let g:python3_host_prog='/home/bmora/.py_env/py_env3/bin/python'
+" let g:python_host_prog='/home/bmora/.py_env/py_env2/bin/python'
