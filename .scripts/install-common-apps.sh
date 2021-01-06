@@ -6,7 +6,7 @@ NC='\033[0m' # No Color
 
 sudo eopkg inskcape gimp vorta dia filezilla insomnia handbrake knotesmailspring mpv mongodb-compass docker mongodb \
 	xournalapp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio \
-	mypaint opentshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger
+	mypaint opentshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger falmeshot
 
 # Solus Official ThirdParty
 echo "This might take some time..."
