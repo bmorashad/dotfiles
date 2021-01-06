@@ -29,8 +29,10 @@ fisher install edc/bass
 
 echo "make python3 virtual env"
 virtualenv -p python3 $PYTHON_ENV3_DIR
+(source $PYTHON_ENV3_DIR/bin/activate && pip install neovim pynvim && deactivate)
 echo "make python2 virtual env"
 virtualenv -p python2 $PYTHON_ENV2_DIR
+(source $PYTHON_ENV2_DIR/bin/activate && pip install neovim pynvim && deactivate)
 
 # source new changes to fish shell
 echo "source new changes to fish shell"
