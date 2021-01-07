@@ -51,7 +51,8 @@ end
 
 # Download from youtube
 function ydl -d "youtube-dlc download playlist at highest quality"
-	youtube-dlc -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' -c --playlist-start 1
+	# youtube-dlc -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' -c --playlist-start 1
+	youtube-dlc -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' $argv
 end
 
 # Copy File Content
@@ -328,6 +329,12 @@ function scan_connected_ip_on_wifi
 	end
 
 end
+
+# Git with FZF
+function git_commits_with_fzf 
+	git log --pretty=oneline --abbrev-commit --color="always"| fzf -i --no-sort --reverse --height "100%" --preview-window=right:70%:wrap --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down --ansi --preview 'echo {} | cut -f 1 -d " " | xargs git show --color=always'
+end
+
 set PATH /usr/local/bin $PATH
 # rust cargo bin
 set PATH $HOME/.cargo/bin $PATH
