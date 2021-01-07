@@ -53,7 +53,8 @@ exec $SHELL -l
 # echo 'status --is-interactive; and source (jenv init -|psub)' >> ~/.config/fish/config.fish ALREADY EXIST
 jenv enable-plugin export
 cp ~/.jenv/fish/jenv.fish ~/.config/fish/functions/jenv.fish
-cp ~/.jenv/fish/export.fish ~/.config/fish/functions/export.fish
+# below line conflicts with default fish export
+# cp ~/.jenv/fish/export.fish ~/.config/fish/functions/export.fish
 # add java paths to jenv
 echo "run jenv add /opt/jdk-11<version> after installing jdk 11"
 # test if jenv successfull

@@ -161,12 +161,12 @@ end
 
 function notes_with_fzf
 	if count $argv > /dev/null
-		set note (notes ls -A --oneline |  fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
+		set note (notes ls -A --oneline | env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF" fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
 		if ! test -z (echo $note)
 			nvim -O $note
 		end
 	else
-		set note (notes ls -A --oneline |  fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
+		set note (notes ls -A --oneline | env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF" fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
 		if ! test -z (echo $note)
 			nvim -O $note
 		end
@@ -391,6 +391,7 @@ export PYTHON_ENV3_DIR="$PYTHON_ENV_DIR/py_env3"
 
 # export EDITOR=nvim
 
+export NOTES_CLI_FZF="--no-sort --reverse --color hl:46,hl+:46 --color prompt:166,border:#778899"
 export NOTES_CLI_EDITOR="nvim '+ normal G'"
 export NOTES_CLI_HOME="$HOME/.notes"
 export DEFAULT_CATEGORY='myNotes'
