@@ -172,6 +172,14 @@ function notes_with_fzf
 	end
 end
 
+# TODO:
+function notes_grep_fzf
+		set note (rg $NOTES_CLI_HOME $argv[-1]|  fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
+		if ! test -z (echo $note)
+			nvim -O $note
+		end
+end
+
 function rename_note_with_fzf
 	if count $argv > /dev/null
 		set new_name (echo "$argv")
@@ -310,7 +318,16 @@ function reload_shell
 	source $HOME/.config/fish/config.fish
 end
 
+# scan sy wifi for all connected devices
+function scan_connected_ip_on_wifi
+	set -l IP (echo $WIFI_IP | cut -d "." -f 1-3 | awk '{print $1".0/24"}')
+	if count $argv > /dev/null
+		nmap $argv $IP
+	else
+		nmap -sn $argv $IP
+	end
 
+end
 set PATH /usr/local/bin $PATH
 # rust cargo bin
 set PATH $HOME/.cargo/bin $PATH
@@ -376,3 +393,7 @@ export FZF_DEFAULT_OPTS='--height "80%" --color hl:46,hl+:46 --color prompt:166,
 
 # Start autojump zoxide
 zoxide init fish | source
+
+# MISCELLANEOUS
+# WiFi IP (i.e scanify<alias> uses)
+export WIFI_IP="192.168.8.1"
