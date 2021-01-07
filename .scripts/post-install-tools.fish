@@ -8,6 +8,10 @@
 echo "installing fisher plugin manager (https://github.com/jorgebucaran/fisher) for fish "
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 
+# installing forgit: git with fzf 
+echo "installing forgit: git with fzf <https://github.com/wfxr/forgit>" 
+fisher install wfxr/forgit
+
 # install nvm for fish (not the mainstream)
 echo "install nvm (https://github.com/jorgebucaran/nvm.fish) for fish "
 fisher install jorgebucaran/nvm.fish
