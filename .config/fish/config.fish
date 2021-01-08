@@ -173,12 +173,17 @@ function notes_with_fzf
 	end
 end
 
-# TODO:
+# TODO: complete, bug fix
 function notes_grep_fzf
-		set note (rg $NOTES_CLI_HOME $argv[-1]|  fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
-		if ! test -z (echo $note)
-			nvim -O $note
-		end
+	rg -l "" $NOTES_CLI_HOME --column --line-number --smart-case --color=always --colors path:fg:green \
+         | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' |\
+         fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
+		 -l --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
+		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
+		 --ansi --phony --query "" --layout=reverse \
+		 --preview "rg {q} $NOTES_CLI_HOME/{} --color=always --context 5 | bat --style plain --color always -l md"\
+		 --preview-window border:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a |\
+		 awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
 end
 
 function rename_note_with_fzf
