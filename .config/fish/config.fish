@@ -413,7 +413,7 @@ export WIFI_IP="192.168.8.1"
 
 # DEFAULT STYLES
 # FZF styles
-export FZF_DEFAULT_OPTS='--bind ?:toggle-preview --preview-window sharp --height "80%" --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
+export FZF_DEFAULT_OPTS='--bind \?:toggle-preview --preview-window sharp --height "80%" --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
 export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down -i --preview-window sharp"
 export NOTES_CLI_FZF="--no-sort --reverse --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --bind k:preview-up,j:preview-down -i"
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden"
