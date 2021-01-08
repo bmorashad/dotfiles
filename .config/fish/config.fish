@@ -178,7 +178,7 @@ function notes_grep_fzf
 	rg -l "" $NOTES_CLI_HOME --column --line-number --smart-case --color=always --colors path:fg:green \
          | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' |\
          fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
-		 -l --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
+		 -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
 		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
 		 --ansi --phony --query "" --layout=reverse \
 		 --preview "rg {q} $NOTES_CLI_HOME/{} --color=always --context 5 | bat --style plain --color always -l md"\
