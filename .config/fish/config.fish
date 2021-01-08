@@ -182,7 +182,8 @@ function notes_grep_fzf
 		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
 		 --ansi --phony --query "" --layout=reverse \
 		 --preview "rg {q} $NOTES_CLI_HOME/{} --color=always --context 5 | bat --style plain --color always -l md"\
-		 --preview-window border:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a |\
+		 --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
+		 --border sharp|\
 		 awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
 end
 
@@ -340,7 +341,6 @@ function git_commits_with_fzf
 	git log --pretty=oneline --abbrev-commit --color="always"| fzf -i --no-sort --reverse --height "100%" --preview-window=right:70%:wrap --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down --ansi --preview 'echo {} | cut -f 1 -d " " | xargs git show --color=always'
 end
 
-export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down -i"
 
 
 set PATH /usr/local/bin $PATH
@@ -396,14 +396,10 @@ export PYTHON_ENV3_DIR="$PYTHON_ENV_DIR/py_env3"
 
 # export EDITOR=nvim
 
-export NOTES_CLI_FZF="--no-sort --reverse --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --bind k:preview-up,j:preview-down -i"
-export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window noborder"
 export NOTES_CLI_EDITOR="nvim '+ normal G'"
 export NOTES_CLI_HOME="$HOME/.notes"
 export DEFAULT_CATEGORY='myNotes'
 
-# FZF styles
-export FZF_DEFAULT_OPTS='--height "80%" --color hl:46,hl+:46 --color prompt:166,border:32 --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
 # commented due to a bug: https://github.com/sharkdp/bat/issues/1413
 # export PAGER=bat
 # export PAGER="most"
@@ -414,3 +410,10 @@ zoxide init fish | source
 # MISCELLANEOUS
 # WiFi IP (i.e scanify<alias> uses)
 export WIFI_IP="192.168.8.1"
+
+# DEFAULT STYLES
+# FZF styles
+export FZF_DEFAULT_OPTS='--bind ?:toggle-preview --preview-window sharp --height "80%" --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
+export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down -i --preview-window sharp"
+export NOTES_CLI_FZF="--no-sort --reverse --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --bind k:preview-up,j:preview-down -i"
+export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden"
