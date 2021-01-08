@@ -1,5 +1,5 @@
-# Defined in /home/bmora/.config/fish/functions/mypy.fish @ line 2
-function mypy
+# Defined in /home/bmora/.config/fish/functions/py.fish @ line 2
+function py
   if count $argv > /dev/null 
 	  set -l env $argv[1]
 	  # Great... fish first array index is ... 1 !
