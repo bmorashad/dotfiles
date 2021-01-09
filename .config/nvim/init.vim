@@ -1,3 +1,5 @@
+source $HOME/.config/nvim/general/functions.vim
+source $HOME/.config/nvim/general/func-maps.vim
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
