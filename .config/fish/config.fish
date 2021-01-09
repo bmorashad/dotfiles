@@ -187,7 +187,7 @@ function notes_grep_fzf
 		 awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
 end
 
-function notes_tag_fzf
+function notes_hashtag_fzf
 	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:blue|\
 	fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
 		 --colors match:fg:yellow --colors match:style:nobold --color=always ' --preview-window 80%)
