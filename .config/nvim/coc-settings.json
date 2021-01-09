@@ -23,13 +23,13 @@
     "javascript",
     "latex",
     "html",
-    "json",
-    "python"
+    "json"
+    //"python"
   ],
   // python config
-  "python.linting.enabled": true,
-  "python.linting.pylintEnabled": true,
-  "snippets.ultisnips.enable": true,
+  // "python.linting.enabled": true,
+  // "python.linting.pylintEnabled": true,
+  // "snippets.ultisnips.enable": true,
   // list
   "list.selectedSignText": " ",
   "list.indicator": ">",
