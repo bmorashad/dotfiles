@@ -190,7 +190,7 @@ end
 function notes_hashtag_fzf
 	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:blue|\
 	fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
-		 --colors match:fg:yellow --colors match:style:nobold --color=always ' --preview-window 80%)
+		 --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace ""' --preview-window 80%)
 	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l | rg "$NOTES_CLI_HOME/" --replace "" |\
 	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf --ansi --reverse --preview-window nohidden \
 	--preview-window 75%|\
