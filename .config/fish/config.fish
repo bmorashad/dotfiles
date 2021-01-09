@@ -352,7 +352,7 @@ set PATH $HOME/.cargo/bin $PATH
 # bash -i -c "jenv $argv"
 # end
 
-set JAVA_HOME /opt/jdk1.8.0_241 $JAVA_HOME
+set JAVA_HOME /opt/jdk-11.0.6 $JAVA_HOME
 
 #Zoxide fast navigation
 zoxide init fish | source
