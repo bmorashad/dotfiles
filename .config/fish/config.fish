@@ -196,7 +196,7 @@ function notes_hashtag_fzf
 	--preview-window 75%|\
 	awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
 	! test -z $note && nvim $note
-	! test -z $tag && test -z $note && notes_tag_fzf
+	! test -z $tag && test -z $note && notes_hashtag_fzf
 end
 
 function rename_note_with_fzf

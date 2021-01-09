@@ -1,4 +1,4 @@
 # Defined in - @ line 1
-function reload --wraps=reload_shell --description 'alias reload=reload_shell'
+function rel --wraps=reload_shell --description 'alias rel=reload_shell'
   reload_shell  $argv;
 end
