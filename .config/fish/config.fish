@@ -179,7 +179,7 @@ function notes_grep_fzf
          | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
          fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
 		 -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
-		 --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" ||true" \
+		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
 		 --ansi --phony --query "" --layout=reverse \
 		 --preview "rg {q} $NOTES_CLI_HOME/{} --color=always --context 5 | bat --style plain --color always -l md"\
 		 --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
