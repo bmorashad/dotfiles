@@ -3,6 +3,7 @@
 source $HOME/.config/nvim/general/functions.vim
 source $HOME/.config/nvim/general/func-maps.vim
 source $HOME/.config/nvim/keys/mappings.vim
+source $HOME/.config/nvim/keys/coc-mappings.vim
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
@@ -287,7 +288,10 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-json', 
       \ 'coc-eslint',
-      \ ]
+	  \ 'coc-actions',
+	  \ 'coc-java',
+	  \ ]
+
 " from readme
 " if hidden is not set, TextEdit might fail.
 set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup 
@@ -325,12 +329,6 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Use `[g` and `]g` to navigate mispellins/diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> ^ :call <SID>show_documentation()<CR>
