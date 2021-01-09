@@ -23,7 +23,6 @@
     "javascript",
     "latex",
     "html",
-    "yaml",
     "json",
     "python"
   ],
@@ -49,6 +48,7 @@
     "Scikit",
     "Tensorflow",
     "Untracked",
+    "alacritty",
     "anaid",
     "autokey",
     "cdrom",
@@ -86,6 +86,7 @@
     "sxhkd",
     "tast",
     "tdrop",
+    "terminfo",
     "tist",
     "ultisnips",
     "useradd",
