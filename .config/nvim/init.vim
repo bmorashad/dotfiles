@@ -1,5 +1,8 @@
+:let mapleader = " "
+
 source $HOME/.config/nvim/general/functions.vim
 source $HOME/.config/nvim/general/func-maps.vim
+source $HOME/.config/nvim/keys/mappings.vim
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
@@ -91,7 +94,6 @@ if has('persistent_undo')      "check if your vim version supports it
   set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
 endif 
 
-:let mapleader = " "
 let g:vim_jsx_pretty_colorful_config = 1
 
 augroup qs_colors
