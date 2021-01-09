@@ -176,10 +176,10 @@ end
 # TODO: complete, bug fix
 function notes_grep_fzf
 	rg -l "" $NOTES_CLI_HOME --column --line-number --smart-case --color=always --colors path:fg:green \
-         | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' |\
+         | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
          fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
 		 -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
-		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
+		 --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" ||true" \
 		 --ansi --phony --query "" --layout=reverse \
 		 --preview "rg {q} $NOTES_CLI_HOME/{} --color=always --context 5 | bat --style plain --color always -l md"\
 		 --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
@@ -191,7 +191,7 @@ function notes_hashtag_fzf
 	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:blue|\
 	fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
 		 --colors match:fg:yellow --colors match:style:nobold --color=always ' --preview-window 80%)
-	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l |sed "s/\/home\/bmora\/.notes\///"|\
+	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l | rg "$NOTES_CLI_HOME/" --replace "" |\
 	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf --ansi --reverse --preview-window nohidden \
 	--preview-window 75%|\
 	awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
