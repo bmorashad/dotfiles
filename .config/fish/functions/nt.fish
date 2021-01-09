@@ -1,4 +1,4 @@
 # Defined in - @ line 1
-function nt --wraps=notes --wraps='notes new' --description 'alias nt=notes new'
-  notes new $argv;
+function nt --wraps=notes --wraps='notes new' --wraps=notes_tag_fzf --description 'alias nt=notes_tag_fzf'
+  notes_tag_fzf  $argv;
 end

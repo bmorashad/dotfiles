@@ -187,6 +187,15 @@ function notes_grep_fzf
 		 awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
 end
 
+function notes_tag_fzf
+	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:yellow |fzf --ansi --reverse) 
+	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l |sed "s/\/home\/bmora\/.notes\///"|\
+	fzf --reverse|awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
+
+	! test -z $note && nvim $note
+	! test -z $tag && test -z $note && notes_tag_fzf
+end
+
 function rename_note_with_fzf
 	if count $argv > /dev/null
 		set new_name (echo "$argv")
