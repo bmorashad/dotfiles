@@ -290,7 +290,8 @@ function __get_all_notes_with_hashtag__
 	for line in $rg_res
 		# set -l note (echo $line | rg ".+\.md" | rg "$NOTES_CLI_HOME/" --replace "")
 		# set -l whitespace (echo $line | rg "[^a-zA-Z0-9]")
-		set -l note (echo $line | rg "\.md\$" | rg "$NOTES_CLI_HOME/" --replace "")
+		
+		set -l note (echo $line | rg "/" | rg "$NOTES_CLI_HOME/" --replace "")
 		! test -z $note && printf "\n"(printf $note"^")
 		test -z $note && ! test -z $line && printf ","(printf $line | sed 's/,\s*/ /g' | sed 's/ //')
 	end |\
