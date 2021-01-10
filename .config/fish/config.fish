@@ -188,15 +188,20 @@ function notes_grep_fzf
 end
 
 function notes_hashtag_fzf
-	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:blue|\
+	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:blue| uniq |\
 	fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
 		 --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace ""' --preview-window 80%)
-	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l | rg "$NOTES_CLI_HOME/" --replace "" |\
-	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf --ansi --reverse --preview-window nohidden \
+	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l --colors path:fg:green --color always| rg --color always "$NOTES_CLI_HOME/"\
+	--replace "" |\
+	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always|\
+	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden \
 	--preview-window 75%|\
 	awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
-	! test -z $note && nvim $note
-	! test -z $tag && test -z $note && notes_hashtag_fzf
+
+	set -l selected (echo $note)
+	! test -z $selected && nvim -o $note
+	! test -z $tag && test -z $selected && notes_hashtag_fzf
+
 end
 
 function rename_note_with_fzf
@@ -268,6 +273,33 @@ function restore_notes
 	end
 end
 end
+
+function notes_hashtag_with_name_fzf 
+	set -l note (__get_all_notes_with_hashtag__ | sed 's/\^,/\^/' | column -t -s '^' |\
+	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden |\
+	sed 's/\.md.*/\.md/')
+	set -l selected (echo $note)
+	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
+	# xargs -r -d '\n' nvim -o
+end
+
+function __get_all_notes_with_hashtag__
+	set -l rg_res (rg --pcre2 "(?<=#)[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
+	--colors match:fg:white --colors match:style:bold --colors path:fg:green |\
+	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always) 
+	for line in $rg_res
+		set -l note (echo $line | rg ".+\.md" | rg "$NOTES_CLI_HOME/" --replace "")
+		set -l whitespace (echo $line | rg "[^a-zA-Z0-9]")
+		! test -z $note && printf "\n"(printf $note"^")
+		test -z $note && ! test -z $whitespace && printf ","(printf $line | sed 's/,\s*/ /g' | sed 's/ //')
+	end |\
+	awk '{if(NR>1)print}' 
+	rg -l --invert-match --pcre2 "(?<=#)[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
+	--colors match:fg:blue --colors match:style:bold --colors path:fg:green |\
+	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always |\
+	rg "$NOTES_CLI_HOME/" --replace ""
+end
+
 # install fonts
 
 function install_fonts
@@ -425,7 +457,7 @@ export WIFI_IP="192.168.8.1"
 
 # DEFAULT STYLES
 # FZF styles
-export FZF_DEFAULT_OPTS='--bind \?:toggle-preview --preview-window sharp --height "80%" --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
+export FZF_DEFAULT_OPTS='--bind \?:toggle-preview --preview-window sharp --height "80%" --color hl:#4da9ff,hl+:#4da9ff --color prompt:166,border:#4a4a4a --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
 export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down -i --preview-window sharp"
-export NOTES_CLI_FZF="--reverse --color hl:46,hl+:46 --color prompt:166,border:#4a4a4a --bind k:preview-up,j:preview-down -i"
+export NOTES_CLI_FZF="--reverse --color prompt:166,border:#4a4a4a --bind K:preview-up,J:preview-down -i"
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden:wrap"
