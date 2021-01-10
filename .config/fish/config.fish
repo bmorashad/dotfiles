@@ -274,8 +274,31 @@ function restore_notes
 end
 end
 
-function notes_hashtag_with_name_fzf 
-	set -l note (__get_all_notes_with_hashtag__ | sed 's/\^,/\^/' | column -t -s '^' |\
+function notes_hashtag_with_name_fzf
+	set -l note (__get_all_notes_with_hashtag__ |\
+	rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
+	rg "^.+\.md" --colors match:fg:green --colors match:style:nobold --color always |\
+	rg "/[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
+	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window hidden \
+	--preview-window 70% | sed 's/\.md.*/\.md/')
+
+	set -l selected (echo $note)
+	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
+end
+function __get_all_notes_with_hashtag__
+	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --sort created --heading \
+	--replace '$0,,,'|\
+	rg "/[^/]+?\.md" --replace '$0^' --passthru) \
+	&& echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
+	rg ",,, " --replace "," --passthru |\
+	rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always | column -t -s "^";
+
+	rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME --sort created --files-without-match
+end
+
+# Deprecated
+function notes_hashtag_with_name_fzf_old
+	set -l note (__get_all_notes_with_hashtag_old__ | sed 's/\^,/\^/' | column -t -s '^' |\
 	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden |\
 	sed 's/\.md.*/\.md/')
 	set -l selected (echo $note)
@@ -283,7 +306,8 @@ function notes_hashtag_with_name_fzf
 	# xargs -r -d '\n' nvim -o
 end
 
-function __get_all_notes_with_hashtag__
+# Deprecated
+function __get_all_notes_with_hashtag_old__
 	set -l rg_res (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
 	--colors match:fg:white --colors match:style:bold --colors path:fg:green |\
 	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always) 
