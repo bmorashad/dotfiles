@@ -288,10 +288,11 @@ function __get_all_notes_with_hashtag__
 	--colors match:fg:white --colors match:style:bold --colors path:fg:green |\
 	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always) 
 	for line in $rg_res
-		set -l note (echo $line | rg ".+\.md" | rg "$NOTES_CLI_HOME/" --replace "")
-		set -l whitespace (echo $line | rg "[^a-zA-Z0-9]")
+		# set -l note (echo $line | rg ".+\.md" | rg "$NOTES_CLI_HOME/" --replace "")
+		# set -l whitespace (echo $line | rg "[^a-zA-Z0-9]")
+		set -l note (echo $line | rg "\.md\$" | rg "$NOTES_CLI_HOME/" --replace "")
 		! test -z $note && printf "\n"(printf $note"^")
-		test -z $note && ! test -z $whitespace && printf ","(printf $line | sed 's/,\s*/ /g' | sed 's/ //')
+		test -z $note && ! test -z $line && printf ","(printf $line | sed 's/,\s*/ /g' | sed 's/ //')
 	end |\
 	awk '{if(NR>1)print}' 
 	rg -l --invert-match --pcre2 "(?<=#)[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
