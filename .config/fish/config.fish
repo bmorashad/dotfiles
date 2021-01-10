@@ -286,14 +286,14 @@ function notes_hashtag_with_name_fzf
 	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
 end
 function __get_all_notes_with_hashtag__
-	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --sort created --heading \
+	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --sort modified --heading \
 	--replace '$0,,,'|\
 	rg "/[^/]+?\.md" --replace '$0^' --passthru) \
 	&& echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
 	rg ",,, " --replace "," --passthru |\
 	rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always | column -t -s "^";
 
-	rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME --sort created --files-without-match
+	rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME --sort modified --files-without-match
 end
 
 # Deprecated
