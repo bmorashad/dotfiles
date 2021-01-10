@@ -296,7 +296,7 @@ function __get_all_notes_with_hashtag__
 		test -z $note && ! test -z $line && printf ","(printf $line | sed 's/,\s*/ /g' | sed 's/ //')
 	end |\
 	awk '{if(NR>1)print}' 
-	rg -l --invert-match --pcre2 "(?<=#)[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
+	rg -l --files-without-match --pcre2 "(?<=#)[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
 	--colors match:fg:blue --colors match:style:bold --colors path:fg:green |\
 	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always |\
 	rg "$NOTES_CLI_HOME/" --replace ""
