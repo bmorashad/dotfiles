@@ -284,7 +284,7 @@ function notes_hashtag_with_name_fzf
 end
 
 function __get_all_notes_with_hashtag__
-	set -l rg_res (rg --pcre2 "(?<=#)[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
+	set -l rg_res (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
 	--colors match:fg:white --colors match:style:bold --colors path:fg:green |\
 	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always) 
 	for line in $rg_res
