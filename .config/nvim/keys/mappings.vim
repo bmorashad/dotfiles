@@ -1,3 +1,5 @@
+" escape terminal mode
+tnoremap <Esc> <C-\><C-n>
 " escape search highlight
 nnoremap <leader>/ :noh<CR>
 
