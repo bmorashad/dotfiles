@@ -255,10 +255,10 @@ function remove_note
 end
 
 function restore_notes
-	set notes_to_restore (ls -t -1 $NOTES_CLI_HOME/.trash | while read -l file; set note_name $file; set note_path (grep -m 1 'Category' $NOTES_CLI_HOME/.trash/$file | cut -d ' ' -f 3); printf "\u001b[33m$note_path\u001b[0m/\u001b[32m$note_name\n"; end | fzf --ansi -m | cut -d '/' -f 2 | string collect); 
+	set notes_to_restore (ls -t -1 $NOTES_CLI_HOME/.trash | while read -l file; set note_name $file; set note_path (grep -r -m 1 'Category' $NOTES_CLI_HOME/.trash/$file | cut -d ' ' -f 3); printf "\u001b[33m$note_path\u001b[0m/\u001b[32m$note_name\n"; end | fzf --ansi -m | cut -d '/' -f 2 | string collect); 
 	if ! test -z "$notes_to_restore" 
 		echo $notes_to_restore | while read -l note 
-		set category_dir (grep -m 1 'Category' $NOTES_CLI_HOME/.trash/$note | cut -d ' ' -f 3)
+		set category_dir (grep -r -m 1 'Category' $NOTES_CLI_HOME/.trash/$note | cut -d ' ' -f 3)
 		if test -f $NOTES_CLI_HOME/$category_dir/$note
 			printf '\033[0;31merror: \033[0ma note with the same name already exist :/\n' 
 			echo setting restore name...
