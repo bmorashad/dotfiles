@@ -4,6 +4,8 @@ source $HOME/.config/nvim/general/functions.vim
 source $HOME/.config/nvim/general/func-maps.vim
 source $HOME/.config/nvim/keys/mappings.vim
 source $HOME/.config/nvim/keys/coc-mappings.vim
+source $HOME/.config/nvim/general/opt.vim
+source $HOME/.config/nvim/theme/lightline.vim
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
@@ -135,14 +137,6 @@ let g:palenight_terminal_italics=1
 "      \ }
 
 
-" enable mouse navigation
-:set mouse=a
-" case insensitive search
-:set ignorecase
-
-set splitright
-set splitbelow
-" set clipboard=unamedplus
 
 " Color Picker key map
 nnoremap <A-c> :Pickachu<CR>

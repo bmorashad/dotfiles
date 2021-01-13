@@ -17,8 +17,12 @@ function! CompileRun()
 	"exec "!g++ % -o %<"
 	"exec "!time ./%<"
 	if &filetype == 'java'
-		exec "w !javac %"
-		exec "w !time java -cp %:p:h %:t:r"
+		if !empty(glob("./.compile-run.sh"))
+			exec "term ./.compile-run.sh"
+		else
+			exec "w !javac -sourcepath ./ -d out -classpath out %"
+			exec "w !time java -cp %:p:h %:t:r"
+		endif
 	elseif &filetype == 'sh'
 		exec "w !time bash %"
 	elseif &filetype == 'python'
