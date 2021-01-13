@@ -181,7 +181,7 @@ function notes_grep_fzf
 		 -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
 		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
 		 --ansi --phony --query "" --layout=reverse \
-		 --preview "rg {q} $NOTES_CLI_HOME/{} --color=always --context 5 | bat --style plain --color always -l md"\
+		 --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
 		 --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
 		 --border sharp|\
 		 awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O

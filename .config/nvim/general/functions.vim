@@ -21,7 +21,8 @@ function! CompileRun()
 			exec "term ./.compile-run.sh"
 		else
 			exec "w !javac -sourcepath ./ -d out -classpath out %"
-			exec "w !time java -cp %:p:h %:t:r"
+			exec "w !time java -cp out %:t:r"
+			" exec "w !time java -cp %:p:h %:t:r"
 		endif
 	elseif &filetype == 'sh'
 		exec "w !time bash %"
