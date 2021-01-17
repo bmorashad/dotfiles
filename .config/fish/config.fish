@@ -275,7 +275,7 @@ end
 end
 
 function notes_hashtag_with_name_fzf
-	set -l note (__get_all_notes_with_hashtag__ |\
+	set -l note (__get_all_notes_with_hashtag__ $argv |\
 	rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
 	rg "^.+\.md" --colors match:fg:green --colors match:style:nobold --color always |\
 	rg "/[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
@@ -286,7 +286,10 @@ function notes_hashtag_with_name_fzf
 	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
 end
 function __get_all_notes_with_hashtag__
-	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+|""" $NOTES_CLI_HOME -o --no-line-number --sortr accessed --heading |\
+	if test -z $argv
+		set argv "none" $argv
+	end
+	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+|""" $NOTES_CLI_HOME -o --no-line-number --sortr $argv --heading |\
 	   sed '/^[[:space:]]*$/d'| rg '^..*' --replace '$0,,,'|\
 	   rg "/[^/]+?\.md" --replace '$0^' --passthru) \
 	   && echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
