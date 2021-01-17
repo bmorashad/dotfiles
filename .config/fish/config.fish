@@ -286,12 +286,22 @@ function notes_hashtag_with_name_fzf
 	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
 end
 function __get_all_notes_with_hashtag__
+	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+|""" $NOTES_CLI_HOME -o --no-line-number --sortr accessed --heading |\
+	   sed '/^[[:space:]]*$/d'| rg '^..*' --replace '$0,,,'|\
+	   rg "/[^/]+?\.md" --replace '$0^' --passthru) \
+	   && echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
+	   rg ",,, " --replace "," --passthru | rg "\^," --replace "^" --passthru |\
+	   rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always --passthru \
+	   | column -t -s "^";
+end
+# Deprecated
+function __get_all_notes_with_hashtag_old__
 	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --sort modified --heading \
-	--replace '$0,,,'|\
-	rg "/[^/]+?\.md" --replace '$0^' --passthru) \
-	&& echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
-	rg ",,, " --replace "," --passthru |\
-	rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always | column -t -s "^";
+	   --replace '$0,,,'|\
+	   rg "/[^/]+?\.md" --replace '$0^' --passthru) \
+	   && echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
+	   rg ",,, " --replace "," --passthru |\
+	   rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always | column -t -s "^";
 
 	rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME --sort modified --files-without-match
 end
@@ -299,32 +309,13 @@ end
 # Deprecated
 function notes_hashtag_with_name_fzf_old
 	set -l note (__get_all_notes_with_hashtag_old__ | sed 's/\^,/\^/' | column -t -s '^' |\
-	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden |\
-	sed 's/\.md.*/\.md/')
+	   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden |\
+	   sed 's/\.md.*/\.md/')
 	set -l selected (echo $note)
 	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
 	# xargs -r -d '\n' nvim -o
 end
 
-# Deprecated
-function __get_all_notes_with_hashtag_old__
-	set -l rg_res (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
-	--colors match:fg:white --colors match:style:bold --colors path:fg:green |\
-	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always) 
-	for line in $rg_res
-		# set -l note (echo $line | rg ".+\.md" | rg "$NOTES_CLI_HOME/" --replace "")
-		# set -l whitespace (echo $line | rg "[^a-zA-Z0-9]")
-		
-		set -l note (echo $line | rg "/" | rg "$NOTES_CLI_HOME/" --replace "")
-		! test -z $note && printf "\n"(printf $note"^")
-		test -z $note && ! test -z $line && printf ","(printf $line | sed 's/,\s*/ /g' | sed 's/ //')
-	end |\
-	awk '{if(NR>1)print}' 
-	rg -l --files-without-match --pcre2 "(?<=#)[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --heading \
-	--colors match:fg:blue --colors match:style:bold --colors path:fg:green |\
-	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always |\
-	rg "$NOTES_CLI_HOME/" --replace ""
-end
 
 # install fonts
 

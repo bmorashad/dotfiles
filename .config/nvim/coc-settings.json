@@ -45,6 +45,7 @@
     "Dotbot",
     "Guice",
     "Keras",
+    "Lemmatizing",
     "Nmap",
     "Pytorch",
     "Scikit",

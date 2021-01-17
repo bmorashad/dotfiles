@@ -27,7 +27,7 @@ function! CompileRun()
 	elseif &filetype == 'sh'
 		exec "w !time bash %"
 	elseif &filetype == 'python'
-		exec "w !time python %"
+		exec "w !time python"
 	elseif &filetype == 'html'
 		exec "w !chrome % &"
 	elseif &filetype == 'mkd'

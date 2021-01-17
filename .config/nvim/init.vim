@@ -64,8 +64,8 @@ Plug 'scrooloose/nerdtree'
 " fzf in rust(alternative)
 " Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
 " fzf
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }  "From missing semester Jose FZF plugin, makes Ctrl-P unnecessary
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }  "From missing semester Jose FZF plugin, makes Ctrl-P unnecessary
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -83,6 +83,8 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'itchyny/lightline.vim'
 
 call plug#end()
+
+" set rtp+=$HOME/.fzf
 
 
 " Testing
