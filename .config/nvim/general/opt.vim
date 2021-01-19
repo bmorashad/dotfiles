@@ -1,3 +1,5 @@
+" start at last edit position
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 " buffer and tab related
 set hidden
 " enable mouse navigation
