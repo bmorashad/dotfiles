@@ -560,9 +560,15 @@ key_bindings:
   - { key: K,        mods: Control|Shift,       chars: "\x01\x1b\x5b\x42" }
   - { key: L,        mods: Control|Shift,       chars: "\x01\x1b\x5b\x43" }
   - { key: H,        mods: Control|Shift,       chars: "\x01\x1b\x5b\x44" }
+  # backspace word
   - { key: Semicolon,mods: Alt,                 chars: "\x17"             }
-    # tdrop hide on loose focus
-  # - { key: 15,        mods: Alt,       command: {program: "tdrop", args: ["-a", "alacritty"]}        }
+  # tdrop hide on loose focus
+  - { key: Tab,        mods: Alt,       command: {program: "tdrop", args: ["-a", "alacritty"]}}
+  # tmux sessions fzf
+  - { key: F,        mods: Control,       chars: "\x01\x66"}
+  # - { key: F,        mods: Control,       chars: "\x74\x66\x73\x0a"}
+  # not working
+  # - { key: F,        mods: Control,       command: fish tmux_sessions_fzf }
 
   - { key: V,        mods: Control|Shift, action: Paste            }
   - { key: C,        mods: Control|Shift, action: Copy             }
