@@ -1,3 +1,6 @@
+# prompt
+# starship init fish | source
+
 # key-bindings
 function fish_user_key_bindings
   bind \ao 'clear;'
@@ -401,11 +404,53 @@ function scan_connected_ip_on_wifi
 end
 
 # Git with FZF
+
+function git_checkout_fzf
+	set branch (git for-each-ref refs/heads/ --format='%(refname:short)' | fzf)	
+	if count $branch > /dev/null
+		git checkout $branch
+	end
+end
 function git_commits_with_fzf 
 	git log --pretty=oneline --abbrev-commit --color="always"| fzf -i --no-sort --reverse --height "100%" --preview-window=right:70%:wrap --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down --ansi --preview 'echo {} | cut -f 1 -d " " | xargs git show --color=always'
 end
 
+# Tmux functions
 
+function tmux_create_session
+	if count $argv > /dev/null
+		tmux has-session -t=$argv 2> /dev/null
+		if test $status -ne 0
+			TMUX='' tmux new-session -d -s "$argv"
+		# else
+			# tmux switch-client -t "$argv"
+		end
+		if test -z "$TMUX"
+			tmux attach -t "$argv"
+		else
+			tmux switch-client -t "$argv"
+		end
+	else
+		if test -z "$TMUX"
+			tmux attach -t "$DEFAULT_TMUX_SESSION"
+		else
+			tmux switch-client -t "$DEFAULT_TMUX_SESSION"
+		end
+	end
+end
+
+function tmux_kill_session
+	if count $argv > /dev/null
+		tmux has-session -t=$argv 2> /dev/null
+		if test $status -eq 0
+			tmux kill-session -t $argv
+		end
+	end
+end
+
+
+# TMUX
+export DEFAULT_TMUX_SESSION="alacritty"
 
 set PATH /usr/local/bin $PATH
 # rust cargo bin
