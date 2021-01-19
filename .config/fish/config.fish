@@ -444,10 +444,45 @@ function tmux_kill_session
 		tmux has-session -t=$argv 2> /dev/null
 		if test $status -eq 0
 			tmux kill-session -t $argv
+		else
+			echo "no such session"
 		end
 	end
 end
 
+# Tmux with FZF
+function tmux_sessions_fzf
+	# set LIST_DATA "#{window_name} #{pane_title} #{pane_current_path} #{pane_current_command}"
+	# set TARGET_SPEC "#{session_name}"
+
+	set SESSION "$argv[1]"
+	if ! count $argv > /dev/null
+		if test -n "( tmux ls )"
+			set SESSION (tmux ls -F "#{session_name}^#{pane_current_path}^#{pane_current_command}" | column -t -s '^'|\
+			   # sed 's/:.*//g' |\
+			   fzf --height 30% --layout=reverse --prompt "Choose session: "\
+			   --preview 'tmux ls'\
+			   --preview-window up:1 | awk '{print $1}')
+			tmux switch-client -t "$SESSION" || tmux attach -t "$SESSION"
+		end	
+	else
+		if test -z "$TMUX"
+			tmux attach -t "$SESSION" || tmux new -s "$SESSION"
+		else
+			tmux has-session -t "$SESSION" 2> /dev/null
+			if test $status -eq 0
+				tmux switch-client -t "$SESSION"
+			else
+				set SESSION (tmux ls -F "#{session_name}^#{pane_current_path}^#{pane_current_command}" | column -t -s '^'\
+				   | sed 's/:.*//g' | fzf -q "$argv" --height 30% --layout=reverse --prompt "Choose session: "\
+				   --preview 'tmux ls'\
+				   --preview-window up:1 | awk '{print $1}')
+				tmux switch-client -t "$SESSION"
+			end
+
+		end
+	end
+end
 
 # TMUX
 export DEFAULT_TMUX_SESSION="alacritty"
@@ -524,5 +559,5 @@ export WIFI_IP="192.168.8.1"
 # FZF styles
 export FZF_DEFAULT_OPTS='--bind \?:toggle-preview --preview-window sharp --height "80%" --color hl:#a83afc,hl+:#a83afc --color prompt:166,border:#4a4a4a,bg+:#212121 --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
 export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down -i --preview-window sharp"
-export NOTES_CLI_FZF="--reverse --color prompt:166,border:#4a4a4a --bind K:preview-up,J:preview-down -i"
+export NOTES_CLI_FZF="--prompt='Select note: ' --reverse --color prompt:166,border:#4a4a4a --bind K:preview-up,J:preview-down -i"
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden:wrap"
