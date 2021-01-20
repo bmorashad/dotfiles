@@ -184,6 +184,7 @@ function notes_grep_fzf
 		 -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
 		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
 		 --ansi --phony --query "" --layout=reverse \
+		 --prompt 'regex: '\
 		 --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
 		 --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
 		 --border sharp|\
@@ -561,3 +562,6 @@ export FZF_DEFAULT_OPTS='--bind \?:toggle-preview --preview-window sharp --heigh
 export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down -i --preview-window sharp"
 export NOTES_CLI_FZF="--prompt='Select note: ' --reverse --color prompt:166,border:#4a4a4a --bind K:preview-up,J:preview-down -i"
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden:wrap"
+
+# nnn file manager
+export NNN_PLUG='p:pdfview;f:fzcd;o:fzopen;d:diffs;v:imgviewe;z:fzz'
