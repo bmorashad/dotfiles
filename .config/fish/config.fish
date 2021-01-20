@@ -564,4 +564,5 @@ export NOTES_CLI_FZF="--prompt='Select note: ' --reverse --color prompt:166,bord
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden:wrap"
 
 # nnn file manager
-export NNN_PLUG='p:pdfview;f:fzcd;o:fzopen;d:diffs;v:imgviewe;z:fzz'
+export NNN_FIFO='/tmp/nnn.fifo'
+export NNN_PLUG='p:preview-tui;P:pdfview;f:fzcd;o:fzopen;d:diffs;v:imgviewe;z:fzz'
