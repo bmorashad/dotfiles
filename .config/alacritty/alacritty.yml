@@ -565,7 +565,7 @@ key_bindings:
   # tdrop hide on loose focus
   - { key: Tab,        mods: Alt,       command: {program: "tdrop", args: ["-a", "alacritty"]}}
   # tmux sessions fzf
-  - { key: F,        mods: Control,       chars: "\x01\x66"}
+  - { key: S,        mods: Control,       chars: "\x01\x53"}
   # - { key: F,        mods: Control,       chars: "\x74\x66\x73\x0a"}
   # not working
   # - { key: F,        mods: Control,       command: fish tmux_sessions_fzf }

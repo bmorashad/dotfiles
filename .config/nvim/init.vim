@@ -31,20 +31,21 @@ Plug 'unblevable/quick-scope'
 " Plug 'kamykn/dark-theme.vim', {'as': 'dark-theme'}
 " Plug 'joshdick/onedark.vim', {'as': 'onedark'}
 " Plug 'phanviet/vim-monokai-pro'
-Plug 'itchyny/landscape.vim'
-Plug 'chriskempson/base16-vim'
+" Selected
+" Plug 'itchyny/landscape.vim'
+" Plug 'chriskempson/base16-vim'
+" Plug 'patstockwell/vim-monokai-tasty'
+" Plug 'christophermca/meta5', {'as': 'meta5'}
+" Plug 'drewtempelmeyer/palenight.vim'
+" Plug 'tomasiser/vim-code-dark', {'as': 'codedark'}
+" Plug 'rakr/vim-one'
 Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
-Plug 'patstockwell/vim-monokai-tasty'
-Plug 'christophermca/meta5', {'as': 'meta5'}
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'tomasiser/vim-code-dark', {'as': 'codedark'}
-Plug 'rakr/vim-one'
 
 " Floating terminal
 " Plug 'voldikss/vim-floaterm'
 
 " Syntax highlight
-" To Be Enabled
+" effects gruvbox in markdown(maybe more)
 Plug 'sheerun/vim-polyglot'
 
 " Smooth Scroll
@@ -129,8 +130,8 @@ let g:gruvbox_contrast_dark = 'hard'
 let g:gruvbox_invert_signs = '1'
 colorscheme gruvbox
 set background=dark
-let g:one_allow_italics = 1
-let g:palenight_terminal_italics=1
+" let g:one_allow_italics = 1
+" let g:palenight_terminal_italics=1
 
 " change default background color
 " hi Normal guibg=#1a1a1a
