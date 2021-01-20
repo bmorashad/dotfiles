@@ -1,4 +1,9 @@
+set nocompatible
+
 :let mapleader = " "
+
+" polygot disables
+let g:polyglot_disabled = ['markdown']
 
 source $HOME/.config/nvim/general/functions.vim
 source $HOME/.config/nvim/general/func-maps.vim
@@ -6,6 +11,8 @@ source $HOME/.config/nvim/keys/mappings.vim
 source $HOME/.config/nvim/keys/coc-mappings.vim
 source $HOME/.config/nvim/general/opt.vim
 source $HOME/.config/nvim/theme/lightline.vim
+
+
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
@@ -45,7 +52,8 @@ Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
 " Plug 'voldikss/vim-floaterm'
 
 " Syntax highlight
-" effects gruvbox in markdown(maybe more)
+" effects gruvbox in markdown(maybe more), disabled in polyglot_disabled
+" variable
 Plug 'sheerun/vim-polyglot'
 
 " Smooth Scroll
