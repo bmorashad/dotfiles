@@ -565,4 +565,5 @@ export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HO
 
 # nnn file manager
 export NNN_FIFO='/tmp/nnn.fifo'
-export NNN_PLUG='p:preview-tui;P:pdfview;f:fzcd;o:fzopen;d:diffs;v:imgviewe;z:fzz'
+export NNN_PLUG='p:preview-tui;P:pdfview;f:fzcd;o:fzopen;D:diffs;v:imgviewe;z:fzz'
+export NNN_BMS='i:~/Documents/IIT_L5;d:~/Downloads/'
