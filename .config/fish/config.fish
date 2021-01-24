@@ -1,6 +1,8 @@
 # prompt
 # starship init fish | source
 
+# set tab selection color
+set fish_color_search_match --background=blue
 # key-bindings
 function fish_user_key_bindings
   bind \ao 'clear;'
