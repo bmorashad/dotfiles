@@ -11,3 +11,6 @@ set smartcase
 set splitright
 set splitbelow
 " set clipboard=unamedplus
+
+" highlight 81th column
+set colorcolumn=81

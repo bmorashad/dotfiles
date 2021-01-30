@@ -1,3 +1,23 @@
+" Add ToDo Item under cursor
+function! AddToDo()
+	if &filetype == 'md'
+		exec "normal o- [ ] "
+		exec "startinsert!"
+	endif
+endfunction
+function! CheckToDo()
+	if &filetype == 'md'
+		exec ".w !grep '\[ \]'"
+		let isToDo = system('echo $status')
+		if isToDo != 1
+			exec 'normal Go'
+		endif
+	endif
+endfunction
+
+command! CheckToDo call CheckToDo()
+command! AddToDo call AddToDo()
+
 " Run :Xbit to make file executable
 function! SetExecutableBit()
 	let fname = expand("%:p")
@@ -46,3 +66,5 @@ function! CompileRunInTerm()
 	endif
 endfunc
 command! CompileRunInTerm call CompileRunInTerm()
+
+command! Xbit call SetExecutableBit()

@@ -23,6 +23,15 @@ end
   #end
 #end
 
+# print prayer times
+function prayer
+	http http://slmuslims.com | rg "(\d{1,}\s*:\s*\d{2}\s*(am|pm))|id\s*=\s*\"\s*(fajr|sunrise|luhar|asar|magrib|ishah)\s*\"" \
+	   --replace '$1$3' -o | tr '\n' '|' | rg  "([a|p]m)\s*\|" --replace '$1|||' | sed 's/|||/\n/g' | sed -e "s/\(^\w\)/\u\1/g" \
+	   | rg '(\D)(\d{1}:)' --replace '$1,0$2' --passthru | sed 's/,//g' | column -t -s '|' | \
+	   rg '^\w+' --colors 'match:fg:cyan' --color always| rg '\d{1,}:.*' --colors 'match:fg:blue'
+end
+
+
 # make dir if not exist and cd into
 function mcd --description "mkdir if not exist and cd into"
 	mkdir -p $argv[1]
@@ -181,28 +190,28 @@ end
 # TODO: complete, bug fix
 function notes_grep_fzf
 	rg -l "" $NOTES_CLI_HOME --column --line-number --smart-case --color=always --colors path:fg:green \
-         | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
-         fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
-		 -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
-		 --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
-		 --ansi --phony --query "" --layout=reverse \
-		 --prompt 'regex: '\
-		 --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
-		 --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
-		 --border sharp|\
-		 awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
+	   | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
+	   fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
+	   -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
+	   --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
+	   --ansi --phony --query "" --layout=reverse \
+	   --prompt 'regex: '\
+	   --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
+	   --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
+	   --border sharp|\
+	   awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
 end
 
 function notes_hashtag_fzf
 	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:blue| uniq |\
-	fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
-		 --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace ""' --preview-window 80%)
+	   fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
+	   --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace ""' --preview-window 80%)
 	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l --colors path:fg:green --color always| rg --color always "$NOTES_CLI_HOME/"\
-	--replace "" |\
-	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always|\
-	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden \
-	--preview-window 75%|\
-	awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
+	   --replace "" |\
+	   rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always|\
+	   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden \
+	   --preview-window 75%|\
+	   awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
 
 	set -l selected (echo $note)
 	! test -z $selected && nvim -o $note
@@ -282,11 +291,11 @@ end
 
 function notes_hashtag_with_name_fzf
 	set -l note (__get_all_notes_with_hashtag__ $argv |\
-	rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
-	rg "^.+\.md" --colors match:fg:green --colors match:style:nobold --color always |\
-	rg "/[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
-	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window hidden \
-	--preview-window 70% | sed 's/\.md.*/\.md/')
+	   rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
+	   rg "^.+\.md" --colors match:fg:green --colors match:style:nobold --color always |\
+	   rg "/[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
+	   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window hidden \
+	   --preview-window 70% | sed 's/\.md.*/\.md/')
 
 	set -l selected (echo $note)
 	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
@@ -425,7 +434,7 @@ function tmux_create_session
 		tmux has-session -t=$argv 2> /dev/null
 		if test $status -ne 0
 			TMUX='' tmux new-session -d -s "$argv"
-		# else
+			# else
 			# tmux switch-client -t "$argv"
 		end
 		if test -z "$TMUX"
