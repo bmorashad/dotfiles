@@ -292,8 +292,8 @@ end
 function notes_hashtag_with_name_fzf
 	set -l note (__get_all_notes_with_hashtag__ $argv |\
 	   rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
-	   rg "^.+\.md" --colors match:fg:green --colors match:style:nobold --color always |\
-	   rg "/[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
+	   rg --pcre2 "[^/]+(?=/)" --colors match:fg:green --colors match:style:nobold --color always |\
+	   rg --pcre2 "(?<=/)[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
 	   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window hidden \
 	   --preview-window 70% | sed 's/\.md.*/\.md/')
 
