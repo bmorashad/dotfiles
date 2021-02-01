@@ -1,3 +1,4 @@
+set shell=/usr/bin/fish
 set nocompatible
 
 :let mapleader = " "

@@ -1,3 +1,5 @@
+" change shell to bash
+set shell=/usr/bin/fish
 " start at last edit position
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 " buffer and tab related

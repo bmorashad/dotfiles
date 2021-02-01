@@ -248,6 +248,17 @@ end
 function notes_change_category
 	if count $argv > /dev/null
 		export DEFAULT_CATEGORY=$argv[1]
+	else
+		set fzf_preview "--preview=\"exa $NOTES_CLI_HOME/{} --icons --color always\" --preview-window bottom:sharp:wrap"
+		set category (fd -t d . $NOTES_CLI_HOME | rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
+		   rg --pcre2 "[^/]+(?=/)|(?<=/)[^/]+|[^/]+" --colors match:fg:green \
+		   --colors match:style:nobold --color always --passthru|\
+		   # rg "/" --passthru --colors match:fg:blue --colors match:style:nobold --color always|\
+		   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $fzf_preview" fzf --ansi --reverse \
+		   --preview-window 20%)
+		if ! test -z $category
+			export DEFAULT_CATEGORY=$category
+		end
 	end
 end
 
