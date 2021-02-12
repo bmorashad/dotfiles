@@ -1,4 +1,3 @@
-set shell=/usr/bin/fish
 set nocompatible
 
 :let mapleader = " "
@@ -17,6 +16,11 @@ source $HOME/.config/nvim/theme/lightline.vim
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
+
+" R lang
+" Plug 'jalvesaq/Nvim-R'
+
+Plug 'tpope/vim-surround'
 
 " JSX 8/28/20
 Plug 'MaxMEllon/vim-jsx-pretty'
