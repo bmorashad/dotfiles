@@ -10,7 +10,7 @@ source $HOME/.config/nvim/general/func-maps.vim
 source $HOME/.config/nvim/keys/mappings.vim
 source $HOME/.config/nvim/keys/coc-mappings.vim
 source $HOME/.config/nvim/general/opt.vim
-source $HOME/.config/nvim/theme/lightline.vim
+" source $HOME/.config/nvim/theme/lightline.vim
 
 
 " cSpell:disable "
@@ -18,7 +18,7 @@ source $HOME/.config/nvim/theme/lightline.vim
 call plug#begin('~/.vim/plugged')
 
 " R lang
-" Plug 'jalvesaq/Nvim-R'
+Plug 'jalvesaq/Nvim-R'
 
 Plug 'tpope/vim-surround'
 
@@ -46,10 +46,10 @@ Plug 'unblevable/quick-scope'
 " Selected
 " Plug 'itchyny/landscape.vim'
 " Plug 'chriskempson/base16-vim'
-" Plug 'patstockwell/vim-monokai-tasty'
+Plug 'patstockwell/vim-monokai-tasty'
 " Plug 'christophermca/meta5', {'as': 'meta5'}
 " Plug 'drewtempelmeyer/palenight.vim'
-" Plug 'tomasiser/vim-code-dark', {'as': 'codedark'}
+Plug 'tomasiser/vim-code-dark', {'as': 'codedark'}
 " Plug 'rakr/vim-one'
 Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
 
@@ -136,10 +136,10 @@ nnoremap s S
 
 set termguicolors
 " let g:vim_monokai_tasty_italic = 1
-let g:lightline = { 'colorscheme': 'gruvbox' }
+let g:lightline = { 'colorscheme': 'powerline' }
 let g:gruvbox_italic = '1'
 let g:gruvbox_transparent_bg = '1'
-let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_invert_signs = '1'
 colorscheme gruvbox
 set background=dark
@@ -149,8 +149,8 @@ set background=dark
 " change default background color
 " hi Normal guibg=#1a1a1a
 " let g:lightline = {
-"      \ 'colorscheme': 'monokai_pro',
-"      \ }
+	 " \ 'colorscheme': 'solarized dark',
+	 " \ }
 
 
 
@@ -212,7 +212,9 @@ let g:NERDSpaceDelims = 1
 " set shell= /bin/bash
 set rtp+=/usr/share/fzf
 " nnoremap ,d :FZF ~/Documents/<cr>
-nnoremap ,f :Files<cr>  
+nnoremap ,F :Files<cr>  
+nnoremap ,f :GFiles<cr>  
+nnoremap ,b :Buffers<cr>  
 " nnoremap ,g :FZF ~/<cr>
 
 " open NERDTree automatically
@@ -431,5 +433,5 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " if filereadable(expand('~') . '/.py_env/py_env3/bin/python')
 	" let g:python3_host_prog = expand('~') . '/.py_env/py_env3/bin/python'
 " endif
-let g:python3_host_prog='/home/bmora/.py_env/py_env3/bin/python'
-let g:python_host_prog='/home/bmora/.py_env/py_env2/bin/python'
+let g:python3_host_prog='$HOME/.py_env/py_env3/bin/python'
+let g:python_host_prog='$HOME/.py_env/py_env2/bin/python'

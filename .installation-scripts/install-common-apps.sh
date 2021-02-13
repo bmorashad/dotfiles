@@ -4,9 +4,7 @@ BOLD='\033[1m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-sudo eopkg inskcape gimp vorta dia filezilla insomnia handbrake knotesmailspring mpv mongodb-compass docker mongodb \
-	xournalapp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio \
-	mypaint opentshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger falmeshot
+sudo eopkg instal inkscape gimp vorta dia filezilla insomnia handbrake knotes mailspring mpv mongodb-compass docker mongodb xournalpp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio mypaint openshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger flameshot
 
 # Solus Official ThirdParty
 echo "This might take some time..."
@@ -67,10 +65,6 @@ sudo eopkg it slack-desktop*.eopkg;sudo rm slack-desktop*.eopkg
 sudo snap install postman
 
 # Flatpack
-
-# Obsidian
-# NOTE: available in snap as well
-flatpak install flathub md.obsidian.Obsidian
 
 # Popicle: USB Flasher writter in Rust By Pop OS Team
 echo "cloning popsicle from https://github.com/pop-os/popsicle..."

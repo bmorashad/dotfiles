@@ -1,3 +1,21 @@
+# surpress fish greeting
+# set fish_greeting
+function fish_greeting
+	echo
+	echo -e (uname -ro | awk '{print " \\\\e[1mOS: \\\\e[0;32m"$0"\\\\e[0m"}')
+	echo -e (uptime -p | sed 's/^up //' | awk '{print " \\\\e[1mUptime: \\\\e[0;32m"$0"\\\\e[0m"}')
+	echo -e (uname -n | awk '{print " \\\\e[1mHostname: \\\\e[0;32m"$0"\\\\e[0m"}')
+	# echo -e " \\e[1mDisk usage:\\e[0m"
+	# echo
+	# echo -ne (\
+		# df -l -h | grep -E 'dev/(xvda|sd|mapper)' | \
+		# awk '{printf "\\\\t%s\\\\t%4s / %4s  %s\\\\n\n", $6, $3, $2, $5}' | \
+		# sed -e 's/^\(.*\([8][5-9]\|[9][0-9]\)%.*\)$/\\\\e[0;31m\1\\\\e[0m/' -e 's/^\(.*\([7][5-9]\|[8][0-4]\)%.*\)$/\\\\e[0;33m\1\\\\e[0m/' | \
+		# paste -sd ''\
+	# )
+	echo
+end
+
 # prompt
 # starship init fish | source
 
@@ -40,7 +58,8 @@ end
 
 # kill process
 function kill_process --description "Kill processes"
-	set -l __kp__pid (procs --color="always" | fzf --ansi --height '50%' -m | awk '{print $1}')
+	set -l __kp__pid (ps aux | fzf --ansi --height '50%' -m | awk '{print $2}')
+	# set -l __kp__pid (procs --color="always" | fzf --ansi --height '50%' -m | awk '{print $1}')
 	set -l __kp__kc $argv[1]
 
 	if test "x$__kp__pid" != "x"
@@ -193,7 +212,7 @@ function notes_grep_fzf
 	   | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
 	   fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
 	   -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
-	   --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
+	   --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora_pc\/.notes\///' ||true" \
 	   --ansi --phony --query "" --layout=reverse \
 	   --prompt 'regex: '\
 	   --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
@@ -399,6 +418,13 @@ echo $valid_fonts | sed '/^[[:space:]]*$/d' | fzf -m
 end
 
 # switch local python3 evn
+function toggle_local_py_env
+	if test -n "$VIRTUAL_ENV"
+		deactivate
+	else
+		source $PYTHON_ENV3_DIR/bin/activate.fish
+	end
+end
 function activate_local_py_env3
 	source $PYTHON_ENV3_DIR/bin/activate.fish
 end
