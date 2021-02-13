@@ -4,7 +4,7 @@ function fish_greeting
 	# echo
 	echo -e (uname -ro | awk '{print "\\\\e[1mOS: \\\\e[0;32m"$0"\\\\e[0m"}')
 	echo -e (uptime -p | sed 's/^up //' | awk '{print "\\\\e[1mUptime: \\\\e[0;32m"$0"\\\\e[0m"}')
-	echo -e (echo (uname -n)/$USER | awk '{print "\\\\e[1mHostname: \\\\e[0;32m"$0"\\\\e[0m"}')
+	echo -e (echo (uname -n)"\033[0;34m@\033[0m$USER" | awk '{print "\\\\e[1mHostname: \\\\e[0;32m"$0"\\\\e[0m"}')
 	# echo -e " \\e[1mDisk usage:\\e[0m"
 	# echo
 	# echo -ne (\
