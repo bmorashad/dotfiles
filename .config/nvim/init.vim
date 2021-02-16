@@ -16,6 +16,8 @@ source $HOME/.config/nvim/general/opt.vim
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
+" Inspector (Debugger) 
+Plug 'puremourning/vimspector'
 
 " R lang
 Plug 'jalvesaq/Nvim-R'
