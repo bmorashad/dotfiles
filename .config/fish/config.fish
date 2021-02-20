@@ -212,7 +212,7 @@ function notes_grep_fzf
 	   | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
 	   fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
 	   -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
-	   --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora_pc\/.notes\///' ||true" \
+	   --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
 	   --ansi --phony --query "" --layout=reverse \
 	   --prompt 'regex: '\
 	   --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
@@ -612,6 +612,7 @@ export NOTES_CLI_FZF="--prompt='Select note: ' --reverse --color prompt:166,bord
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden:wrap"
 
 # nnn file manager
+export NNN_OPTS="d"
 export NNN_FIFO='/tmp/nnn.fifo'
 export NNN_PLUG='p:preview-tui;P:pdfview;f:fzcd;o:fzopen;D:diffs;v:imgview;z:fzz'
 export NNN_BMS='i:~/Documents/IIT_L5;d:~/Downloads/'
