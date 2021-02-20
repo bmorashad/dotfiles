@@ -4,7 +4,7 @@ BOLD='\033[1m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-sudo eopkg instal inkscape gimp vorta dia filezilla insomnia handbrake knotes mailspring mpv mongodb-compass docker mongodb xournalpp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio mypaint openshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger flameshot
+sudo eopkg install libgtk-3-devel inkscape gimp vorta dia filezilla insomnia handbrake knotes mailspring mpv mongodb-compass docker mongodb xournalpp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio mypaint openshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger flameshot pavucontrol
 
 # Solus Official ThirdParty
 echo "This might take some time..."

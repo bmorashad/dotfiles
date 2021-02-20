@@ -6,7 +6,7 @@ NC='\033[0m' # No Color
 echo "installing dev tools"
 sudo eopkg install -c system.devel
 # Solus Repo
-sudo eopkg install starship nnn fd ripgrep autokey-py3 fish rust golang cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer broot glow borg virtualenv rofi pipenv xev openssh-server rsync nmap httpie
+sudo eopkg install alsa-tools starship nnn fd ripgrep autokey-py3 fish rust golang cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer broot glow borg virtualenv rofi pipenv xev openssh-server rsync nmap httpie
 
 # Rust
 echo "${BOLD}Installing cli tools written in rust${NC}"
@@ -27,7 +27,8 @@ GO111MODULE=on go get -u github.com/rhysd/notes-cli/cmd/notes
 # vim-plug: plugin manager for vim
 # https://github.com/junegunn/vim-plug
 echo "${BOLD}Installing vim-plug...${NC}"
-sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https:/-raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # jenv: java version manager
 # this needs to be installed both on fish and bash inorder to work on fish
