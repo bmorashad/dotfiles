@@ -533,6 +533,9 @@ function tmux_sessions_fzf
 	end
 end
 
+# Netbeans executable
+set PATH $HOME/netbeans-8.2rc/bin $PATH
+
 # TMUX
 export DEFAULT_TMUX_SESSION="alacritty"
 

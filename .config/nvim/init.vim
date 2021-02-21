@@ -19,6 +19,8 @@ call plug#begin('~/.vim/plugged')
 " Inspector (Debugger) 
 Plug 'puremourning/vimspector'
 
+Plug 'doums/darcula'
+
 " R lang
 Plug 'jalvesaq/Nvim-R'
 
@@ -143,7 +145,8 @@ let g:gruvbox_italic = '1'
 let g:gruvbox_transparent_bg = '1'
 let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_invert_signs = '1'
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme darcula
 set background=dark
 " let g:one_allow_italics = 1
 " let g:palenight_terminal_italics=1

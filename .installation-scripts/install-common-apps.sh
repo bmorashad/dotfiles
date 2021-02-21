@@ -4,7 +4,7 @@ BOLD='\033[1m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-sudo eopkg install libgtk-3-devel inkscape gimp vorta dia filezilla insomnia handbrake knotes mailspring mpv mongodb-compass docker mongodb xournalpp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio mypaint openshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger flameshot pavucontrol
+sudo eopkg install inkscape gimp vorta dia filezilla insomnia handbrake knotes mailspring mpv mongodb-compass docker mongodb xournalpp shotcut pdfsam vlc etcher vscode telegram uget gnome-tweaks simplescreenrecorder peek obs-studio mypaint openshot-qt meld terminator vivaldi-stable qbittorrent pdfarranger flameshot pavucontrol
 
 # Solus Official ThirdParty
 echo "This might take some time..."
@@ -67,6 +67,8 @@ sudo snap install postman
 # Flatpack
 
 # Popicle: USB Flasher writter in Rust By Pop OS Team
+echo "installing popsicle dependancy"
+sudo eopkg install libgtk-3-devel
 echo "cloning popsicle from https://github.com/pop-os/popsicle..."
 git clone git@github.com:pop-os/popsicle.git $GITHUB_APP_DIR/popsicle
 echo "installing popsicle in a subshell..."
