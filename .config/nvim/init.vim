@@ -49,7 +49,8 @@ Plug 'unblevable/quick-scope'
 " Plug 'phanviet/vim-monokai-pro'
 " Selected
 " Plug 'itchyny/landscape.vim'
-" Plug 'chriskempson/base16-vim'
+" ref: https://github.com/chriskempson/base16-vim/tree/master/colors
+Plug 'chriskempson/base16-vim'
 Plug 'patstockwell/vim-monokai-tasty'
 " Plug 'christophermca/meta5', {'as': 'meta5'}
 " Plug 'drewtempelmeyer/palenight.vim'
@@ -145,8 +146,12 @@ let g:gruvbox_italic = '1'
 let g:gruvbox_transparent_bg = '1'
 let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_invert_signs = '1'
-" colorscheme gruvbox
-colorscheme darcula
+" colorscheme darcula
+" autocmd BufEnter * colorscheme base16-solarflare
+autocmd BufEnter * colorscheme base16-solarized-dark
+autocmd BufEnter *.py colorscheme gruvbox
+autocmd BufEnter *.md colorscheme gruvbox
+autocmd BufEnter *.java colorscheme darcula
 set background=dark
 " let g:one_allow_italics = 1
 " let g:palenight_terminal_italics=1
@@ -163,6 +168,7 @@ set background=dark
 nnoremap <A-c> :Pickachu<CR>
 
 " default key remaps change
+noremap :X :wq
 " nnoremap s S
 nnoremap w W
 nnoremap K }
