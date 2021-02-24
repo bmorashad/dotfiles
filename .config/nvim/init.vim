@@ -146,7 +146,7 @@ let g:gruvbox_italic = '1'
 let g:gruvbox_transparent_bg = '1'
 let g:gruvbox_contrast_dark = 'medium'
 let g:gruvbox_invert_signs = '1'
-" colorscheme darcula
+" colorscheme gruvbox
 " autocmd BufEnter * colorscheme base16-solarflare
 autocmd BufEnter * colorscheme base16-solarized-dark
 autocmd BufEnter *.py colorscheme gruvbox
@@ -168,7 +168,7 @@ set background=dark
 nnoremap <A-c> :Pickachu<CR>
 
 " default key remaps change
-noremap :X :wq
+" noremap :X :wq<cr>
 " nnoremap s S
 nnoremap w W
 nnoremap K }
