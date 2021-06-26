@@ -1,8 +1,18 @@
 {
+  "tsserver.disableAutomaticTypeAcquisition": false,
+  "pairs.enableCharacters": [
+    "(",
+    "[",
+    "{",
+    // "<",
+    "'",
+    "\"",
+    "`"
+  ],
   //codelens
   //"java.jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar",
-  "codeLens.enable": true,
-  "coc.preferences.snippets.enable": true,
+  // "codeLens.enable": true,
+  // "coc.preferences.snippets.enable": true,
   "java.home": "/opt/jdk-11.0.6",
   "java.trace.server": "verbose",
   //"java.referencesCodeLens.enabled": true,
@@ -17,14 +27,15 @@
   ],
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
-    "java",
+    // "java",
     "css",
     "javascript",
+    "jsx",
     "java",
     "latex",
     "html",
-    "json"
-    //"python"
+    "json",
+    "python"
   ],
   // python config
   // "python.linting.enabled": true,

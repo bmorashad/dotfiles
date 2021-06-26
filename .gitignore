@@ -1,2 +1,4 @@
-.compile-run.sh
+**.compile-run.sh**
 dotfiles
+out/
+node_modules/

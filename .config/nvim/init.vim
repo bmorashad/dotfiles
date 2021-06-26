@@ -12,11 +12,17 @@ source $HOME/.config/nvim/keys/coc-mappings.vim
 source $HOME/.config/nvim/general/opt.vim
 " source $HOME/.config/nvim/theme/lightline.vim
 
-
 " cSpell:disable "
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
+" If you don't have nodejs and yarn
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+" Testing
+" Plug 'w0rp/ale'
+
 " Inspector (Debugger) 
+Plug 'preservim/nerdcommenter'
 Plug 'puremourning/vimspector'
 
 Plug 'doums/darcula'
@@ -28,6 +34,7 @@ Plug 'tpope/vim-surround'
 
 " JSX 8/28/20
 Plug 'MaxMEllon/vim-jsx-pretty'
+
 " Plug 'yuezk/vim-js'
 " js 8/28/20
 Plug 'pangloss/vim-javascript'
@@ -77,7 +84,7 @@ Plug 'psliwka/vim-smoothie'
 
 Plug 'alvan/vim-closetag'
 
-" Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdtree'
 " fzf in rust(alternative)
@@ -91,10 +98,9 @@ Plug 'junegunn/fzf.vim'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 " Plug 'airblade/vim-gitgutter'
-Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 
-" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
 " Initialize plugin system
@@ -149,9 +155,17 @@ let g:gruvbox_invert_signs = '1'
 " colorscheme gruvbox
 " autocmd BufEnter * colorscheme base16-solarflare
 autocmd BufEnter * colorscheme base16-solarized-dark
+autocmd BufLeave * colorscheme base16-solarized-dark
+
 autocmd BufEnter *.py colorscheme gruvbox
+autocmd BufLeave *.py colorscheme gruvbox
+
 autocmd BufEnter *.md colorscheme gruvbox
-autocmd BufEnter *.java colorscheme darcula
+autocmd BufLeave *.md colorscheme gruvbox
+
+" autocmd BufEnter *.java colorscheme darcula
+autocmd BufEnter *.java colorscheme gruvbox
+autocmd BufLeave *.java colorscheme gruvbox
 set background=dark
 " let g:one_allow_italics = 1
 " let g:palenight_terminal_italics=1
@@ -177,7 +191,6 @@ nnoremap <A-i> {
 
 " switch buffers
 " nnoremap <C-b> :bn<cr>
-nnoremap ,a :bn<cr>
 " map gn :bn<cr>
 " map gp :bp<cr>
 
@@ -216,13 +229,15 @@ nnoremap ,e :NERDTreeToggle<CR>
 " comment, uncomment
 vmap ,c <plug>NERDCommenterToggle
 nmap ,c <plug>NERDCommenterToggle
+nmap ,a <plug>NERDCommenterAltDelims
+
 let g:NERDSpaceDelims = 1
 
 " fzf
 " fzf bug fix
 " set shell= /bin/bash
 set rtp+=/usr/share/fzf
-" nnoremap ,d :FZF ~/Documents/<cr>
+nnoremap ,d :FZF ~/Documents/<cr>
 nnoremap ,F :Files<cr>  
 nnoremap ,f :GFiles<cr>  
 nnoremap ,b :Buffers<cr>  
@@ -305,12 +320,12 @@ set shiftwidth=4
 
 " coc config
 "\ 'coc-prettier', 
+" \ 'coc-eslint',
 let g:coc_global_extensions = [
       \ 'coc-snippets',
       \ 'coc-pairs',
       \ 'coc-tsserver',
       \ 'coc-json', 
-      \ 'coc-eslint',
 	  \ 'coc-actions',
 	  \ 'coc-java',
 	  \ ]

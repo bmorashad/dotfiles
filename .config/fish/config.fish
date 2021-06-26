@@ -328,7 +328,7 @@ function notes_hashtag_with_name_fzf
 	   --preview-window 70% | sed 's/\.md.*/\.md/')
 
 	set -l selected (echo $note)
-	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
+	! test -z $selected && nvim "$NOTES_CLI_HOME/"$note
 end
 function __get_all_notes_with_hashtag__
 	if test -z $argv
@@ -548,7 +548,8 @@ set PATH $HOME/.cargo/bin $PATH
 # bash -i -c "jenv $argv"
 # end
 
-set JAVA_HOME /opt/jdk-11.0.6 $JAVA_HOME
+set -x JAVA_HOME /opt/jdk1.8.0_241 $JAVA_HOME
+# set -x JAVA_HOME /opt/jdk-11.0.6 $JAVA_HOME
 
 #Zoxide fast navigation
 zoxide init fish | source
@@ -560,7 +561,9 @@ set PATH $HOME/.jenv/bin $PATH
 
 
 #Expo CLI
-set PATH $HOME/.nvm/versions/node/v12.18.3/lib/node_modules/npm/node_modules/bin $PATH
+# set PATH $HOME/.nvm/versions/node/v12.18.3/lib/node_modules/npm/node_modules/bin $PATH
+# set PATH $HOME/.nvm/versions/node/ $PATH
+set PATH $HOME/.local/share/nvm/v14.15.5/lib/node_modules/ $PATH
 
 # Spring Boot CLI Path
 # export SPRING_HOME = "$HOME/.spring-boot-cli"
@@ -570,11 +573,14 @@ set PATH $HOME/.spring-boot-cli/bin $PATH
 # SBT (for playframework)
 set PATH $HOME/sbt-1.4.0/sbt/bin $PATH
 #JENV
-set PATH $HOME/.jenv/bin $PATH
+# set PATH $HOME/.jenv/bin $PATH
 
 #JDK
-set PATH /opt/jdk1.8.0_241/bin $PATH
-set PATH /opt/jdk-11.0.6/bin $PATH
+# set PATH /opt/jdk1.8.0_241/bin $PATH
+# set PATH /opt/jdk-11.0.6/bin $PATH
+
+# set PATH for thirdparty bin
+set PATH $HOME/.thirdparty-app/bin $PATH
 
 # set PATH $HOME/.notes-cli $PATH
 set PATH $HOME/go/bin $PATH
@@ -589,6 +595,7 @@ export GITHUB_APP_DIR="$THIRDPARTY_APP_DIR/github"
 # virtual python env directory
 export PYTHON_ENV_DIR="$HOME/.py_env"
 export PYTHON_ENV3_DIR="$PYTHON_ENV_DIR/py_env3"
+export PYTHON_ENV2_DIR="$PYTHON_ENV_DIR/py_env2"
 
 # export EDITOR=nvim
 

@@ -48,6 +48,8 @@ function! CompileRun()
 		exec "w !time bash %"
 	elseif &filetype == 'python'
 		exec "w !time python"
+	elseif &filetype == 'r'
+		exec "w !time Rscript %"
 	elseif &filetype == 'html'
 		exec "w !chrome % &"
 	elseif &filetype == 'mkd'

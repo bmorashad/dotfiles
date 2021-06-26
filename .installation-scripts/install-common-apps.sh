@@ -34,6 +34,11 @@ echo "Installing IntelliJ-IDEA..."
 sudo eopkg bi --ignore-safety https://raw.githubusercontent.com/getsolus/3rd-party/master/programming/idea/pspec.xml
 sudo eopkg it idea*.eopkg;sudo rm idea*.eopkg
 
+# Android Studio
+echo "Installing Android Studio..."
+sudo eopkg bi --ignore-safety https://raw.githubusercontent.com/getsolus/3rd-party/master/programming/android-studio/pspec.xml
+sudo eopkg it android-studio*.eopkg;sudo rm android-studio*.eopkg
+
 # Pycharm
 echo "Installing Pycharm..."
 sudo eopkg bi --ignore-safety https://raw.githubusercontent.com/getsolus/3rd-party/master/programming/pycharm/pspec.xml
@@ -66,13 +71,5 @@ sudo snap install postman
 
 # Flatpack
 
-# Popicle: USB Flasher writter in Rust By Pop OS Team
-echo "installing popsicle dependancy"
-sudo eopkg install libgtk-3-devel
-echo "cloning popsicle from https://github.com/pop-os/popsicle..."
-git clone git@github.com:pop-os/popsicle.git $GITHUB_APP_DIR/popsicle
-echo "installing popsicle in a subshell..."
-(cd $GITHUB_APP_DIR/popsicle; make && sudo make install)
-echo -e "${RED}${BOLD}NOTE:${NC} make sure popsicle is installed successfully by running popsicle or opening the gui app\n"
 
 echo "tada done :)"
