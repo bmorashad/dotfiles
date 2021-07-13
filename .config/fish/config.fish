@@ -26,6 +26,15 @@ function fish_user_key_bindings
   bind \ao 'clear;'
 end
 
+# compresss vid with simple config with same original vid quality output
+function handbrake_compress
+	if count $argv > /dev/null
+		HandBrakeCLI -i $argv[1] -o $argv[2] -e x264 -r 15 -B 64 -O
+	else
+		echo "Invalid arguments provided"
+	end
+end
+
 # make alias
 #function alias --argument-names alias_name function
   #if count $argv > 2
@@ -576,7 +585,7 @@ set PATH $HOME/sbt-1.4.0/sbt/bin $PATH
 # set PATH $HOME/.jenv/bin $PATH
 
 #JDK
-# set PATH /opt/jdk1.8.0_241/bin $PATH
+set PATH /opt/jdk1.8.0_241/bin $PATH
 # set PATH /opt/jdk-11.0.6/bin $PATH
 
 # set PATH for thirdparty bin

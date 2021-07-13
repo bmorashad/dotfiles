@@ -1,7 +1,7 @@
 " escape terminal mode
 " tnoremap <Esc> <C-\><C-n>
 " escape search highlight
-nnoremap <leader>/ :noh<CR>
+" nnoremap <leader>/ :noh<CR>
 
 " Use ctrl + hjkl to resize windows
 nnoremap <C-j>    :resize -2<CR>

@@ -31,10 +31,9 @@
     "css",
     "javascript",
     "jsx",
-    "java",
     "latex",
     "html",
-    "json",
+    // "json",
     "python"
   ],
   // python config

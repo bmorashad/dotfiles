@@ -44,6 +44,9 @@ function! CompileRun()
 			exec "w !time java -cp out %:t:r"
 			" exec "w !time java -cp %:p:h %:t:r"
 		endif
+	elseif &filetype == 'js'
+		exec "!echo 'hi'"
+		exec "w !time node %"
 	elseif &filetype == 'sh'
 		exec "w !time bash %"
 	elseif &filetype == 'python'

@@ -1,6 +1,7 @@
+
 set nocompatible
 
-:let mapleader = " "
+" :let mapleader = " "
 
 " polygot disables
 let g:polyglot_disabled = ['markdown']
@@ -48,6 +49,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'unblevable/quick-scope'
 
 " Theme
+" Github Theme
+
 " Plug 'danilo-augusto/vim-afterglow', {'as': 'afterglow'}
 " Plug 'romainl/Apprentice', {'as': 'apprentice'}
 " Plug 'cseelus/vim-colors-lucid', {'as': 'colors-lucid'}
@@ -63,7 +66,7 @@ Plug 'patstockwell/vim-monokai-tasty'
 " Plug 'drewtempelmeyer/palenight.vim'
 Plug 'tomasiser/vim-code-dark', {'as': 'codedark'}
 " Plug 'rakr/vim-one'
-Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
+" Plug 'morhetz/gruvbox', {'as': 'gruvbox'}
 
 " Floating terminal
 " Plug 'voldikss/vim-floaterm'
@@ -86,7 +89,7 @@ Plug 'alvan/vim-closetag'
 
 Plug 'pangloss/vim-javascript'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/nerdtree'
 " fzf in rust(alternative)
 " Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
 " fzf
@@ -96,7 +99,7 @@ Plug 'junegunn/fzf.vim'
 
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'ryanoasis/vim-devicons' have lua port
 " Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
@@ -105,15 +108,12 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
 " Initialize plugin system
 " Just Look
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
 
 call plug#end()
 
+
 " set rtp+=$HOME/.fzf
-
-
-" Testing
-map  <Leader>f <Plug>(easymotion-bd-f)
 
 " Reload vimrc
 " nmap <leader>t :source ~/.config/nvim/init.vim
@@ -136,47 +136,53 @@ augroup END
 cmap w!! w !sudo tee % >/dev/null
 
 " easymotion
-nmap S <Plug>(easymotion-overwin-f2)
-map S <Plug>(easymotion-bd-w)
-nmap S <Plug>(easymotion-overwin-w)
+" map  <Leader>f <Plug>(easymotion-bd-f)
+" nmap S <Plug>(easymotion-overwin-f2)
+" map S <Plug>(easymotion-bd-w)
+" nmap S <Plug>(easymotion-overwin-w)
 nnoremap s S
 ":syntax on
 
-" let g:airline_theme='monokai_tasty'
 " let g:vim_monokai_tasty_italic = 1
 
 set termguicolors
 " let g:vim_monokai_tasty_italic = 1
-let g:lightline = { 'colorscheme': 'powerline' }
-let g:gruvbox_italic = '1'
-let g:gruvbox_transparent_bg = '1'
-let g:gruvbox_contrast_dark = 'medium'
-let g:gruvbox_invert_signs = '1'
+" let g:lightline = { 'colorscheme': 'powerline' }
+" let g:lightline = {
+	 " \ 'colorscheme': 'solarized dark',
+	 " \ }
+
+" let g:gruvbox_italic = '1'
+" let g:gruvbox_transparent_bg = '1'
+" let g:gruvbox_contrast_dark = 'medium'
+" let g:gruvbox_invert_signs = '1'
 " colorscheme gruvbox
+" hi MinimapCurrentLine ctermfg=Green guifg=#50FA7B guibg=#32302f
+" let g:minimap_highlight = 'MinimapCurrentLine'
+
 " autocmd BufEnter * colorscheme base16-solarflare
-autocmd BufEnter * colorscheme base16-solarized-dark
-autocmd BufLeave * colorscheme base16-solarized-dark
+" autocmd BufEnter * colorscheme base16-solarized-dark
+" autocmd BufLeave * colorscheme base16-solarized-dark
 
-autocmd BufEnter *.py colorscheme gruvbox
-autocmd BufLeave *.py colorscheme gruvbox
+" autocmd BufEnter *.py colorscheme gruvbox
+" autocmd BufLeave *.py colorscheme gruvbox
 
-autocmd BufEnter *.md colorscheme gruvbox
-autocmd BufLeave *.md colorscheme gruvbox
+" autocmd BufEnter *.md colorscheme gruvbox
+" autocmd BufLeave *.md colorscheme gruvbox
 
 " autocmd BufEnter *.java colorscheme darcula
-autocmd BufEnter *.java colorscheme gruvbox
-autocmd BufLeave *.java colorscheme gruvbox
-set background=dark
+" autocmd BufEnter *.java colorscheme gruvbox
+" autocmd BufLeave *.java colorscheme gruvbox
+" set background=dark
 " let g:one_allow_italics = 1
 " let g:palenight_terminal_italics=1
 
 " change default background color
 " hi Normal guibg=#1a1a1a
-" let g:lightline = {
-	 " \ 'colorscheme': 'solarized dark',
-	 " \ }
 
-
+" hi HopNextKey guifg=#fc4fc4
+" hi HopNextKey1 guifg=#fc4fc4
+" hi HopNextKey2 guifg=#fc4fc4
 
 " Color Picker key map
 nnoremap <A-c> :Pickachu<CR>
@@ -198,9 +204,9 @@ nnoremap <A-i> {
 noremap <C-c> "+y
 noremap <C-p> "+p
 
-let g:smoothie_no_default_mappings = 1 
-nmap L <Plug>(SmoothieDownwards)
-nmap : <Plug>(SmoothieUpwards)
+" let g:smoothie_no_default_mappings = 1 
+" nmap L <Plug>(SmoothieDownwards)
+" nmap : <Plug>(SmoothieUpwards)
 "silent! nmap <unique> <A-l>          <Plug>(SmoothieDownwards)
 "silent! nmap <unique> <A-:>          <Plug>(SmoothieUpwards)
 " silent! nmap <unique> <C-F>      <Plug>(SmoothieForwards)
@@ -211,8 +217,8 @@ nmap : <Plug>(SmoothieUpwards)
 " silent! nmap <unique> <PageUp>   <Plug>(SmoothieBackwards)
 
 " Mouse Scroll
-nmap <ScrollWheelUp> <Plug>(SmoothieUpwards)
-nmap <ScrollWheelDown> <Plug>(SmoothieDownwards)
+" nmap <ScrollWheelUp> <Plug>(SmoothieUpwards)
+" nmap <ScrollWheelDown> <Plug>(SmoothieDownwards)
 
 " Better tabbing
 vnoremap < <gv
@@ -223,13 +229,13 @@ nnoremap ; :
 nnoremap ,w <C-W><C-W>
 " nnoremap H Hzz
 " map <C-n> :NERDTreeToggle<CR>
-nnoremap ,e :NERDTreeToggle<CR>
+" nnoremap ,e :NERDTreeToggle<CR>
 " map <C-p> :FZF 
 
 " comment, uncomment
-vmap ,c <plug>NERDCommenterToggle
-nmap ,c <plug>NERDCommenterToggle
-nmap ,a <plug>NERDCommenterAltDelims
+" vmap ,c <plug>NERDCommenterToggle
+" nmap ,c <plug>NERDCommenterToggle
+" nmap ,a <plug>NERDCommenterAltDelims
 
 let g:NERDSpaceDelims = 1
 
@@ -247,7 +253,7 @@ nnoremap ,b :Buffers<cr>
 "autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * NERDTree
 
-let g:NERDTreeGitStatusWithFlags = 1
+" let g:NERDTreeGitStatusWithFlags = 1
 "let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 "let g:NERDTreeGitStatusNodeColorization = 1
 "let g:NERDTreeColorMapCustom = {
@@ -262,7 +268,7 @@ let g:NERDTreeGitStatusWithFlags = 1
       "\ }                         
 
 
-let g:NERDTreeIgnore = ['^node_modules$']
+" let g:NERDTreeIgnore = ['^node_modules$']
 
 let g:vim_jsx_pretty_highlight_close_tag = 1
 " code folding javascript
@@ -327,9 +333,8 @@ let g:coc_global_extensions = [
       \ 'coc-tsserver',
       \ 'coc-json', 
 	  \ 'coc-actions',
-	  \ 'coc-java',
 	  \ ]
-
+" \ 'coc-java',
 " from readme
 " if hidden is not set, TextEdit might fail.
 set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup 
@@ -435,7 +440,7 @@ omap af <Plug>(coc-funcobj-a)
 
 " Using CocList
 " Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " Manage extensions
 " nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands
@@ -461,3 +466,4 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 " endif
 let g:python3_host_prog='$HOME/.py_env/py_env3/bin/python'
 let g:python_host_prog='$HOME/.py_env/py_env2/bin/python'
+lua require 'init'

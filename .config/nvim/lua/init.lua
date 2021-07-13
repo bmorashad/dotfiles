@@ -1,0 +1,7 @@
+require('plugins')
+require('opts')
+require('setup')
+require('binds')
+require('theme')
+require('treesitter-highlight')
+require('lv-nvimtree')

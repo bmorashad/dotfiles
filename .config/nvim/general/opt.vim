@@ -42,8 +42,8 @@ autocmd BufEnter *.jsx norm zR
 autocmd BufEnter *.css set shiftwidth=2 tabstop=2
 
 " nerdcommenter
-let g:NERDCreateDefaultMappings = 1
-let g:NERDSpaceDelims = 1
-let g:NERDCustomDelimiters={
-	\ 'javascript': { 'left': '//', 'right': '', 'leftAlt': '{/*', 'rightAlt': '*/}' },
-\}
+" let g:NERDCreateDefaultMappings = 1
+" let g:NERDSpaceDelims = 1
+" let g:NERDCustomDelimiters={
+	" \ 'javascript': { 'left': '//', 'right': '', 'leftAlt': '{/*', 'rightAlt': '*/}' },
+" \}
