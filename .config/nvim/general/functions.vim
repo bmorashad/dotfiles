@@ -36,6 +36,7 @@ function! CompileRun()
 	"elseif &filetype == 'cpp'
 	"exec "!g++ % -o %<"
 	"exec "!time ./%<"
+	" exec "w !time node %"
 	if &filetype == 'java'
 		if !empty(glob("./.compile-run.sh"))
 			exec "term ./.compile-run.sh"
@@ -44,8 +45,7 @@ function! CompileRun()
 			exec "w !time java -cp out %:t:r"
 			" exec "w !time java -cp %:p:h %:t:r"
 		endif
-	elseif &filetype == 'js'
-		exec "!echo 'hi'"
+	elseif &filetype == 'javascript'
 		exec "w !time node %"
 	elseif &filetype == 'sh'
 		exec "w !time bash %"

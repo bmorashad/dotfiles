@@ -1,13 +1,23 @@
 -- vim.api.nvim_command('command! :write | edit | TSBufEnable highlight')
 
 
+-- noremap opts
 local opts_silent = {noremap = true, silent = true}
 local opts_silent_expr = {noremap = true, silent = true, expr = true}
 local opts_loud = {noremap = true, silent = false}
 
+-- map opts
+local map_opts_silent = {noremap = false, silent = true}
+
 -- vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', opts_silent)
 -- General
 vim.api.nvim_set_keymap("n", "<leader>/", "<cmd>noh<CR>", opts_loud)
+vim.api.nvim_set_keymap("n", "G", "Gzz", opts_silent)
+-- Save
+vim.api.nvim_set_keymap("n", "W", "<cmd>w<cr>", opts_silent)
+-- y follow dd/D logic
+vim.api.nvim_set_keymap("n", "Y", "y$", opts_silent)
+
 
 
 -- Commentery

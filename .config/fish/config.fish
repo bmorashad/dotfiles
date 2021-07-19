@@ -1,3 +1,81 @@
+# Entgra Config
+export dist="$HOME/Work/Entgra/emm-proprietary-plugins/distribution/ultimate/target/entgra-iot-ultimate-4.1.1-SNAPSHOT"
+export carbon="$HOME/Work/Entgra/carbon-device-mgt" 
+export plugin="$HOME/Work/Entgra/carbon-device-mgt-plugins" 
+export product="$HOME/Work/Entgra/product-iots"
+export emm="$HOME/Work/Entgra/emm-proprietary-plugins"
+
+function ctc 
+	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
+	if test "$dir" != ""
+		cd $dir
+	end
+end
+
+function etb 
+	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0'
+end
+function ecd 
+	set -l dir (etb $argv[1] $argv[2] | fzf)
+	if test "$dir" != ""
+		cd $dir
+	end
+
+end
+
+function emi 
+	set -l dir (etb $argv[1] $argv[2] | sed -n "$argv[3] p")
+	if test "$dir" != ""
+		cd $dir
+		mvn clean install -Dmaven.test.skip=true
+	end
+end
+
+function entup 
+	set -l dir (etb $argv[1] $argv[2] | sed -n "$argv[3] p")
+	if test "$dir" != ""
+		echo "Updating $dir" | rg "/home/bmora/Work/Entgra" --replace ""
+		set -l war (ls $dir/target | rg '.*war') 
+		if test "$war" != ""
+			set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg $war)
+			set -l warDir (echo $war | rg '.war' --replace '')
+			set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "$warDir\$")
+
+			set -l warRm $dist/repository/deployment/server/webapps/$distWar
+			set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
+
+			if test "$warRm" != ""
+				echo "Deleting $warRm" | rg "/home/bmora/Work/Entgra" --replace ""
+				rm -r $warRm
+			end
+			if test "$dirWarRm" != ""
+				echo "Deleting $dirWarRm" | rg "/home/bmora/Work/Entgra" --replace ""
+				rm -rf $dirWarRm
+			end
+			echo "Copying $dir/target/$war to $dist/repository/deployment/server/webapps" | rg "/home/bmora/Work/Entgra" --replace ""
+
+			cp $dir/target/$war $dist/repository/deployment/server/webapps
+		else
+			set -l jar (ls $dir/target | rg '.*jar') 
+			if test "$jar" != ""
+				set -l patchDirLs (ls $dist/patches)
+				if test "$patchDirLs" = ""
+					set patchDir "patch5000"
+				else
+					set patchDir (math (ls $dist/patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
+				end
+				mkdir $dist/patches/$patchDir
+				echo "Copying $dir/target/$jar to $dist/patches/$patchDir" | rg "/home/bmora/Work/Entgra" --replace ""
+				cp $dir/target/$jar $dist/patches/$patchDir
+			else
+				echo "No target found"
+			end	
+		end
+	else
+		echo "No dir for given args"
+	end
+end
+
 # surpress fish greeting
 # set fish_greeting
 function fish_greeting
@@ -8,10 +86,10 @@ function fish_greeting
 	# echo -e " \\e[1mDisk usage:\\e[0m"
 	# echo
 	# echo -ne (\
-		# df -l -h | grep -E 'dev/(xvda|sd|mapper)' | \
-		# awk '{printf "\\\\t%s\\\\t%4s / %4s  %s\\\\n\n", $6, $3, $2, $5}' | \
-		# sed -e 's/^\(.*\([8][5-9]\|[9][0-9]\)%.*\)$/\\\\e[0;31m\1\\\\e[0m/' -e 's/^\(.*\([7][5-9]\|[8][0-4]\)%.*\)$/\\\\e[0;33m\1\\\\e[0m/' | \
-		# paste -sd ''\
+	# df -l -h | grep -E 'dev/(xvda|sd|mapper)' | \
+	# awk '{printf "\\\\t%s\\\\t%4s / %4s  %s\\\\n\n", $6, $3, $2, $5}' | \
+	# sed -e 's/^\(.*\([8][5-9]\|[9][0-9]\)%.*\)$/\\\\e[0;31m\1\\\\e[0m/' -e 's/^\(.*\([7][5-9]\|[8][0-4]\)%.*\)$/\\\\e[0;33m\1\\\\e[0m/' | \
+	# paste -sd ''\
 	# )
 	echo
 end
@@ -23,7 +101,7 @@ end
 set fish_color_search_match --background=blue
 # key-bindings
 function fish_user_key_bindings
-  bind \ao 'clear;'
+	bind \ao 'clear;'
 end
 
 # compresss vid with simple config with same original vid quality output
@@ -37,25 +115,25 @@ end
 
 # make alias
 #function alias --argument-names alias_name function
-  #if count $argv > 2
-    #if test -f $HOME/.config/fish/functions/$alias_name.fish 
-      #echo "Error: alias already exist" 1>&2
-    #else
-      #touch $HOME/.config/fish/functions/$alias_name.fish
-      #echo "alias $alias_name='$function'" > $HOME/.config/fish/functions/$alias_name.fish
-      #funcsave $alias_name
-    #end
-  #else 
-    #echo "Erro: need two arguments" 1>&2
-  #end
+#if count $argv > 2
+#if test -f $HOME/.config/fish/functions/$alias_name.fish 
+#echo "Error: alias already exist" 1>&2
+#else
+#touch $HOME/.config/fish/functions/$alias_name.fish
+#echo "alias $alias_name='$function'" > $HOME/.config/fish/functions/$alias_name.fish
+#funcsave $alias_name
+#end
+#else 
+#echo "Erro: need two arguments" 1>&2
+#end
 #end
 
 # print prayer times
 function prayer
 	http http://slmuslims.com | rg "(\d{1,}\s*:\s*\d{2}\s*(am|pm))|id\s*=\s*\"\s*(fajr|sunrise|luhar|asar|magrib|ishah)\s*\"" \
-	   --replace '$1$3' -o | tr '\n' '|' | rg  "([a|p]m)\s*\|" --replace '$1|||' | sed 's/|||/\n/g' | sed -e "s/\(^\w\)/\u\1/g" \
-	   | rg '(\D)(\d{1}:)' --replace '$1,0$2' --passthru | sed 's/,//g' | column -t -s '|' | \
-	   rg '^\w+' --colors 'match:fg:cyan' --color always| rg '\d{1,}:.*' --colors 'match:fg:blue'
+	--replace '$1$3' -o | tr '\n' '|' | rg  "([a|p]m)\s*\|" --replace '$1|||' | sed 's/|||/\n/g' | sed -e "s/\(^\w\)/\u\1/g" \
+	| rg '(\D)(\d{1}:)' --replace '$1,0$2' --passthru | sed 's/,//g' | column -t -s '|' | \
+	rg '^\w+' --colors 'match:fg:cyan' --color always| rg '\d{1,}:.*' --colors 'match:fg:blue'
 end
 
 
@@ -218,28 +296,28 @@ end
 # TODO: complete, bug fix
 function notes_grep_fzf
 	rg -l "" $NOTES_CLI_HOME --column --line-number --smart-case --color=always --colors path:fg:green \
-	   | rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
-	   fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
-	   -l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
-	   --colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
-	   --ansi --phony --query "" --layout=reverse \
-	   --prompt 'regex: '\
-	   --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
-	   --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
-	   --border sharp|\
-	   awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
+	| rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace "" |\
+	fzf -m --bind "change:reload:rg {q} $NOTES_CLI_HOME \
+	-l --smart-case --color=always --colors path:fg:green | rg '/[^/]+.md' --passthru \
+	--colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
+	--ansi --phony --query "" --layout=reverse \
+	--prompt 'regex: '\
+	--preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md"\
+	--preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
+	--border sharp|\
+	awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
 end
 
 function notes_hashtag_fzf
 	set -l tag (rg "#[a-zA-Z0-9]+" $NOTES_CLI_HOME -o --no-line-number --color=always --sort created --no-heading --no-filename --colors match:fg:blue| uniq |\
-	   fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
-	   --colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace ""' --preview-window 80%)
+	fzf --ansi --reverse --preview 'rg {} $NOTES_CLI_HOME -l --color=always --heading --colors path:fg:green | rg '/[^/]+.md' --passthru \
+	--colors match:fg:yellow --colors match:style:nobold --color=always | rg "$NOTES_CLI_HOME/" --replace ""' --preview-window 80%)
 	! test -z $tag && set -l note (rg $tag "$NOTES_CLI_HOME" -l --colors path:fg:green --color always| rg --color always "$NOTES_CLI_HOME/"\
-	   --replace "" |\
-	   rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always|\
-	   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden \
-	   --preview-window 75%|\
-	   awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
+	--replace "" |\
+	rg "/[^/]+.md" --passthru --colors match:fg:yellow --colors match:style:nobold --color=always|\
+	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden \
+	--preview-window 75%|\
+	awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}')
 
 	set -l selected (echo $note)
 	! test -z $selected && nvim -o $note
@@ -279,11 +357,11 @@ function notes_change_category
 	else
 		set fzf_preview "--preview=\"exa $NOTES_CLI_HOME/{} --icons --color always\" --preview-window bottom:sharp:wrap"
 		set category (fd -t d . $NOTES_CLI_HOME | rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
-		   rg --pcre2 "[^/]+(?=/)|(?<=/)[^/]+|[^/]+" --colors match:fg:green \
-		   --colors match:style:nobold --color always --passthru|\
-		   # rg "/" --passthru --colors match:fg:blue --colors match:style:nobold --color always|\
-		   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $fzf_preview" fzf --ansi --reverse \
-		   --preview-window 20%)
+		rg --pcre2 "[^/]+(?=/)|(?<=/)[^/]+|[^/]+" --colors match:fg:green \
+		--colors match:style:nobold --color always --passthru|\
+		# rg "/" --passthru --colors match:fg:blue --colors match:style:nobold --color always|\
+		env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $fzf_preview" fzf --ansi --reverse \
+		--preview-window 20%)
 		if ! test -z $category
 			export DEFAULT_CATEGORY=$category
 		end
@@ -312,29 +390,29 @@ function restore_notes
 	set notes_to_restore (ls -t -1 $NOTES_CLI_HOME/.trash | while read -l file; set note_name $file; set note_path (grep -r -m 1 'Category' $NOTES_CLI_HOME/.trash/$file | cut -d ' ' -f 3); printf "\u001b[33m$note_path\u001b[0m/\u001b[32m$note_name\n"; end | fzf --ansi -m | cut -d '/' -f 2 | string collect); 
 	if ! test -z "$notes_to_restore" 
 		echo $notes_to_restore | while read -l note 
-		set category_dir (grep -r -m 1 'Category' $NOTES_CLI_HOME/.trash/$note | cut -d ' ' -f 3)
-		if test -f $NOTES_CLI_HOME/$category_dir/$note
-			printf '\033[0;31merror: \033[0ma note with the same name already exist :/\n' 
-			echo setting restore name...
-			set restore_name (echo $note | sed 's/\.md.*//' | awk '{print $0"_RESTORED.md"}') 
-			mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir/$restore_name
-			printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored as \u001b[33m$category_dir\u001b[0m/\u001b[32m$restore_name\n";
-		else
-			mkdir -p $NOTES_CLI_HOME/$category_dir
-			mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir   
-			printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored\n";
+			set category_dir (grep -r -m 1 'Category' $NOTES_CLI_HOME/.trash/$note | cut -d ' ' -f 3)
+			if test -f $NOTES_CLI_HOME/$category_dir/$note
+				printf '\033[0;31merror: \033[0ma note with the same name already exist :/\n' 
+				echo setting restore name...
+				set restore_name (echo $note | sed 's/\.md.*//' | awk '{print $0"_RESTORED.md"}') 
+				mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir/$restore_name
+				printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored as \u001b[33m$category_dir\u001b[0m/\u001b[32m$restore_name\n";
+			else
+				mkdir -p $NOTES_CLI_HOME/$category_dir
+				mv $NOTES_CLI_HOME/.trash/$note $NOTES_CLI_HOME/$category_dir   
+				printf "\u001b[33m$category_dir\u001b[0m/\u001b[32m$note \u001b[0mrestored\n";
+			end
 		end
 	end
-end
 end
 
 function notes_hashtag_with_name_fzf
 	set -l note (__get_all_notes_with_hashtag__ $argv |\
-	   rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
-	   rg --pcre2 "[^/]+(?=/)" --colors match:fg:green --colors match:style:nobold --color always |\
-	   rg --pcre2 "(?<=/)[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
-	   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window hidden \
-	   --preview-window 70% | sed 's/\.md.*/\.md/')
+	rg "$NOTES_CLI_HOME/" --replace "" --passthru |\
+	rg --pcre2 "[^/]+(?=/)" --colors match:fg:green --colors match:style:nobold --color always |\
+	rg --pcre2 "(?<=/)[^/]+\.md" --color always --colors match:fg:yellow --colors match:style:nobold |\
+	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window hidden \
+	--preview-window 70% | sed 's/\.md.*/\.md/')
 
 	set -l selected (echo $note)
 	! test -z $selected && nvim "$NOTES_CLI_HOME/"$note
@@ -344,21 +422,21 @@ function __get_all_notes_with_hashtag__
 		set argv "none" $argv
 	end
 	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+|""" $NOTES_CLI_HOME -o --no-line-number --sortr $argv --heading |\
-	   sed '/^[[:space:]]*$/d'| rg '^..*' --replace '$0,,,'|\
-	   rg "/[^/]+?\.md" --replace '$0^' --passthru) \
-	   && echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
-	   rg ",,, " --replace "," --passthru | rg "\^," --replace "^" --passthru |\
-	   rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always --passthru \
-	   | column -t -s "^";
+	sed '/^[[:space:]]*$/d'| rg '^..*' --replace '$0,,,'|\
+	rg "/[^/]+?\.md" --replace '$0^' --passthru) \
+	&& echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
+	rg ",,, " --replace "," --passthru | rg "\^," --replace "^" --passthru |\
+	rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always --passthru \
+	| column -t -s "^";
 end
 # Deprecated
 function __get_all_notes_with_hashtag_old__
 	set -l paths (rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME -o --no-line-number --sort modified --heading \
-	   --replace '$0,,,'|\
-	   rg "/[^/]+?\.md" --replace '$0^' --passthru) \
-	   && echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
-	   rg ",,, " --replace "," --passthru |\
-	   rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always | column -t -s "^";
+	--replace '$0,,,'|\
+	rg "/[^/]+?\.md" --replace '$0^' --passthru) \
+	&& echo -e "$paths" | perl -pe 's/(,,,\s+[^,]+?\/)/\n$1/g' | rg "^,,,[ ]+|,,,\$" --replace "" --passthru |\
+	rg ",,, " --replace "," --passthru |\
+	rg --pcre2 "(?<=\^).+"  --colors match:fg:white --color always | column -t -s "^";
 
 	rg --pcre2 "(?<=#)([a-zA-Z0-9]|-)+" $NOTES_CLI_HOME --sort modified --files-without-match
 end
@@ -366,8 +444,8 @@ end
 # Deprecated
 function notes_hashtag_with_name_fzf_old
 	set -l note (__get_all_notes_with_hashtag_old__ | sed 's/\^,/\^/' | column -t -s '^' |\
-	   env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden |\
-	   sed 's/\.md.*/\.md/')
+	env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf -m --ansi --reverse --preview-window nohidden |\
+	sed 's/\.md.*/\.md/')
 	set -l selected (echo $note)
 	! test -z $selected && nvim -o "$NOTES_CLI_HOME/"$note
 	# xargs -r -d '\n' nvim -o
@@ -409,21 +487,21 @@ function show_not_installed_available_fonts
 	set font_paths (dirname (fd . $HOME -t f -e ttf -e otf -d 5 | sort | uniq ) | uniq | string collect)
 	set installed_font_paths (dirname (fd . /usr/share/fonts/truetype -t f -e ttf -e otf | sort | uniq ) | uniq | string collect)
 	echo "$font_paths" | while read font_path; 
-	set font_path_store (echo $font_path | string collect)
-	echo "$installed_font_paths" | while read installed_font_path;
-	set noodle (math $noodle + 1)
-	if diff -x .\* -q $installed_font_path $font_path > /dev/null 
-		set not_valid true
-		break
-	else
-		set not_valid false
+		set font_path_store (echo $font_path | string collect)
+		echo "$installed_font_paths" | while read installed_font_path;
+			set noodle (math $noodle + 1)
+			if diff -x .\* -q $installed_font_path $font_path > /dev/null 
+				set not_valid true
+				break
+			else
+				set not_valid false
+			end
+		end
+		if test $not_valid = false
+			set -a valid_fonts \n$font_path_store
+		end
 	end
-end
-if test $not_valid = false
-	set -a valid_fonts \n$font_path_store
-end
-end
-echo $valid_fonts | sed '/^[[:space:]]*$/d' | fzf -m
+	echo $valid_fonts | sed '/^[[:space:]]*$/d' | fzf -m
 end
 
 # switch local python3 evn
@@ -517,10 +595,10 @@ function tmux_sessions_fzf
 	if ! count $argv > /dev/null
 		if test -n "( tmux ls )"
 			set SESSION (tmux ls -F "#{session_name}^#{pane_current_path}^#{pane_current_command}" | column -t -s '^'|\
-			   # sed 's/:.*//g' |\
-			   fzf --height 30% --layout=reverse --prompt "Choose session: "\
-			   --preview 'tmux ls'\
-			   --preview-window up:1 | awk '{print $1}')
+			# sed 's/:.*//g' |\
+			fzf --height 30% --layout=reverse --prompt "Choose session: "\
+			--preview 'tmux ls'\
+			--preview-window up:1 | awk '{print $1}')
 			tmux switch-client -t "$SESSION" || tmux attach -t "$SESSION"
 		end	
 	else
@@ -532,9 +610,9 @@ function tmux_sessions_fzf
 				tmux switch-client -t "$SESSION"
 			else
 				set SESSION (tmux ls -F "#{session_name}^#{pane_current_path}^#{pane_current_command}" | column -t -s '^'\
-				   | sed 's/:.*//g' | fzf -q "$argv" --height 30% --layout=reverse --prompt "Choose session: "\
-				   --preview 'tmux ls'\
-				   --preview-window up:1 | awk '{print $1}')
+				| sed 's/:.*//g' | fzf -q "$argv" --height 30% --layout=reverse --prompt "Choose session: "\
+				--preview 'tmux ls'\
+				--preview-window up:1 | awk '{print $1}')
 				tmux switch-client -t "$SESSION"
 			end
 
@@ -606,7 +684,8 @@ export PYTHON_ENV_DIR="$HOME/.py_env"
 export PYTHON_ENV3_DIR="$PYTHON_ENV_DIR/py_env3"
 export PYTHON_ENV2_DIR="$PYTHON_ENV_DIR/py_env2"
 
-# export EDITOR=nvim
+set -gx EDITOR nvim
+export EDITOR=nvim
 
 export NOTES_CLI_EDITOR="nvim '+ normal G'"
 export NOTES_CLI_HOME="$HOME/.notes"
@@ -626,7 +705,7 @@ export WIFI_IP="192.168.8.1"
 # DEFAULT STYLES
 # FZF styles
 export FZF_DEFAULT_OPTS='--bind \?:toggle-preview --preview-window sharp --height "80%" --color hl:#a83afc,hl+:#a83afc --color prompt:166,border:#4a4a4a,bg+:#212121 --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
-export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-up,tab:preview-page-down,k:preview-up,j:preview-down -i --preview-window sharp"
+export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-down,tab:preview-page-up,k:preview-up,j:preview-down -i --preview-window sharp"
 export NOTES_CLI_FZF="--prompt='Select note: ' --reverse --color prompt:166,border:#4a4a4a --bind K:preview-up,J:preview-down -i"
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden:wrap"
 
