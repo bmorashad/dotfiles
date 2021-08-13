@@ -15,7 +15,7 @@ end
 function etb 
 	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0'
 end
-function ecd 
+function ecd
 	set -l dir (etb $argv[1] $argv[2] | fzf)
 	if test "$dir" != ""
 		cd $dir
@@ -23,56 +23,71 @@ function ecd
 
 end
 
-function emi 
+function elist
 	set -l dir (etb $argv[1] $argv[2] | sed -n "$argv[3] p")
-	if test "$dir" != ""
-		cd $dir
-		mvn clean install -Dmaven.test.skip=true
+	echo $dir
+end
+
+function emi 
+	for x in $argv[3..-1]
+		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
+		if test "$dir" != ""
+			echo "Building $dir"
+			cd $dir
+			if test "$status" = 0
+				mvn clean install -Dmaven.test.skip=true
+			end
+		end
 	end
 end
 
 function entup 
-	set -l dir (etb $argv[1] $argv[2] | sed -n "$argv[3] p")
-	if test "$dir" != ""
-		echo "Updating $dir" | rg "/home/bmora/Work/Entgra" --replace ""
-		set -l war (ls $dir/target | rg '.*war') 
-		if test "$war" != ""
-			set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg $war)
-			set -l warDir (echo $war | rg '.war' --replace '')
-			set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "$warDir\$")
+	for x in $argv[3..-1]
+		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
+		if test "$dir" != ""
+			echo "Updating $dir" | rg "/home/bmora/Work/Entgra" --replace ""
+			set -l war (ls $dir/target | rg '.*war') 
+			if test "$war" != ""
+				set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg $war)
+				set -l warDir (echo $war | rg '.war' --replace '')
+				set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "$warDir\$")
 
-			set -l warRm $dist/repository/deployment/server/webapps/$distWar
-			set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
+				set -l warRm $dist/repository/deployment/server/webapps/$distWar
+				set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
 
-			if test "$warRm" != ""
-				echo "Deleting $warRm" | rg "/home/bmora/Work/Entgra" --replace ""
-				rm -r $warRm
-			end
-			if test "$dirWarRm" != ""
-				echo "Deleting $dirWarRm" | rg "/home/bmora/Work/Entgra" --replace ""
-				rm -rf $dirWarRm
-			end
-			echo "Copying $dir/target/$war to $dist/repository/deployment/server/webapps" | rg "/home/bmora/Work/Entgra" --replace ""
-
-			cp $dir/target/$war $dist/repository/deployment/server/webapps
-		else
-			set -l jar (ls $dir/target | rg '.*jar') 
-			if test "$jar" != ""
-				set -l patchDirLs (ls $dist/patches)
-				if test "$patchDirLs" = ""
-					set patchDir "patch5000"
-				else
-					set patchDir (math (ls $dist/patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
+				if test "$warRm" != ""
+					echo "Deleting $warRm" | rg "/home/bmora/Work/Entgra" --replace ""
+					rm -r $warRm
 				end
-				mkdir $dist/patches/$patchDir
-				echo "Copying $dir/target/$jar to $dist/patches/$patchDir" | rg "/home/bmora/Work/Entgra" --replace ""
-				cp $dir/target/$jar $dist/patches/$patchDir
+				if test "$dirWarRm" != ""
+					echo "Deleting $dirWarRm" | rg "/home/bmora/Work/Entgra" --replace ""
+					rm -rf $dirWarRm
+				end
+				echo "Copying $dir/target/$war to $dist/repository/deployment/server/webapps" | rg "/home/bmora/Work/Entgra" --replace ""
+
+				cp $dir/target/$war $dist/repository/deployment/server/webapps
 			else
-				echo "No target found"
-			end	
+				set -l jar (ls $dir/target | rg '.*jar') 
+				if test "$jar" != ""
+					set -l patchDirLs (ls $dist/patches)
+					set -l patch0000 (ls $dist/patches | rg patch0000)
+					if test "$patchDirLs" = ""
+						set patchDir "patch5000"
+					else if test "$patch0000" != ""
+						set patchDir "patch5000"
+					else
+						set patchDir (math (ls $dist/patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
+					end
+					mkdir $dist/patches/$patchDir
+					echo "Copying $dir/target/$jar to $dist/patches/$patchDir" | rg "/home/bmora/Work/Entgra" --replace ""
+					cp $dir/target/$jar $dist/patches/$patchDir
+				else
+					echo "No target found"
+				end	
+			end
+		else
+			echo "No dir for given args"
 		end
-	else
-		echo "No dir for given args"
 	end
 end
 
@@ -102,6 +117,14 @@ set fish_color_search_match --background=blue
 # key-bindings
 function fish_user_key_bindings
 	bind \ao 'clear;'
+end
+
+# get diff intitue way
+function dfa
+	diff --suppress-blank-empty -E -Z -b -B -u $argv[1] $argv[2] | grep -E "^\+" | rg '^\+' --replace ""
+end
+function dfd
+	diff --suppress-blank-empty -E -Z -b -B -u $argv[1] $argv[2] | grep -E "^\-" | rg '^\-' --replace ""
 end
 
 # compresss vid with simple config with same original vid quality output
@@ -691,7 +714,7 @@ export NOTES_CLI_EDITOR="nvim '+ normal G'"
 export NOTES_CLI_HOME="$HOME/.notes"
 export DEFAULT_CATEGORY='myNotes'
 
-# commented due to a bug: https://github.com/sharkdp/bat/issues/1413
+# re-check what to settle with
 # export PAGER=bat
 # export PAGER="most"
 

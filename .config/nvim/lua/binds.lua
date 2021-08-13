@@ -18,7 +18,8 @@ vim.api.nvim_set_keymap("n", "W", "<cmd>w<cr>", opts_silent)
 -- y follow dd/D logic
 vim.api.nvim_set_keymap("n", "Y", "y$", opts_silent)
 
-
+-- 
+vim.api.nvim_set_keymap("v", "K", ":", opts_silent)
 
 -- Commentery
 vim.api.nvim_set_keymap("n", "<leader>cic", "<Plug>kommentary_line_increase", {})
