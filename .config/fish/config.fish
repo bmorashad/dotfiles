@@ -71,12 +71,13 @@ function entup
 				if test "$jar" != ""
 					set -l patchDirLs (ls $dist/patches)
 					set -l patch0000 (ls $dist/patches | rg patch0000)
+					set -l patch5000 (ls $dist/patches | rg patch5000)
 					if test "$patchDirLs" = ""
 						set patchDir "patch5000"
-					else if test "$patch0000" != ""
-						set patchDir "patch5000"
-					else
+					else if test "$patch5000" != ""
 						set patchDir (math (ls $dist/patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
+					else
+						set patchDir "patch5000"
 					end
 					mkdir $dist/patches/$patchDir
 					echo "Copying $dir/target/$jar to $dist/patches/$patchDir" | rg "/home/bmora/Work/Entgra" --replace ""
