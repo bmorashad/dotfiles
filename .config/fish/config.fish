@@ -108,7 +108,20 @@ function fish_greeting
 	# paste -sd ''\
 	# )
 	echo
+	if ! test -z (echo $TODO)
+		for todo in $TODO
+			echo "[TODO]: $todo" | rg "\[TODO\]" --color always --colors match:bg:blue --colors match:fg:white --passthru | rg ":" --color always --colors match:fg:blue --passthru
+			echo
+		end
+	end
 end
+
+set TODO
+function  tdo
+	set content (echo "$argv")
+	set -a TODO $content
+end
+
 
 # prompt
 # starship init fish | source
@@ -228,7 +241,7 @@ function install_with_fzf
 		eopkg la | fzf --ansi -m | awk '{print $1}' | xargs -o -r sudo eopkg it;
 	end
 	# eopkg search $argv | fzf --ansi -m | awk '{print $1}' | tr '\n' ' ' | xargs -r sudo eopkg it $argv;
-	# Begin Test
+	# Begin test Test
 
 	# set arg_str_len (expr length "$argv")
 	# set rest_str (echo $argv | cut -s -d "-" -f 2-)
@@ -653,6 +666,8 @@ export DEFAULT_TMUX_SESSION="alacritty"
 set PATH /usr/local/bin $PATH
 # rust cargo bin
 set PATH $HOME/.cargo/bin $PATH
+# local bin
+set PATH $HOME/.local/bin $PATH
 
 # jenv for fish
 # function jenv
@@ -710,6 +725,9 @@ export PYTHON_ENV2_DIR="$PYTHON_ENV_DIR/py_env2"
 
 set -gx EDITOR nvim
 export EDITOR=nvim
+# sudoedit
+export VISUAL=nvim
+export SUDO_EDITOR=nvim
 
 export NOTES_CLI_EDITOR="nvim '+ normal G'"
 export NOTES_CLI_HOME="$HOME/.notes"
@@ -730,6 +748,7 @@ export WIFI_IP="192.168.8.1"
 # FZF styles
 export FZF_DEFAULT_OPTS='--bind \?:toggle-preview --preview-window sharp --height "80%" --color hl:#a83afc,hl+:#a83afc --color prompt:166,border:#4a4a4a,bg+:#212121 --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ "'
 export FORGIT_LOG_FZF_OPTS="--height 100% --no-sort --reverse --bind Shift-tab:preview-page-down,tab:preview-page-up,k:preview-up,j:preview-down -i --preview-window sharp"
+export FORGIT_FZF_DEFAULT_OPTS=' --exact --border --cycle --reverse --height "80%" --prompt="➤  " --pointer="➤ " --marker="➤ " --bind Shift-tab:preview-page-down,tab:preview-page-up,k:preview-up,j:preview-down'
 export NOTES_CLI_FZF="--prompt='Select note: ' --reverse --color prompt:166,border:#4a4a4a --bind K:preview-up,J:preview-down -i"
 export NOTES_CLI_FZF_PREVIEW="--preview=\"bat --color=always (echo $NOTES_CLI_HOME/(echo {} | sed 's/\.md.*//').md)\" --preview-window sharp:hidden:wrap"
 
