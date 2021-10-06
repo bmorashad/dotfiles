@@ -15,6 +15,7 @@ function ctc
 end
 
 function etb 
+	cd $argv[2]
 	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0'
 end
 function ecd
@@ -31,6 +32,8 @@ function elist
 end
 
 function emi 
+	set -l curr_dir (pwd)
+	cd $argv[2]
 	for x in $argv[3..-1]
 		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
 		if test "$dir" != ""
@@ -41,9 +44,12 @@ function emi
 			end
 		end
 	end
+	cd $curr_dir
 end
 
 function entup 
+	set -l curr_dir (pwd)
+	cd $argv[2]
 	for x in $argv[3..-1]
 		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
 		if test "$dir" != ""
@@ -92,6 +98,7 @@ function entup
 			echo "[ERROR] No dir for given args" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
 		end
 	end
+	cd $curr_dir
 end
 
 # surpress fish greeting
