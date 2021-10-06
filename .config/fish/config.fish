@@ -56,7 +56,7 @@ function entup
 			echo "[UPDATING] $dir" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:green' --color always
 			set -l war (ls $dir/target | rg '.*war') 
 			if test "$war" != ""
-				set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg $war)
+				set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg "^$war")
 				set -l warDir (echo $war | rg '.war' --replace '')
 				set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "$warDir\$")
 
@@ -64,8 +64,9 @@ function entup
 				set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
 
 				if test "$warRm" != ""
+					echo "[ALL] $warRm"
 					echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
-					rm -r $warRm
+					rm -rf $warRm
 				end
 				if test "$dirWarRm" != ""
 					echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
