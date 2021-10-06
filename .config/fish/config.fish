@@ -1,9 +1,11 @@
 # Entgra Config
-export dist="$HOME/Work/Entgra/emm-proprietary-plugins/distribution/ultimate/target/entgra-iot-ultimate-4.1.1-SNAPSHOT"
-export carbon="$HOME/Work/Entgra/carbon-device-mgt" 
-export plugin="$HOME/Work/Entgra/carbon-device-mgt-plugins" 
-export product="$HOME/Work/Entgra/product-iots"
-export emm="$HOME/Work/Entgra/emm-proprietary-plugins"
+export work="$HOME/Work/Entgra"
+export carbon="$work/carbon-device-mgt" 
+export plugin="$work/carbon-device-mgt-plugins" 
+export product="$work/product-iots"
+export emm="$work/emm-proprietary-plugins"
+export prorietary="$work/proprietary-product"
+export dist="$prorietary/distribution/ultimate/target/entgra-uem-ultimate-5.0.0-SNAPSHOT"
 
 function ctc 
 	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
@@ -45,7 +47,7 @@ function entup
 	for x in $argv[3..-1]
 		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
 		if test "$dir" != ""
-			echo "Updating $dir" | rg "/home/bmora/Work/Entgra" --replace ""
+			echo "[UPDATING] $dir" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:green' --color always
 			set -l war (ls $dir/target | rg '.*war') 
 			if test "$war" != ""
 				set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg $war)
@@ -56,15 +58,15 @@ function entup
 				set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
 
 				if test "$warRm" != ""
-					echo "Deleting $warRm" | rg "/home/bmora/Work/Entgra" --replace ""
+					echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
 					rm -r $warRm
 				end
 				if test "$dirWarRm" != ""
-					echo "Deleting $dirWarRm" | rg "/home/bmora/Work/Entgra" --replace ""
+					echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
+
 					rm -rf $dirWarRm
 				end
-				echo "Copying $dir/target/$war to $dist/repository/deployment/server/webapps" | rg "/home/bmora/Work/Entgra" --replace ""
-
+				echo "[COPYING] $dir/target/$war to $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
 				cp $dir/target/$war $dist/repository/deployment/server/webapps
 			else
 				set -l jar (ls $dir/target | rg '.*jar') 
@@ -80,14 +82,14 @@ function entup
 						set patchDir "patch5000"
 					end
 					mkdir $dist/patches/$patchDir
-					echo "Copying $dir/target/$jar to $dist/patches/$patchDir" | rg "/home/bmora/Work/Entgra" --replace ""
+					echo "[COPYING] $dir/target/$jar to $dist/patches/$patchDir" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
 					cp $dir/target/$jar $dist/patches/$patchDir
 				else
-					echo "No target found"
+					echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
 				end	
 			end
 		else
-			echo "No dir for given args"
+			echo "[ERROR] No dir for given args" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
 		end
 	end
 end
@@ -167,7 +169,7 @@ end
 
 # print prayer times
 function prayer
-	http http://slmuslims.com | rg "(\d{1,}\s*:\s*\d{2}\s*(am|pm))|id\s*=\s*\"\s*(fajr|sunrise|luhar|asar|magrib|ishah)\s*\"" \
+	https http://slmuslims.com | rg "(\d{1,}\s*:\s*\d{2}\s*(am|pm))|id\s*=\s*\"\s*(fajr|sunrise|luhar|asar|magrib|ishah)\s*\"" \
 	--replace '$1$3' -o | tr '\n' '|' | rg  "([a|p]m)\s*\|" --replace '$1|||' | sed 's/|||/\n/g' | sed -e "s/\(^\w\)/\u\1/g" \
 	| rg '(\D)(\d{1}:)' --replace '$1,0$2' --passthru | sed 's/,//g' | column -t -s '|' | \
 	rg '^\w+' --colors 'match:fg:cyan' --color always| rg '\d{1,}:.*' --colors 'match:fg:blue'
@@ -197,6 +199,11 @@ function kill_process --description "Kill processes"
 end
 
 # GIT
+
+function gdiff_file
+ set root (echo (pwd | rg ".*/" --replace '')/); 
+	git diff --name-only master | rg "$root" --replace "" | fzf | xargs git diff master
+end
 
 function fco -d "Fuzzy-find and checkout a branch"
 	git branch --all | grep -v HEAD | string trim | fzf | read -l result; and git checkout "$result"
@@ -659,6 +666,8 @@ end
 
 # Netbeans executable
 set PATH $HOME/netbeans-8.2rc/bin $PATH
+# IntelliJ Community executable
+set PATH $HOME/Downloads/IntelliJ.Community/ideaIC-2021.2.2/idea-IC-212.5284.40/bin $PATH
 
 # TMUX
 export DEFAULT_TMUX_SESSION="alacritty"
