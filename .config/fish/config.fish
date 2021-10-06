@@ -101,6 +101,11 @@ function entup
 	cd $curr_dir
 end
 
+function ebd
+	emi $argv
+	entup $argv
+end
+
 # surpress fish greeting
 # set fish_greeting
 function fish_greeting
