@@ -58,13 +58,12 @@ function entup
 			if test "$war" != ""
 				set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg "^$war")
 				set -l warDir (echo $war | rg '.war' --replace '')
-				set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "$warDir\$")
-
+				set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "^$warDir\$")
+				echo "[ALL] $distWarDir"
 				set -l warRm $dist/repository/deployment/server/webapps/$distWar
 				set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
 
 				if test "$warRm" != ""
-					echo "[ALL] $warRm"
 					echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
 					rm -rf $warRm
 				end
