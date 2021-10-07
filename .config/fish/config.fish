@@ -6,6 +6,7 @@ export product="$work/product-iots"
 export emm="$work/emm-proprietary-plugins"
 export prorietary="$work/proprietary-product"
 export dist="$prorietary/distribution/ultimate/target/entgra-uem-ultimate-5.0.0-SNAPSHOT"
+export patches="$dist/repository/components/patches"
 
 function ctc 
 	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
@@ -37,7 +38,7 @@ function emi
 	for x in $argv[3..-1]
 		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
 		if test "$dir" != ""
-			echo "Building $dir"
+			echo "[BUILDING] $dir" | rg "BUILDING" --passthru --colors 'match:fg:magenta' --color always
 			cd $dir
 			if test "$status" = 0
 				mvn clean install -Dmaven.test.skip=true
@@ -53,13 +54,12 @@ function entup
 	for x in $argv[3..-1]
 		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
 		if test "$dir" != ""
-			echo "[UPDATING] $dir" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:green' --color always
+			echo "[UPDATING] $dir" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:0,229,255' --color always
 			set -l war (ls $dir/target | rg '.*war') 
 			if test "$war" != ""
 				set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg "^$war")
 				set -l warDir (echo $war | rg '.war' --replace '')
 				set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "^$warDir\$")
-				echo "[ALL] $distWarDir"
 				set -l warRm $dist/repository/deployment/server/webapps/$distWar
 				set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
 
@@ -77,19 +77,19 @@ function entup
 			else
 				set -l jar (ls $dir/target | rg '.*jar') 
 				if test "$jar" != ""
-					set -l patchDirLs (ls $dist/patches)
-					set -l patch0000 (ls $dist/patches | rg patch0000)
-					set -l patch5000 (ls $dist/patches | rg patch5000)
+					set -l patchDirLs (ls $patches)
+					set -l patch0000 (ls $patches | rg patch0000)
+					set -l patch5000 (ls $patches | rg patch5000)
 					if test "$patchDirLs" = ""
 						set patchDir "patch5000"
 					else if test "$patch5000" != ""
-						set patchDir (math (ls $dist/patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
+						set patchDir (math (ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
 					else
 						set patchDir "patch5000"
 					end
-					mkdir $dist/patches/$patchDir
-					echo "[COPYING] $dir/target/$jar to $dist/patches/$patchDir" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
-					cp $dir/target/$jar $dist/patches/$patchDir
+					mkdir $patches/$patchDir
+					echo "[COPYING] $dir/target/$jar to $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
+					cp $dir/target/$jar $patches/$patchDir
 				else
 					echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
 				end	
