@@ -15,10 +15,13 @@ function ctc
 	end
 end
 
+# helper function
 function etb 
 	cd $argv[2]
 	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0'
 end
+
+# fzf cd into a changed package
 function ecd
 	set -l dir (etb $argv[1] $argv[2] | fzf)
 	if test "$dir" != ""
@@ -27,12 +30,14 @@ function ecd
 
 end
 
+# list all changed packages
 function elist
 	set -l dir (etb $argv[1] $argv[2] | sed -n "$argv[3] p")
 	echo $dir
 end
 
-function emi 
+# build given packages by id  (i.e emif HEAD $carbon 2 1)
+function emi
 	set -l curr_dir (pwd)
 	cd $argv[2]
 	for x in $argv[3..-1]
@@ -47,7 +52,21 @@ function emi
 	end
 	cd $curr_dir
 end
+# build given packages by path (i.e emif HEAD $carbon <path-to-package>)
+function emif
+	set -l curr_dir (pwd)
+	cd $argv[2]
+	for x in $argv[3..-1]
+		echo "[BUILDING] $x" | rg "BUILDING" --passthru --colors 'match:fg:magenta' --color always
+		cd $x
+		if test "$status" = 0
+			mvn clean install -Dmaven.test.skip=true
+		end
+	end
+	cd $curr_dir
+end
 
+# deploy given packages by id (i.e entup HEAD $carbon 2)
 function entup 
 	set -l curr_dir (pwd)
 	cd $argv[2]
@@ -100,10 +119,67 @@ function entup
 	end
 	cd $curr_dir
 end
+# deploy selected packages by path
+function entupf
+	set -l curr_dir (pwd)
+	cd $argv[2]
+	for x in $argv[3..-1]
+		echo "[UPDATING] $x" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:0,229,255' --color always
+		set -l war (ls $x/target | rg '.*war') 
+		if test "$war" != ""
+			set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg "^$war")
+			set -l warDir (echo $war | rg '.war' --replace '')
+			set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "^$warDir\$")
+			set -l warRm $dist/repository/deployment/server/webapps/$distWar
+			set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
 
+			if test "$warRm" != ""
+				echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
+				rm -rf $warRm
+			end
+			if test "$dirWarRm" != ""
+				echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
+
+				rm -rf $dirWarRm
+			end
+			echo "[COPYING] $x/target/$war to $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
+			cp $x/target/$war $dist/repository/deployment/server/webapps
+		else
+			set -l jar (ls $x/target | rg '.*jar') 
+			if test "$jar" != ""
+				set -l patchDirLs (ls $patches)
+				set -l patch0000 (ls $patches | rg patch0000)
+				set -l patch5000 (ls $patches | rg patch5000)
+				if test "$patchDirLs" = ""
+					set patchDir "patch5000"
+				else if test "$patch5000" != ""
+					set patchDir (math (ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
+					else
+					set patchDir "patch5000"
+				end
+				mkdir $patches/$patchDir
+				echo "[COPYING] $x/target/$jar to $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
+				cp $x/target/$jar $patches/$patchDir
+			else
+				echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
+			end	
+		end
+	end
+	cd $curr_dir
+end
+
+# build and deploy packages by id in given order (i.e ebd HEAD $carbon 1 3 2)
 function ebd
 	emi $argv
 	entup $argv
+end
+# build and deploy the fzf selected packages in selected order 
+function ebdf
+	set dirs (etb $argv[1] $argv[2] | fzf -m --reverse)
+	for x in $dirs
+		emif $argv $x
+		entupf $argv $x
+	end
 end
 
 # surpress fish greeting
@@ -213,7 +289,7 @@ end
 # GIT
 
 function gdiff_file
- set root (echo (pwd | rg ".*/" --replace '')/); 
+	set root (echo (pwd | rg ".*/" --replace '')/); 
 	git diff --name-only master | rg "$root" --replace "" | fzf | xargs git diff master
 end
 
