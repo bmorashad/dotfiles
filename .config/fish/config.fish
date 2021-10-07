@@ -175,11 +175,13 @@ function ebd
 end
 # build and deploy the fzf selected packages in selected order 
 function ebdf
+	set -l curr_dir (pwd)
 	set dirs (etb $argv[1] $argv[2] | fzf -m --reverse)
 	for x in $dirs
 		emif $argv $x
 		entupf $argv $x
 	end
+	cd $curr_dir
 end
 
 # surpress fish greeting
