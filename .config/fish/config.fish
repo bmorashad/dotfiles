@@ -91,7 +91,7 @@ function entup
 
 					rm -rf $dirWarRm
 				end
-				echo "[COPYING] $dir/target/$war to $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
+				echo "[COPYING] $dir/target/$war --> $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
 				cp $dir/target/$war $dist/repository/deployment/server/webapps
 			else
 				set -l jar (ls $dir/target | rg '.*jar') 
@@ -107,7 +107,7 @@ function entup
 						set patchDir "patch5000"
 					end
 					mkdir $patches/$patchDir
-					echo "[COPYING] $dir/target/$jar to $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
+					echo "[COPYING] $dir/target/$jar --> $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
 					cp $dir/target/$jar $patches/$patchDir
 				else
 					echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
@@ -142,7 +142,7 @@ function entupf
 
 				rm -rf $dirWarRm
 			end
-			echo "[COPYING] $x/target/$war to $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
+			echo "[COPYING] $x/target/$war --> $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
 			cp $x/target/$war $dist/repository/deployment/server/webapps
 		else
 			set -l jar (ls $x/target | rg '.*jar') 
@@ -158,7 +158,7 @@ function entupf
 					set patchDir "patch5000"
 				end
 				mkdir $patches/$patchDir
-				echo "[COPYING] $x/target/$jar to $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING" --passthru --colors 'match:fg:green' --color always
+				echo "[COPYING] $x/target/$jar --> $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
 				cp $x/target/$jar $patches/$patchDir
 			else
 				echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
