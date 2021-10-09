@@ -1,4 +1,12 @@
+# IMPORTANT
+# fd
+# NOTE: echo "You may want to use fd with -I and -H flag to search for jar/war/etc files"
+# rg
+# NOTE: echo "You may want to use fd with --no-ignore and --hidden flag to search for jar/war/etc files"
+
+
 # Entgra Config
+export warBunldles="repository/deployment/server/webapps"
 export work="$HOME/Work/Entgra"
 export carbon="$work/carbon-device-mgt" 
 export plugin="$work/carbon-device-mgt-plugins" 
@@ -7,6 +15,8 @@ export emm="$work/emm-proprietary-plugins"
 export prorietary="$work/proprietary-product"
 export dist="$prorietary/distribution/ultimate/target/entgra-uem-ultimate-5.0.0-SNAPSHOT"
 export patches="$dist/repository/components/patches"
+
+set PATH $dist/bin $PATH
 
 function ctc 
 	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
@@ -32,8 +42,10 @@ end
 
 # list all changed packages
 function elist
+	set -l curr_dir (pwd)
 	set -l dir (etb $argv[1] $argv[2] | sed -n "$argv[3] p")
 	echo $dir
+	cd $curr_dir
 end
 
 # build given packages by id  (i.e emif HEAD $carbon 2 1)
@@ -76,11 +88,11 @@ function entup
 			echo "[UPDATING] $dir" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:0,229,255' --color always
 			set -l war (ls $dir/target | rg '.*war') 
 			if test "$war" != ""
-				set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg "^$war")
+				set -l distWar (ls $dist/$warBundles/ | rg "^$war")
 				set -l warDir (echo $war | rg '.war' --replace '')
-				set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "^$warDir\$")
-				set -l warRm $dist/repository/deployment/server/webapps/$distWar
-				set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
+				set -l distWarDir (ls $dist/$warBundles/ | rg "^$warDir\$")
+				set -l warRm $dist/$warBundles/$distWar
+				set -l dirWarRm $dist/$warBundles/$distWarDir
 
 				if test "$warRm" != ""
 					echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
@@ -91,8 +103,8 @@ function entup
 
 					rm -rf $dirWarRm
 				end
-				echo "[COPYING] $dir/target/$war --> $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
-				cp $dir/target/$war $dist/repository/deployment/server/webapps
+				echo "[COPYING] $dir/target/$war --> $dist/$warBundles" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
+				cp $dir/target/$war $dist/$warBundles
 			else
 				set -l jar (ls $dir/target | rg '.*jar') 
 				if test "$jar" != ""
@@ -127,11 +139,11 @@ function entupf
 		echo "[UPDATING] $x" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:0,229,255' --color always
 		set -l war (ls $x/target | rg '.*war') 
 		if test "$war" != ""
-			set -l distWar (ls $dist/repository/deployment/server/webapps/ | rg "^$war")
+			set -l distWar (ls $dist/$warBundles/ | rg "^$war")
 			set -l warDir (echo $war | rg '.war' --replace '')
-			set -l distWarDir (ls $dist/repository/deployment/server/webapps/ | rg "^$warDir\$")
-			set -l warRm $dist/repository/deployment/server/webapps/$distWar
-			set -l dirWarRm $dist/repository/deployment/server/webapps/$distWarDir
+			set -l distWarDir (ls $dist/$warBundles/ | rg "^$warDir\$")
+			set -l warRm $dist/$warBundles/$distWar
+			set -l dirWarRm $dist/$warBundles/$distWarDir
 
 			if test "$warRm" != ""
 				echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
@@ -142,8 +154,8 @@ function entupf
 
 				rm -rf $dirWarRm
 			end
-			echo "[COPYING] $x/target/$war --> $dist/repository/deployment/server/webapps" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
-			cp $x/target/$war $dist/repository/deployment/server/webapps
+			echo "[COPYING] $x/target/$war --> $dist/$warBundles" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
+			cp $x/target/$war $dist/$warBundles
 		else
 			set -l jar (ls $x/target | rg '.*jar') 
 			if test "$jar" != ""
@@ -184,6 +196,28 @@ function ebdf
 	cd $curr_dir
 end
 
+# entgra ui watch
+function entuiwatch
+	set ui (ls $emm/components/ui | rg ".*ui" | fzf --reverse)
+
+	set warDir (ls $emm/components/ui/$ui/target | rg '\.war' --replace "")
+	set warLocation ($warBundles/$warDir)
+	set reactApp("$emm/components/ui/$ui/react-app/dist")
+
+	rm -rf $warBundles/$warDir/index.html
+	rm -rf $warBundles/$warDir/main.css
+	rm -rf $warBundles/$warDir/main.js
+	rm -rf $warBundles/$warDir/main.css.map
+	rm -rf $warBundles/$warDir/main.js.map
+
+	ln -s $warBundles/$warDir/index.html $reactApp
+	ln -s $warBundles/$warDir/main.css $reactApp
+	ln -s $warBundles/$warDir/main.js $reactApp
+	ln -s $warBundles/$warDir/main.css.map $reactApp
+	ln -s $warBundles/$warDir/main.js.map $reactApp
+
+	npm run --prefix $emm/components/ui/$ui/react-app watch
+end
 # surpress fish greeting
 # set fish_greeting
 function fish_greeting
