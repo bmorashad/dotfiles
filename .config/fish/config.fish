@@ -6,14 +6,14 @@
 
 
 # Entgra Config
-export warBunldles="repository/deployment/server/webapps"
+export warBundles="repository/deployment/server/webapps"
 export work="$HOME/Work/Entgra"
 export carbon="$work/carbon-device-mgt" 
 export plugin="$work/carbon-device-mgt-plugins" 
 export product="$work/product-iots"
 export emm="$work/emm-proprietary-plugins"
 export prorietary="$work/proprietary-product"
-export dist="$prorietary/distribution/ultimate/target/entgra-uem-ultimate-5.0.0-SNAPSHOT"
+export dist="$prorietary/distribution/ultimate/target/entgra-uem-ultimate-5.0.1-SNAPSHOT"
 export patches="$dist/repository/components/patches"
 
 set PATH $dist/bin $PATH
