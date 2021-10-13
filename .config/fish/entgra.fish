@@ -243,11 +243,11 @@ function entuiwatch
 		rm -rf $rmWarDirFiles
 
 		echo "[LINKING] Linking $ui/react-app/dist --> $warDir" | rg "LINKING|-->" --colors match:fg:blue
-		ln -fs $reactApp/index.html $warBundles/$warDir/index.html 
-		ln -fs $reactApp/main.css $warBundles/$warDir/main.css 
-		ln -fs $reactApp/main.js $warBundles/$warDir/main.js
-		ln -fs $reactApp/main.css.map $warBundles/$warDir/main.css.map
-		ln -fs $reactApp/main.js.map $warBundles/$warDir/main.js.map
+		ln -fs $warBundles/$warDir/index.html   $reactApp/index.html 	
+		ln -fs $warBundles/$warDir/main.css     $reactApp/main.css 		
+		ln -fs $warBundles/$warDir/main.js      $reactApp/main.js 		
+		ln -fs $warBundles/$warDir/main.css.map $reactApp/main.css.map 	
+		ln -fs $warBundles/$warDir/main.js.map  $reactApp/main.js.map 	
 
 		echo "[WATCHING] npm run watch on $warDir" | rg "WATCHING" --colors match:fg:green
 		npm run --prefix $emm/components/ui/$ui/react-app watch
