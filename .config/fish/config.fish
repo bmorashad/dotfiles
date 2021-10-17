@@ -294,7 +294,12 @@ function rename_note_with_fzf
 			else
 				mv $note $note_dir/$new_name.md
 				set note (echo "$note" | rev | cut -d '/' -f 1 | rev)
-				printf "note name changed from \u001b[33m$note \033[0mto \u001b[33m$new_name.md \n" 
+				printf "note name changed from \u001b[33m$note \033[0mto \u001b[33m$new_name.md\033[0m \n" 
+
+				sed -i "1s/.*/$new_name/" $note_dir/$new_name.md
+				# remove '.md' from note file name for better printing
+				set note (echo "$note" | rg "\.md" --replace "")
+				printf "note heading changed from \u001b[33m$note \033[0mto \u001b[33m$new_name \n" 
 			end
 		end
 	else
