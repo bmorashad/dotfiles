@@ -33,7 +33,7 @@ end
 
 function etba
 	cd $argv[1]
-	fd -t d | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
+	fd -t d | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[1]'/$0'
 end
 
 # fzf cd into a changed package
