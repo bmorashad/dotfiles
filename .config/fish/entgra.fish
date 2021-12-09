@@ -28,12 +28,12 @@ end
 # helper function
 function etb 
 	cd $argv[2]
-	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | sort -u 
+	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
 end
 
 function etba
 	cd $argv[1]
-	fd -t d | rg 'src/main/java.*' --replace '' | sort -u
+	fd -t d | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
 end
 
 # fzf cd into a changed package
@@ -53,7 +53,7 @@ function elist
 	cd $curr_dir
 end
 
-# build given packages by id  (i.e emif HEAD $carbon 2 1)
+# build given packages by id  (i.e emi HEAD $carbon 2 1)
 function emi
 	set -l curr_dir (pwd)
 	cd $argv[2]
@@ -62,8 +62,9 @@ function emi
 		if test "$dir" != ""
 			echo "[BUILDING] $dir" | rg "BUILDING" --passthru --colors 'match:fg:magenta' --color always
 			cd $dir
-			if test "$status" = 0
-				mvn clean install -Dmaven.test.skip=true
+			mvn clean install -Dmaven.test.skip=true
+			if test "$status" -gt 0
+				return 1
 			end
 		end
 	end
@@ -76,8 +77,9 @@ function emif
 	for x in $argv[3..-1]
 		echo "[BUILDING] $x" | rg "BUILDING" --passthru --colors 'match:fg:magenta' --color always
 		cd $x
-		if test "$status" = 0
-			mvn clean install -Dmaven.test.skip=true
+		mvn clean install -Dmaven.test.skip=true
+		if test "$status" -gt 0
+			return 1
 		end
 	end
 	cd $curr_dir
@@ -150,10 +152,12 @@ function entup
 					cp $dir/target/$jar $patches/$patchDir
 				else
 					echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
+					return 1
 				end	
 			end
 		else
 			echo "[ERROR] No dir for given args" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
+			return 1
 		end
 	end
 	cd $curr_dir
@@ -223,6 +227,7 @@ function entupf
 				cp $x/target/$jar $patches/$patchDir
 			else
 				echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
+				return 1
 			end	
 		end
 	end
@@ -232,15 +237,28 @@ end
 # build and deploy packages by id in given order (i.e ebd HEAD $carbon 1 3 2)
 function ebd
 	emi $argv
+	if test "$status" -gt 0
+		return 1
+	end
 	entup $argv
+	if test "$status" -gt 0
+		return 1
+	end
 end
+
 # build and deploy the fzf selected packages in selected order 
 function ebdf
 	set -l curr_dir (pwd)
 	set dirs (etb $argv | fzf -m --reverse)
 	for x in $dirs
 		emif $argv $x
+		if test "$status" -gt 0
+			return 1
+		end
 		entupf $argv $x
+		if test "$status" -gt 0
+			return 1
+		end
 	end
 	cd $curr_dir
 end
@@ -250,7 +268,13 @@ function ebdfa
 	set dirs (etba $argv | fzf -m --reverse)
 	for x in $dirs
 		emif $argv $x
+		if test "$status" -gt 0
+			return 1
+		end
 		entupf $argv $x
+		if test "$status" -gt 0
+			return 1
+		end
 	end
 	cd $curr_dir
 end
@@ -296,4 +320,3 @@ end
 function ent_gdiff
 	git diff --name-only $argv[1] | rg --passthru "src/main/java.*" --replace "" | sort -u | fzf -m | xargs -ro git diff $argv[1]
 end
-
