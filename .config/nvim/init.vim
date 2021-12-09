@@ -23,7 +23,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 " Plug 'w0rp/ale'
 
 " Inspector (Debugger) 
-Plug 'preservim/nerdcommenter'
+" Plug 'preservim/nerdcommenter'
 Plug 'puremourning/vimspector'
 
 Plug 'doums/darcula'

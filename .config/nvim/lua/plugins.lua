@@ -12,9 +12,11 @@ return require('packer').startup(
 			end
 		}
 		use {'norcalli/nvim-colorizer.lua'}
+		use {'wuelnerdotexe/vim-enfocado'}
 		-- Terminal Toggle
 		-- use {"akinsho/nvim-toggleterm.lua"}
-		use {'wfxr/minimap.vim', run = ':!cargo install --locked code-minmap'}
+		-- Scrollbar
+		-- use {'wfxr/minimap.vim', run = ':!cargo install --locked code-minmap'}
 
 		use "lukas-reineke/indent-blankline.nvim"
 		-- Commentery

@@ -41,10 +41,9 @@ function! CompileRun()
 		if !empty(glob("./.compile-run.sh"))
 			exec "term ./.compile-run.sh"
 		else
-			" exec "w !javac -sourcepath ./ -d out -classpath out %"
-			" exec "w !time java -cp out %:t:r"
-			exec "w !javac %"
-			exec "w !time java -cp %:p:h %:t:r"
+			exec "w !mkdir -p out && javac -sourcepath ./ -d out -cp out %"
+			exec "w !time java -cp out %:t:r"
+
 		endif
 	elseif &filetype == 'javascript'
 		exec "w !time node %"

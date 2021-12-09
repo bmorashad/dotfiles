@@ -27,6 +27,20 @@ function fish_greeting
 			echo
 		end
 	end
+	# Tempory delete once done or when You have no idea what this is
+	# echo  'grafana-sso/dashboard --> regex-w.o-iframe/query/grafana-sso' | \
+	# rg "\-->" --colors match:fg:green --color always | rg "\w.*" --colors match:fg:blue
+	# echo 'grafana-sso/dashboard --> regex/query/grafana-sso' | \
+	# rg "\-->" --colors match:fg:green --color always | rg "\w.*" --colors match:fg:blue
+	# echo  'grafana-sso/dashboard --> puppeteer/query/grafana-sso' | \
+	# rg "\-->" --colors match:fg:green --color always | rg "\w.*" --colors match:fg:blue
+	# echo
+	
+	echo  'api/grafana/device-mgt' | \
+	rg "\w.*" --colors match:fg:blue
+	echo 'api/grafana/analytics-mgt' | \
+	rg "\w.*" --colors match:fg:blue
+	echo
 end
 
 set TODO
@@ -112,8 +126,7 @@ end
 # GIT
 
 function gdiff_file
-	set root (echo (pwd | rg ".*/" --replace '')/); 
-	git diff --name-only master | rg "$root" --replace "" | fzf | xargs git diff master
+	git diff --name-only $argv[1] | fzf -m | xargs -ro git diff $argv[1]
 end
 
 function fco -d "Fuzzy-find and checkout a branch"
