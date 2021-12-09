@@ -19,7 +19,7 @@ set UI 'publisher' $UI
 set PATH $dist/bin $PATH
 
 function ctc 
-	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
+	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | sort -u| rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
 	if test "$dir" != ""
 		cd $dir
 	end
@@ -28,7 +28,12 @@ end
 # helper function
 function etb 
 	cd $argv[2]
-	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | uniq | rg '(.*)' --replace ''$argv[2]'/$0'
+	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | sort -u 
+end
+
+function etba
+	cd $argv[1]
+	fd -t d | rg 'src/main/java.*' --replace '' | sort -u
 end
 
 # fzf cd into a changed package
@@ -87,7 +92,29 @@ function entup
 		if test "$dir" != ""
 			echo "[UPDATING] $dir" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:0,229,255' --color always
 			set -l war (ls $dir/target | rg '.*war') 
-			if test "$war" != ""
+			# ui-request-handler deployment exception
+			if test "$war" = "ui-request-handler.war"
+				set -l distWar (ls $warBundles/ | rg "$war")
+				set -l warDir (echo $war | rg '.war' --replace '')
+				set -l distWarDir (ls $warBundles/ | rg "$warDir" | rg "\.war" -v)
+				set -l warRm $warBundles/$distWar
+				set -l dirWarRm $warBundles/$distWarDir
+
+				if test "$warRm" != ""
+					echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
+					rm -rf $warRm
+				end
+				if test "$dirWarRm" != ""
+					echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
+
+					rm -rf $dirWarRm
+				end
+				for ui in $UI
+					set ui_name "$ui-$war"
+					echo "[COPYING] $ui/target/$war --> $warBundles/$ui-$war" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
+					cp $dir/target/$war $warBundles/$ui_name
+				end
+			else if test "$war" != ""
 				set -l distWar (ls $warBundles/ | rg "^$war")
 				set -l warDir (echo $war | rg '.war' --replace '')
 				set -l distWarDir (ls $warBundles/ | rg "^$warDir\$")
@@ -210,7 +237,17 @@ end
 # build and deploy the fzf selected packages in selected order 
 function ebdf
 	set -l curr_dir (pwd)
-	set dirs (etb $argv[1] $argv[2] | fzf -m --reverse)
+	set dirs (etb $argv | fzf -m --reverse)
+	for x in $dirs
+		emif $argv $x
+		entupf $argv $x
+	end
+	cd $curr_dir
+end
+
+function ebdfa
+	set -l curr_dir (pwd)
+	set dirs (etba $argv | fzf -m --reverse)
 	for x in $dirs
 		emif $argv $x
 		entupf $argv $x
@@ -239,7 +276,7 @@ function entuiwatch
 		$warBundles/$warDir/main.js.map
 
 
-		echo "[REMOVING] $rmWarDirFiles" | rg "$warBundles" --replace "" --passthru | rg "REMOVING" --colors match:fg:red
+		echo "[REMOVING] $rmWarDirFiles" | rg "REMOVING" --colors match:fg:red
 		rm -rf $rmWarDirFiles
 
 		echo "[LINKING] Linking $ui/react-app/dist --> $warDir" | rg "LINKING|-->" --colors match:fg:blue
@@ -253,3 +290,10 @@ function entuiwatch
 		npm run --prefix $emm/components/ui/$ui/react-app watch
 	end
 end
+
+# GIT 
+
+function ent_gdiff
+	git diff --name-only $argv[1] | rg --passthru "src/main/java.*" --replace "" | sort -u | fzf -m | xargs -ro git diff $argv[1]
+end
+
