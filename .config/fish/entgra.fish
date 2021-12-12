@@ -295,7 +295,7 @@ function ebdfa
 end
 
 function entapply
-	if test "$argv[1]" = "$carbon" || test "$argv[1]" = "$plugin" || test "$argv[1]" = "$emm"
+	if test -d "$argv[1]"
 		ebdfa $argv
 	else
 		ebdf $argv
