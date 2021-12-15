@@ -1,0 +1,68 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+
+    "keyboard.dispatch": "keyCode",
+    "liveServer.settings.donotShowInfoMsg": true,
+    "terminal.integrated.automationShell.linux": "",
+    "terminal.integrated.shell.linux": "fish",
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/vscode.vim",
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+          "before": ["s"],
+          "after": ["S"]
+        }
+    ],
+    "vim.normalModeKeyBindings": [
+        {
+          "before": [";"],
+          "after": [":"]
+        },
+        {
+          "before": [",", "f"],
+          "commands": [
+            "workbench.action.quickOpen"
+          ]
+        },
+        {
+          "before": ["<TAB>"],
+          "commands": [
+            "workbench.action.nextEditor"
+          ]
+        },
+        {
+          "before": ["<S-TAB>"],
+          "commands": [
+            "workbench.action.previousEditor"
+          ]
+        },
+        {
+          "before": [",", "s"],
+          "commands": [
+            "workbench.action.terminal.toggleTerminal"
+          ]
+        }
+
+      ],
+      "workbench.colorTheme": "Darcula Theme from IntelliJ",
+      "workbench.colorCustomizations": {
+        "editor.background": "#2b2b2b",
+		"editor.lineHighlightBackground" : "#323232",
+		"sideBar.background": "#3c3f41",
+		"tab.activeBackground": "#313335",
+		"tab.inactiveBackground": "#292b2d"
+      },
+      "database-client.preferConnectionName": true,
+      "[sql]": {
+        "editor.defaultFormatter": "cweijan.vscode-mysql-client2"
+      }
+}
