@@ -14,3 +14,8 @@
 [core]
 	pager = bat
 [global]
+
+
+[alias]
+# Allows you to easily pick what to rebase
+frbi = "!f() { git log --pretty=oneline --color=always | fzf --ansi | cut -d ' ' -f1 | xargs -r git rebase -i ; }; f"
