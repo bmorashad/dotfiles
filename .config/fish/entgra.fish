@@ -28,7 +28,7 @@ end
 # helper function
 function etb 
 	cd $argv[2]
-	git diff --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
+	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
 end
 
 function etba

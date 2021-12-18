@@ -107,22 +107,6 @@ function mcd --description "mkdir if not exist and cd into"
 	cd $argv[1]
 end
 
-# kill process
-function kill_process --description "Kill processes"
-	set -l __kp__pid (ps aux | fzf --ansi --height '50%' -m | awk '{print $2}')
-	# set -l __kp__pid (procs --color="always" | fzf --ansi --height '50%' -m | awk '{print $1}')
-	set -l __kp__kc $argv[1]
-
-	if test "x$__kp__pid" != "x"
-		if test "x$argv[1]" != "x"
-			echo $__kp__pid | xargs -p kill $argv[1]
-		else
-			echo $__kp__pid | xargs -p kill -9
-		end
-		# kill_process
-	end
-end
-
 # GIT
 
 function gdiff_file
@@ -591,6 +575,40 @@ function tmux_sessions_fzf
 
 		end
 	end
+end
+
+# kill process
+function kill_process --description "Kill processes"
+	if test "$argv" != ""
+		echo $argv | xargs -p kill -9
+	else
+		set -l __kp__pid (ps aux | fzf --ansi --height '50%' -m | awk '{print $2}')
+		# set -l __kp__pid (procs --color="always" | fzf --ansi --height '50%' -m | awk '{print $1}')
+
+		if test "$__kp__pid" != ""
+			# kill_process
+			echo $__kp__pid | xargs -p kill -9
+		end
+	end
+end
+
+
+# List Listening Ports
+function lport
+	sudo ss -tulnp | grep LISTEN
+end
+
+# fzf kill Listening Ports
+function kill_lport
+	set -l listening_procs (sudo ss -tulnp | grep LISTEN)
+	if test "$listening_procs" != ""
+		begin; for x in $listening_procs; echo $x; end; end | fzf --ansi --height '50%' -m | rg '(pid=)(\d+)(,)' --replace '$2' -o | xargs -p -r kill - 9
+	end
+end
+
+# helper
+function echo_output_var
+	
 end
 
 # Entgra functions
