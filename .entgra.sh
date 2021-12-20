@@ -305,7 +305,16 @@ function ebd {
 # build and deploy the fzf selected packages in selected order 
 function ebdf {
 	curr_dir=$(pwd)
-	dirs=$(etb $@ | fzf -m --reverse)
+	dirs=()
+	if test "$#" -gt 2
+	then
+		for (( i=$#;i>=3;i-- ));do
+			dirs+=$(etb $1 $2 | sed -n "${!i} p")
+		done
+	else
+		dirs=$(etb $@ | fzf -m --reverse)
+	fi
+	dirs=${dirs[@]}
 	for x in $dirs
 	do
 		emif $x
@@ -324,7 +333,16 @@ function ebdf {
 
 function ebdfa {
 	curr_dir=$(pwd)
-	dirs=$(etba $@ | fzf -m --reverse)
+	dirs=()
+	if test "$#" -gt 1
+	then
+		for (( i=$#;i>=2;i-- ));do
+			dirs+=$(etb $1 $2 | sed -n "${!i} p")
+		done
+	else
+		dirs=$(etba $@ | fzf -m --reverse)
+	fi
+	dirs=${dirs[@]}
 	for x in $dirs
 	do
 		emif $x
