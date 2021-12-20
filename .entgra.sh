@@ -304,12 +304,20 @@ function ebd {
 
 # build and deploy the fzf selected packages in selected order 
 function ebdf {
+	declare is_deploy
+	if test "${@: -1}" = "-no-deploy"
+	then
+		is_deploy=0
+		set -- "${@: 1: $#-1}"
+	else
+		is_deploy=1
+	fi
 	curr_dir=$(pwd)
 	dirs=()
 	if test "$#" -gt 2
 	then
-		for (( i=$#;i>=3;i-- ));do
-			dirs+=($(etb $1 $2 | sed -n "${!i} p"))
+		for x in ${@:3};do
+			dirs+=($(etb $1 $2 | sed -n "$x p"))
 		done
 	else
 		dirs=$(etb $@ | fzf -m --reverse)
@@ -322,22 +330,33 @@ function ebdf {
 		then
 			return 1
 		fi
-		entupf $x
-		if test "$?" -gt 0
+		if test $is_deploy -eq 1
 		then
-			return 1
+			entupf $x
+			if test "$?" -gt 0
+			then
+				return 1
+			fi
 		fi
 	done
 	cd $curr_dir
 }
 
 function ebdfa {
+	declare is_deploy
+	if test "${@: -1}" = "-no-deploy"
+	then
+		is_deploy=0
+		set -- "${@: 1: $#-1}"
+	else
+		is_deploy=1
+	fi
 	curr_dir=$(pwd)
 	dirs=()
 	if test "$#" -gt 1
 	then
-		for (( i=$#;i>=2;i-- ));do
-			dirs+=($(etba $1 $2 | sed -n "${!i} p"))
+		for x in ${@:2};do
+			dirs+=($(etba $1 $2 | sed -n "$x p"))
 		done
 	else
 		dirs=$(etba $@ | fzf -m --reverse)
@@ -350,14 +369,27 @@ function ebdfa {
 		then
 			return 1
 		fi
-		entupf $x
-		if test "$?" -gt 0
+		if test $is_deploy -eq 1
 		then
-			return 1
+			entupf $x
+			if test "$?" -gt 0
+			then
+				return 1
+			fi
 		fi
 	done
 	cd $curr_dir
 }
+
+function entbuild {
+	if test -d "$1"
+	then
+		ebdfa $@ -no-deploy
+	else
+		ebdf $@ -no-deploy
+	fi
+}
+
 function entapply {
 	if test -d "$1"
 	then
@@ -385,22 +417,22 @@ function entuiwatch {
 			npm run --prefix $emm/components/ui/$ui/react-app dev
 		fi
 		rmWarDirFiles="$warBundles/$warDir/index.html $warBundles/$warDir/main.css \
-		$warBundles/$warDir/main.js $warBundles/$warDir/main.css.map \
-		$warBundles/$warDir/main.js.map"
+			$warBundles/$warDir/main.js $warBundles/$warDir/main.css.map \
+			$warBundles/$warDir/main.js.map"
 
 
 		if ! test -L $reactApp/index.html && ! test -L $reactApp/main.css && ! test -L $reactApp/main.js &&
 			! test -L $reactApp/main.css.map && ! test -L $reactApp/main.js.map
-		then
-			echo -e "[${RED}REMOVING${NC}] $rmWarDirFiles"
-			rm -rf $rmWarDirFiles
+				then
+					echo -e "[${RED}REMOVING${NC}] $rmWarDirFiles"
+					rm -rf $rmWarDirFiles
 
-			echo -e "[${BLUE}LINKING${NC}] Linking $ui/react-app/dist ${BLUE}-->${NC} $warDir"
-			ln -fs $warBundles/$warDir/index.html   $reactApp/index.html 	
-			ln -fs $warBundles/$warDir/main.css     $reactApp/main.css 		
-			ln -fs $warBundles/$warDir/main.js      $reactApp/main.js 		
-			ln -fs $warBundles/$warDir/main.css.map $reactApp/main.css.map 	
-			ln -fs $warBundles/$warDir/main.js.map  $reactApp/main.js.map 	
+					echo -e "[${BLUE}LINKING${NC}] Linking $ui/react-app/dist ${BLUE}-->${NC} $warDir"
+					ln -fs $warBundles/$warDir/index.html   $reactApp/index.html 	
+					ln -fs $warBundles/$warDir/main.css     $reactApp/main.css 		
+					ln -fs $warBundles/$warDir/main.js      $reactApp/main.js 		
+					ln -fs $warBundles/$warDir/main.css.map $reactApp/main.css.map 	
+					ln -fs $warBundles/$warDir/main.js.map  $reactApp/main.js.map 	
 		fi
 
 		echo -e "[${GREEN}WATCHING${NC}] npm run watch on $warDir"

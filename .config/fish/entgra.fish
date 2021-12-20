@@ -263,6 +263,13 @@ end
 
 # build and deploy the fzf selected packages in selected order 
 function ebdf
+	set -l is_deploy
+	if test "$argv[-1]" = "-no-deploy"
+		set is_deploy 0
+		set -e argv[-1]
+	else
+		set is_deploy 1
+	end
 	set -l curr_dir (pwd)
 	set -l dirs
 	if test (count $argv) -gt 2
@@ -277,15 +284,24 @@ function ebdf
 		if test "$status" -gt 0
 			return 1
 		end
-		entupf $x
-		if test "$status" -gt 0
-			return 1
+		if test $is_deploy -eq 1
+			entupf $x
+			if test "$status" -gt 0
+				return 1
+			end
 		end
 	end
 	cd $curr_dir
 end
 
 function ebdfa
+	set -l is_deploy
+	if test "$argv[-1]" = "-no-deploy"
+		set is_deploy 0
+		set -e argv[-1]
+	else
+		set is_deploy 1
+	end
 	set -l curr_dir (pwd)
 	set -l dirs
 	if test (count $argv) -gt 1
@@ -300,12 +316,22 @@ function ebdfa
 		if test "$status" -gt 0
 			return 1
 		end
-		entupf $x
-		if test "$status" -gt 0
-			return 1
+		if test $is_deploy -eq 1
+			entupf $x
+			if test "$status" -gt 0
+				return 1
+			end
 		end
 	end
 	cd $curr_dir
+end
+
+function entbuild
+	if test -d "$argv[1]"
+		ebdfa $argv -no-deploy
+	else
+		ebdf $argv -no-deploy
+	end
 end
 
 function entapply
