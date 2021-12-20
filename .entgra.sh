@@ -59,7 +59,7 @@ function etba {
 function emi {
 	curr_dir=$(pwd)
 	cd $2
-	${@:3:}
+	# ${@:3:}
 	for x in ${@:3}
 	do
 		dir=$(etb $1 $2 | sed -n "$x p")

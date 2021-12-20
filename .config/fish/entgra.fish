@@ -264,7 +264,14 @@ end
 # build and deploy the fzf selected packages in selected order 
 function ebdf
 	set -l curr_dir (pwd)
-	set dirs (etb $argv | fzf -m --reverse)
+	set -l dirs
+	if test (count $argv) -gt 2
+		for x in $argv[-1..3]
+			set dirs (etb $argv[1] $argv[2] | sed -n "$x p") $dirs
+		end
+	else
+		set dirs (etb $argv | fzf -m --reverse)
+	end
 	for x in $dirs
 		emif $x
 		if test "$status" -gt 0
@@ -280,7 +287,14 @@ end
 
 function ebdfa
 	set -l curr_dir (pwd)
-	set dirs (etba $argv | fzf -m --reverse)
+	set -l dirs
+	if test (count $argv) -gt 1
+		for x in $argv[-1..2]
+			set dirs (etba $argv[1] $argv[2] | sed -n "$x p") $dirs
+		end
+	else
+		set dirs (etba $argv | fzf -m --reverse)
+	end
 	for x in $dirs
 		emif $x
 		if test "$status" -gt 0
@@ -317,7 +331,7 @@ function entuiwatch
 			echo "[BUILDING] npm run dev on $warDir" | rg "BUILDING" --colors match:fg:magenta
 			npm run --prefix $emm/components/ui/$ui/react-app dev
 		end
-		
+
 		set rmWarDirFiles $warBundles/$warDir/index.html $warBundles/$warDir/main.css \
 		$warBundles/$warDir/main.js $warBundles/$warDir/main.css.map \
 		$warBundles/$warDir/main.js.map
