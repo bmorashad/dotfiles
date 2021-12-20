@@ -55,27 +55,6 @@ function etba {
 	fd -t d | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$1'/$0'
 }
 
-# build given packages by id  (i.e emi HEAD $carbon 2 1)
-function emi {
-	curr_dir=$(pwd)
-	cd $2
-	# ${@:3:}
-	for x in ${@:3}
-	do
-		dir=$(etb $1 $2 | sed -n "$x p")
-		if test "$dir" != ""
-		then
-			echo -e "[${PURPLE}BUILDING${NC}] $dir"
-			cd $dir
-			mvn clean install -Dmaven.test.skip=true
-			if test "$?" -gt 0
-			then
-				return 1
-			fi
-		fi
-	done
-	cd $curr_dir
-}
 # build given packages by path (i.e emif <path-to-package>)
 function emif {
 	curr_dir=$(pwd)
@@ -92,108 +71,6 @@ function emif {
 	cd $curr_dir
 }
 
-# deploy given packages by id (i.e entup HEAD $carbon 2)
-function entup {
-	curr_dir=$(pwd)
-	cd $2
-	for x in ${@:3}
-	do
-		dir=$(etb $1 $2 | sed -n "$x p")
-		if test "$dir" != ""
-		then
-			echo -e "[${CYAN}UPDATING${NC}] $dir" | rg "$work" --replace ""
-			war=$(ls $dir/target | rg '.*war') 
-			# ui-request-handler deployment exception
-			if test "$war" = "ui-request-handler.war"
-			then
-				distWar=$(ls $warBundles/ | rg "$war")
-				warDir=$(echo $war | rg '.war' --replace '')
-				distWarDir=$(ls $warBundles/ | rg "$warDir" | rg "\.war" -v)
-
-
-				warRm=()
-				dirWarRm=()
-				for w in $distWar; do warRm+=($warBundles/$w); done
-				for w in $distWarDir; do dirWarRm+=($warBundles/$w); done
-				warRm=${warRm[@]}
-				dirWarRm=${dirWarRm[@]}
-
-				if test "$warRm" != ""
-				then
-					echo -e "[${RED}DELETING${NC}] $warRm" | rg "$work" --replace ""
-					rm -rf $warRm
-				fi
-				if test "$dirWarRm" != ""
-				then
-					echo -e "[${RED}DELETING${NC}] $dirWarRm" | rg "$work" --replace ""
-					rm -rf $dirWarRm
-				fi
-				for ui in ${UI[@]}
-				do
-					ui_name="$ui-$war"
-					echo -e "[${GREEN}COPYING${NC}] $ui/target/$war ${GREEN}-->${NC} $warBundles/$ui-$war" | rg "$work" --replace ""
-					cp $dir/target/$war $warBundles/$ui_name
-				done
-				echo -e "${WHITE}------------------------------------------------${NC}"
-				echo -e " ${PURPLE}DEPLOYED SUCCESSFULLY${NC}"
-				echo -e "${WHITE}------------------------------------------------${NC}"
-			elif test "$war" != ""
-			then
-				distWar=$(ls $warBundles/ | rg "^$war")
-				warDir=$(echo $war | rg '.war' --replace '')
-				distWarDir=$(ls $warBundles/ | rg "^$warDir\$")
-				warRm=$warBundles/$distWar
-				dirWarRm=$warBundles/$distWarDir
-
-				if test "$warRm" != ""
-				then
-					echo -e "[${RED}DELETING${NC}] $warRm" | rg "$work" --replace ""
-					rm -rf $warRm
-				fi
-				if test "$dirWarRm" != ""
-				then
-					echo -e "[${RED}DELETING${NC}] $dirWarRm" | rg "$work" --replace ""
-					rm -rf $dirWarRm
-				fi
-				echo -e "[${GREEN}COPYING${NC}] $dir/target/$war ${GREEN}-->${NC} $warBundles" | rg "$work" --replace ""
-				cp $dir/target/$war $warBundles
-				echo -e "${WHITE}------------------------------------------------${NC}"
-				echo -e " ${PURPLE}DEPLOYED SUCCESSFULLY${NC}"
-				echo -e "${WHITE}------------------------------------------------${NC}"
-			else
-				jar=$(ls $dir/target | rg '.*jar') 
-				if test "$jar" != ""
-				then
-					patchDirLs=$(ls $patches)
-					patch0000=$(ls $patches | rg patch0000)
-					patch5000=$(ls $patches | rg patch5000)
-					if test "$patchDirLs" = ""
-					then
-						patchDir="patch5000"
-					elif test "$patch5000" != ""
-					then
-						patchDir=$(expr $(ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
-					else
-						patchDir="patch5000"
-					fi
-					mkdir $patches/$patchDir
-					echo -e "[${GREEN}COPYING${NC}] $dir/target/$jar ${GREEN}-->${NC} $patches/$patchDir" | rg "$work" --replace ""
-					cp $dir/target/$jar $patches/$patchDir
-					echo -e "${WHITE}------------------------------------------------${NC}"
-					echo -e " ${PURPLE}DEPLOYED SUCCESSFULLY${NC}"
-					echo -e "${WHITE}------------------------------------------------${NC}"
-				else
-					echo -e "[${RED}ERROR${NC}] No target found"
-					return 1
-				fi	
-			fi
-		else
-			echo -e "[${RED}ERROR${NC}] No dir for given args"
-			return 1
-		fi
-	done
-	cd $curr_dir
-}
 # deploy selected packages by path
 function entupf {
 	curr_dir=$(pwd)
@@ -286,20 +163,6 @@ function entupf {
 		fi
 	done
 	cd $curr_dir
-}
-
-# build and deploy packages by id in given order (i.e ebd HEAD $carbon 1 3 2)
-function ebd {
-	emi $@
-	if test "$?" -gt 0
-	then
-		return 1
-	fi
-	entup $@
-	if test "$?" -gt 0
-	then
-		return 1
-	fi
 }
 
 # build and deploy the fzf selected packages in selected order 

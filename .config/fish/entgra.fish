@@ -53,23 +53,6 @@ function elist
 	cd $curr_dir
 end
 
-# build given packages by id  (i.e emi HEAD $carbon 2 1)
-function emi
-	set -l curr_dir (pwd)
-	cd $argv[2]
-	for x in $argv[3..-1]
-		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
-		if test "$dir" != ""
-			echo "[BUILDING] $dir" | rg "BUILDING" --passthru --colors 'match:fg:magenta' --color always
-			cd $dir
-			mvn clean install -Dmaven.test.skip=true
-			if test "$status" -gt 0
-				return 1
-			end
-		end
-	end
-	cd $curr_dir
-end
 # build given packages by path (i.e emif <path-to-package>)
 function emif
 	set -l curr_dir (pwd)
@@ -84,92 +67,6 @@ function emif
 	cd $curr_dir
 end
 
-# deploy given packages by id (i.e entup HEAD $carbon 2)
-function entup 
-	set -l curr_dir (pwd)
-	cd $argv[2]
-	for x in $argv[3..-1]
-		set -l dir (etb $argv[1] $argv[2] | sed -n "$x p")
-		if test "$dir" != ""
-			echo "[UPDATING] $dir" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:0,229,255' --color always
-			set -l war (ls $dir/target | rg '.*war') 
-			# ui-request-handler deployment exception
-			if test "$war" = "ui-request-handler.war"
-				set -l distWar (ls $warBundles/ | rg "$war")
-				set -l warDir (echo $war | rg '.war' --replace '')
-				set -l distWarDir (ls $warBundles/ | rg "$warDir" | rg "\.war" -v)
-				set -l warRm $warBundles/$distWar
-				set -l dirWarRm $warBundles/$distWarDir
-
-				if test "$warRm" != ""
-					echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
-					rm -rf $warRm
-				end
-				if test "$dirWarRm" != ""
-					echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
-
-					rm -rf $dirWarRm
-				end
-				for ui in $UI
-					set ui_name "$ui-$war"
-					echo "[COPYING] $ui/target/$war --> $warBundles/$ui-$war" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
-					cp $dir/target/$war $warBundles/$ui_name
-				end
-				echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-				echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:magenta' --color always | rg "INFO" --passthru --colors 'match:fg:blue' --color always
-				echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-			else if test "$war" != ""
-				set -l distWar (ls $warBundles/ | rg "^$war")
-				set -l warDir (echo $war | rg '.war' --replace '')
-				set -l distWarDir (ls $warBundles/ | rg "^$warDir\$")
-				set -l warRm $warBundles/$distWar
-				set -l dirWarRm $warBundles/$distWarDir
-
-				if test "$warRm" != ""
-					echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
-					rm -rf $warRm
-				end
-				if test "$dirWarRm" != ""
-					echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
-
-					rm -rf $dirWarRm
-				end
-				echo "[COPYING] $dir/target/$war --> $warBundles" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
-				cp $dir/target/$war $warBundles
-				echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-				echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:magenta' --color always | rg "INFO" --passthru --colors 'match:fg:blue' --color always
-				echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-			else
-				set -l jar (ls $dir/target | rg '.*jar') 
-				if test "$jar" != ""
-					set -l patchDirLs (ls $patches)
-					set -l patch0000 (ls $patches | rg patch0000)
-					set -l patch5000 (ls $patches | rg patch5000)
-					if test "$patchDirLs" = ""
-						set patchDir "patch5000"
-					else if test "$patch5000" != ""
-						set patchDir (math (ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
-					else
-						set patchDir "patch5000"
-					end
-					mkdir $patches/$patchDir
-					echo "[COPYING] $dir/target/$jar --> $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
-					cp $dir/target/$jar $patches/$patchDir
-					echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-					echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:magenta' --color always | rg "INFO" --passthru --colors 'match:fg:blue' --color always
-					echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-				else
-					echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
-					return 1
-				end	
-			end
-		else
-			echo "[ERROR] No dir for given args" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always
-			return 1
-		end
-	end
-	cd $curr_dir
-end
 # deploy selected packages by path
 function entupf
 	set -l curr_dir (pwd)
@@ -247,18 +144,6 @@ function entupf
 		end
 	end
 	cd $curr_dir
-end
-
-# build and deploy packages by id in given order (i.e ebd HEAD $carbon 1 3 2)
-function ebd
-	emi $argv
-	if test "$status" -gt 0
-		return 1
-	end
-	entup $argv
-	if test "$status" -gt 0
-		return 1
-	end
 end
 
 # build and deploy the fzf selected packages in selected order 
