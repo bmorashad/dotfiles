@@ -71,7 +71,7 @@ end
 function entupf
 	set -l curr_dir (pwd)
 	for x in $argv
-		echo "[UPDATING] $x" | rg "$work" --replace "" | rg "UPDATING" --passthru --colors 'match:fg:0,229,255' --color always
+		echo "[DEPLOYING] $x" | rg "$work" --replace "" | rg "DEPLOYING" --passthru --colors 'match:fg:magenta' --color always
 		set -l war (ls $x/target | rg '.*war') 
 		# ui-request-handler deployment exception
 		if test "$war" = "ui-request-handler.war"
@@ -91,11 +91,11 @@ function entupf
 			end
 			for ui in $UI
 				set ui_name "$ui-$war"
-				echo "[COPYING] $ui/target/$war --> $warBundles/$ui-$war" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
+				echo "[COPYING] $ui/target/$war --> $warBundles/$ui-$war" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:0,229,255' --color always
 				cp $x/target/$war $warBundles/$ui_name
 			end
 			echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-			echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:magenta' --color always | rg "INFO" --passthru --colors 'match:fg:blue' --color always
+			echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:green' --color always
 			echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
 		else if test "$war" != ""
 			set -l distWar (ls $warBundles/ | rg "^$war")
@@ -113,10 +113,10 @@ function entupf
 
 				rm -rf $dirWarRm
 			end
-			echo "[COPYING] $x/target/$war --> $warBundles" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
+			echo "[COPYING] $x/target/$war --> $warBundles" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:0,229,255' --color always
 			cp $x/target/$war $warBundles
 			echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-			echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:magenta' --color always | rg "INFO" --passthru --colors 'match:fg:blue' --color always
+			echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:green' --color always
 			echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
 		else
 			set -l jar (ls $x/target | rg '.*jar') 
@@ -132,10 +132,10 @@ function entupf
 					set patchDir "patch5000"
 				end
 				mkdir $patches/$patchDir
-				echo "[COPYING] $x/target/$jar --> $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:green' --color always
+				echo "[COPYING] $x/target/$jar --> $patches/$patchDir" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:0,229,255' --color always
 				cp $x/target/$jar $patches/$patchDir
 				echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
-				echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:magenta' --color always | rg "INFO" --passthru --colors 'match:fg:blue' --color always
+				echo " DEPLOYED SUCCESSFULLY" | rg "DEPLOYED SUCCESSFULLY" --passthru --colors 'match:fg:green' --color always
 				echo "------------------------------------------------" | rg "-" --colors 'match:fg:white'
 			else
 				echo "[ERROR] No target found" | rg "ERROR" --passthru --colors 'match:fg:255,51,71' --color always

@@ -76,7 +76,7 @@ function entupf {
 	curr_dir=$(pwd)
 	for x in $@
 	do
-		echo -e "[${CYAN}UPDATING${NC}] $x" | rg "$work" --replace ""
+		echo -e "[${PURPLE}DEPLOYING${NC}] $x" | rg "$work" --replace ""
 		war=$(ls $x/target | rg '.*war') 
 		# ui-request-handler deployment exception
 		if test "$war" = "ui-request-handler.war"
@@ -105,11 +105,11 @@ function entupf {
 			for ui in ${UI[@]}
 			do
 				ui_name="$ui-$war"
-				echo -e "[${GREEN}COPYING${NC}] $ui/target/$war ${GREEN}-->${NC} $warBundles/$ui-$war" | rg "$work" --replace ""
+				echo -e "[${CYAN}COPYING${NC}] $ui/target/$war ${GREEN}-->${NC} $warBundles/$ui-$war" | rg "$work" --replace ""
 				cp $x/target/$war $warBundles/$ui_name
 			done
 			echo -e "${WHITE}------------------------------------------------${NC}"
-			echo -e " ${PURPLE}DEPLOYED SUCCESSFULLY${NC}"
+			echo -e " ${GREEN}DEPLOYED SUCCESSFULLY${NC}"
 			echo -e "${WHITE}------------------------------------------------${NC}"
 		elif test "$war" != ""
 		then
@@ -129,10 +129,10 @@ function entupf {
 				echo -e "[${RED}DELETING${NC}] $dirWarRm" | rg "$work" --replace ""
 				rm -rf $dirWarRm
 			fi
-			echo -e "[${GREEN}COPYING${NC}] $x/target/$war ${GREEN}-->${NC} $warBundles" | rg "$work" --replace ""
+			echo -e "[${CYAN}COPYING${NC}] $x/target/$war ${GREEN}-->${NC} $warBundles" | rg "$work" --replace ""
 			cp $x/target/$war $warBundles
 			echo -e "${WHITE}------------------------------------------------${NC}"
-			echo -e " ${PURPLE}DEPLOYED SUCCESSFULLY${NC}"
+			echo -e " ${GREEN}DEPLOYED SUCCESSFULLY${NC}"
 			echo -e "${WHITE}------------------------------------------------${NC}"
 		else
 			jar=$(ls $x/target | rg '.*jar') 
@@ -151,10 +151,10 @@ function entupf {
 					patchDir="patch5000"
 				fi
 				mkdir $patches/$patchDir
-				echo -e "[${GREEN}COPYING${NC}] $x/target/$jar ${GREEN}-->${NC} $patches/$patchDir" | rg "$work" --replace ""
+				echo -e "[${CYAN}COPYING${NC}] $x/target/$jar ${GREEN}-->${NC} $patches/$patchDir" | rg "$work" --replace ""
 				cp $x/target/$jar $patches/$patchDir
 				echo -e "${WHITE}------------------------------------------------${NC}"
-				echo -e " ${PURPLE}DEPLOYED SUCCESSFULLY${NC}"
+				echo -e " ${GREEN}DEPLOYED SUCCESSFULLY${NC}"
 				echo -e "${WHITE}------------------------------------------------${NC}"
 			else
 				echo -e "[${RED}ERROR${NC}] No target found"
