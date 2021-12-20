@@ -309,7 +309,7 @@ function ebdf {
 	if test "$#" -gt 2
 	then
 		for (( i=$#;i>=3;i-- ));do
-			dirs+=$(etb $1 $2 | sed -n "${!i} p")
+			dirs+=($(etb $1 $2 | sed -n "${!i} p"))
 		done
 	else
 		dirs=$(etb $@ | fzf -m --reverse)
@@ -337,7 +337,7 @@ function ebdfa {
 	if test "$#" -gt 1
 	then
 		for (( i=$#;i>=2;i-- ));do
-			dirs+=$(etb $1 $2 | sed -n "${!i} p")
+			dirs+=($(etba $1 $2 | sed -n "${!i} p"))
 		done
 	else
 		dirs=$(etba $@ | fzf -m --reverse)
