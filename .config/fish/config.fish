@@ -4,6 +4,21 @@
 # rg
 # NOTE: echo "You may want to use fd with --no-ignore and --hidden flag to search for jar/war/etc files"
 
+function trash
+	mkdir -p ~/.trash
+	if test "$argv[1]" = "ls"
+		ls ~/.trash
+		return
+	end
+	if test "$argv[1]" = "clear"
+		set clear (ls ~/.trash | fzf -m --reverse)
+		rm -rf ~/.trash/$clear
+		echo cleared "~"/.trash/$clear
+		return
+	end
+	mv $argv ~/.trash
+end
+
 
 # surpress fish greeting
 # set fish_greeting
