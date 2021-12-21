@@ -271,36 +271,41 @@ function entuiwatch {
 	if test "$ui" != ""
 	then
 		warDir=$(ls $emm/components/ui/$ui/target | rg '\.war' --replace "")
-		reactApp=$emm/components/ui/$ui/react-app/dist
-
-		builtIndex=$(ls $reactApp | rg 'index\.html')
-
-		if test -z "$builtIndex"
+		if test -d "$warBundles/$warDir"
 		then
-			echo -e "[${BLUE}INFO${NC}] $ui/react-app/dist is empty"
-			echo -e "[${PURPLE}BUILDING${NC}] npm run dev on $warDir"
-			npm run --prefix $emm/components/ui/$ui/react-app dev
+			reactApp=$emm/components/ui/$ui/react-app/dist
+
+			builtIndex=$(ls $reactApp | rg 'index\.html')
+
+			if test -z "$builtIndex"
+			then
+				echo -e "[${BLUE}INFO${NC}] $ui/react-app/dist is empty"
+				echo -e "[${PURPLE}BUILDING${NC}] npm run dev on $warDir"
+				npm run --prefix $emm/components/ui/$ui/react-app dev
+			fi
+			rmWarDirFiles="$warBundles/$warDir/index.html $warBundles/$warDir/main.css \
+				$warBundles/$warDir/main.js $warBundles/$warDir/main.css.map \
+				$warBundles/$warDir/main.js.map"
+
+
+			if ! test -L $reactApp/index.html && ! test -L $reactApp/main.css && ! test -L $reactApp/main.js &&
+				! test -L $reactApp/main.css.map && ! test -L $reactApp/main.js.map
+						then
+							echo -e "[${RED}REMOVING${NC}] $rmWarDirFiles"
+							rm -rf $rmWarDirFiles
+
+							echo -e "[${BLUE}LINKING${NC}] Linking $ui/react-app/dist ${BLUE}-->${NC} $warDir"
+							ln -fs $warBundles/$warDir/index.html   $reactApp/index.html 	
+							ln -fs $warBundles/$warDir/main.css     $reactApp/main.css 		
+							ln -fs $warBundles/$warDir/main.js      $reactApp/main.js 		
+							ln -fs $warBundles/$warDir/main.css.map $reactApp/main.css.map 	
+							ln -fs $warBundles/$warDir/main.js.map  $reactApp/main.js.map 	
+			fi
+
+			echo -e "[${GREEN}WATCHING${NC}] npm run watch on $warDir"
+			npm run --prefix $emm/components/ui/$ui/react-app watch
+		else
+				echo -e "[${RED}ERROR${NC}] $warDir cannot be found in $warBundles"
 		fi
-		rmWarDirFiles="$warBundles/$warDir/index.html $warBundles/$warDir/main.css \
-			$warBundles/$warDir/main.js $warBundles/$warDir/main.css.map \
-			$warBundles/$warDir/main.js.map"
-
-
-		if ! test -L $reactApp/index.html && ! test -L $reactApp/main.css && ! test -L $reactApp/main.js &&
-			! test -L $reactApp/main.css.map && ! test -L $reactApp/main.js.map
-				then
-					echo -e "[${RED}REMOVING${NC}] $rmWarDirFiles"
-					rm -rf $rmWarDirFiles
-
-					echo -e "[${BLUE}LINKING${NC}] Linking $ui/react-app/dist ${BLUE}-->${NC} $warDir"
-					ln -fs $warBundles/$warDir/index.html   $reactApp/index.html 	
-					ln -fs $warBundles/$warDir/main.css     $reactApp/main.css 		
-					ln -fs $warBundles/$warDir/main.js      $reactApp/main.js 		
-					ln -fs $warBundles/$warDir/main.css.map $reactApp/main.css.map 	
-					ln -fs $warBundles/$warDir/main.js.map  $reactApp/main.js.map 	
-		fi
-
-		echo -e "[${GREEN}WATCHING${NC}] npm run watch on $warDir"
-		npm run --prefix $emm/components/ui/$ui/react-app watch
 	fi
 }
