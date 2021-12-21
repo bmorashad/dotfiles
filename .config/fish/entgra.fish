@@ -82,11 +82,11 @@ function entupf
 			set -l warRm $warBundles/$distWar
 			set -l dirWarRm $warBundles/$distWarDir
 
-			if test "$warRm" != ""
+			if test "$distWar" != ""
 				echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
 				rm -rf $warRm
 			end
-			if test "$dirWarRm" != ""
+			if test "$distWarDir" != ""
 				echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
 				rm -rf $dirWarRm
 			end
@@ -105,11 +105,11 @@ function entupf
 			set -l warRm $warBundles/$distWar
 			set -l dirWarRm $warBundles/$distWarDir
 
-			if test "$warRm" != ""
+			if test "$distWar" != ""
 				echo "[DELETING] $warRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
 				rm -rf $warRm
 			end
-			if test "$dirWarRm" != ""
+			if test "$distWarDir" != ""
 				echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
 				rm -rf $dirWarRm
 			end
@@ -121,6 +121,7 @@ function entupf
 		else
 			set -l jar (ls $x/target | rg '.*jar') 
 			if test "$jar" != ""
+				mkdir -p $patches
 				set -l patchDirLs (ls $patches)
 				set -l patch0000 (ls $patches | rg patch0000)
 				set -l patch5000 (ls $patches | rg patch5000)

@@ -120,12 +120,12 @@ function entupf {
 			warRm=$warBundles/$distWar
 			dirWarRm=$warBundles/$distWarDir
 
-			if test "$warRm" != ""
+			if test "$distWar" != ""
 			then
 				echo -e "[${RED}DELETING${NC}] $warRm" | rg "$work" --replace ""
 				rm -rf $warRm
 			fi
-			if test "$dirWarRm" != ""
+			if test "$distWarDir" != ""
 			then
 				echo -e "[${RED}DELETING${NC}] $dirWarRm" | rg "$work" --replace ""
 				rm -rf $dirWarRm
@@ -139,6 +139,7 @@ function entupf {
 			jar=$(ls $x/target | rg '.*jar') 
 			if test "$jar" != ""
 			then
+				mkdir -p $patches
 				patchDirLs=$(ls $patches)
 				patch0000=$(ls $patches | rg patch0000)
 				patch5000=$(ls $patches | rg patch5000)
