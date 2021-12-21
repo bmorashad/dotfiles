@@ -111,7 +111,6 @@ function entupf
 			end
 			if test "$dirWarRm" != ""
 				echo "[DELETING] $dirWarRm" | rg "$work" --replace "" | rg "DELETING" --passthru --colors 'match:fg:255,51,71' --color always
-
 				rm -rf $dirWarRm
 			end
 			echo "[COPYING] $x/target/$war --> $warBundles" | rg "$work" --replace "" | rg "COPYING|-->" --passthru --colors 'match:fg:0,229,255' --color always
