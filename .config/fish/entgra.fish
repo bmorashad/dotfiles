@@ -20,7 +20,7 @@ set UI 'publisher' $UI
 set PATH $dist/bin $PATH
 
 function ctc 
-	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*' --replace '' | sort -u| rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
+	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u| rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
 	if test "$dir" != ""
 		cd $dir
 	end
@@ -29,12 +29,12 @@ end
 # helper function
 function etb 
 	cd $argv[2]
-	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
+	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
 end
 
 function etba
 	cd $argv[1]
-	fd -t d | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[1]'/$0'
+	fd -t d | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[1]'/$0'
 end
 
 # fzf cd into a changed package
@@ -274,5 +274,5 @@ end
 # GIT 
 
 function ent_gdiff
-	git diff --name-only $argv[1] | rg --passthru "src/main/java.*" --replace "" | sort -u | fzf -m | xargs -ro git diff $argv[1]
+	git diff --name-only $argv[1] | rg --passthru "src/main/java.*|react-app/.*" --replace "" | sort -u | fzf -m | xargs -ro git diff $argv[1]
 end

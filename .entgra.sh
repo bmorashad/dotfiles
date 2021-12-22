@@ -48,12 +48,12 @@ function ecd {
 # helper function
 function etb {
 	cd $2
-	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$2'/$0'
+	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$2'/$0'
 }
 
 function etba {
 	cd $1
-	fd -t d | rg 'src/main/java.*' --replace '' | sort -u | rg '(.*)' --replace ''$1'/$0'
+	fd -t d | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$1'/$0'
 }
 
 # build given packages by path (i.e emif <path-to-package>)
