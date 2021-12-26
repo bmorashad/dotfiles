@@ -6,7 +6,7 @@ NC='\033[0m' # No Color
 echo "installing dev tools"
 sudo eopkg install -c system.devel
 # Solus Repo
-sudo eopkg install alsa-tools starship nnn fd ripgrep autokey-py3 fish rust golang cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer broot glow borg virtualenv rofi pipenv xev openssh-server rsync nmap httpie
+sudo eopkg install alsa-tools starship nnn fd ripgrep autokey-py3 fish rust golang cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer broot glow borg virtualenv rofi pipenv xev openssh-server rsync nmap httpie inxi
 
 # Rust
 echo "${BOLD}Installing cli tools written in rust${NC}"
