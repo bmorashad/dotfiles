@@ -48,8 +48,10 @@ nmap <leader>gc :vertical Gcommit <CR>
 " nnoremap <silent> <Leader>g :GFiles<CR>
 
 "ripgrep and fzf
-nnoremap <Leader>rg :Rg<Space>
-nnoremap <Leader>RG :Rg!<Space>
+nnoremap ,a :Rg<Space><CR>
+nnoremap ,A :Rg!<Space><CR>
+" nnoremap <Leader>rg :Rg<Space>
+" nnoremap <Leader>RG :Rg!<Space>
 
 "vimspector
  fun! GotoWindow(id)

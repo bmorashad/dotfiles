@@ -28,6 +28,12 @@ UI=("entgra" "mdm-reports" "store" "publisher")
 
 export PATH=$dist/bin:$PATH
 
+# escape path string
+function escape_path {
+	 echo $@ | rg '/' --replace '\/'
+}
+
+
 # list all changed packages
 function elist {
 	curr_dir=$(pwd)
@@ -48,7 +54,9 @@ function ecd {
 # helper function
 function etb {
 	cd $2
-	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$2'/$0'
+	# handle weird edge case in ubuntu
+	repo=$(escape_path $2)
+	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$2'/$0' | sed "/^$repo\/\?\$/d"
 }
 
 function etba {

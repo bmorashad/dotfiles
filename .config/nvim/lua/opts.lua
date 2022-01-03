@@ -10,7 +10,7 @@ vim.g.gruvbox_contrast_dark = 'medium'
 
 -- set theme
 vim.cmd [[
-colorscheme gruvbox
+    colorscheme gruvbox
 ]]
 vim.o.background = 'dark' -- [dark, light]
 

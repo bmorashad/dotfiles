@@ -1,6 +1,6 @@
 require('plugins')
-require('opts')
 require('setup')
+require('opts')
 require('binds')
 require('theme')
 require('treesitter-highlight')

@@ -19,6 +19,11 @@ set UI 'publisher' $UI
 
 set PATH $dist/bin $PATH
 
+# escape path string
+function escape_path
+	 echo $argv | rg '/' --replace '\/'
+end
+
 function ctc 
 	set -l dir (git diff-tree --no-commit-id --name-only -r $argv[1] | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u| rg '(.*)' --replace ''$argv[2]'/$0' | fzf)
 	if test "$dir" != ""
@@ -29,7 +34,9 @@ end
 # helper function
 function etb 
 	cd $argv[2]
-	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0'
+	# handle weird edge case in ubuntu
+	set repo (escape_path $argv[2])
+	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0' | sed "/^$repo\/\?\$/d"
 end
 
 function etba
