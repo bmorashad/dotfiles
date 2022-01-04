@@ -168,7 +168,7 @@ function ebdf
 			set dirs (etb $argv[1] $argv[2] | sed -n "$x p") $dirs
 		end
 	else
-		set dirs (etb $argv | fzf -m --reverse)
+		set dirs (etb $argv | sed "s#$argv[2]/##" | fzf -m --reverse | sed "s#^#$argv[2]/#")
 	end
 	for x in $dirs
 		emif $x
@@ -200,7 +200,7 @@ function ebdfa
 			set dirs (etba $argv[1] $argv[2] | sed -n "$x p") $dirs
 		end
 	else
-		set dirs (etba $argv | fzf -m --reverse)
+		set dirs (etba $argv | sed "s#$argv[2]/##" | fzf -m --reverse | sed "s#^#$argv[2]/#")
 	end
 	for x in $dirs
 		emif $x

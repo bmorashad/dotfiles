@@ -191,7 +191,7 @@ function ebdf {
 			dirs+=($(etb $1 $2 | sed -n "$x p"))
 		done
 	else
-		dirs=$(etb $@ | fzf -m --reverse)
+		dirs=$(etb $@ | sed "s#$2/##" | fzf -m --reverse | sed "s#^#$2/#")
 	fi
 	dirs=${dirs[@]}
 	for x in $dirs
@@ -230,7 +230,7 @@ function ebdfa {
 			dirs+=($(etba $1 $2 | sed -n "$x p"))
 		done
 	else
-		dirs=$(etba $@ | fzf -m --reverse)
+		dirs=$(etba $@ | sed "s#$2/##" | fzf -m --reverse | sed "s#^#$2/#")
 	fi
 	dirs=${dirs[@]}
 	for x in $dirs
