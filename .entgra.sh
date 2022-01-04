@@ -121,7 +121,7 @@ function entupf {
 		elif test "$war" != ""
 		then
 			distWar=$(ls $warBundles/ | grep "^$war")
-			warDir=$(echo $war | sed 's#.war##gp')
+			warDir=$(echo $war | sed 's#.war##g')
 			distWarDir=$(ls $warBundles/ | grep "^$warDir\$")
 			warRm=$warBundles/$distWar
 			dirWarRm=$warBundles/$distWarDir
