@@ -154,7 +154,7 @@ function entupf {
 					patchDir="patch5000"
 				elif test "$patch5000" != ""
 				then
-					patchDir=$(expr $(ls $patches/ |  sed 's/[aA-zZ]*[^0-9]//gp' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
+					patchDir=$(expr $(ls $patches/ |  sed 's/[a-zA-Z]*[^0-9]//gp' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
 				else
 					patchDir="patch5000"
 				fi
