@@ -59,7 +59,7 @@ function etb {
 
 function etba {
 	cd $1
-	find -type d | sed -n 's#src/main/java.*\|react-app/.*##gp' | sort -u | sed "s#^#$1/#"
+	find -type d | sed 's/\.\///' | sed -n 's#src/main/java.*\|react-app/.*##gp' | sort -u | sed "s#^#$1/#"
 }
 
 # build given packages by path (i.e emif <path-to-package>)
@@ -191,7 +191,7 @@ function ebdf {
 			dirs+=($(etb $1 $2 | sed -n "$x p"))
 		done
 	else
-		dirs=$(etb $@ | sed "s#$2/##" | fzf -m --reverse | sed "s#^#$2/#")
+		dirs=$(etb $@ | sed "s#$work/##" | fzf -m --reverse | sed "s#^#$work/#")
 	fi
 	dirs=${dirs[@]}
 	for x in $dirs
@@ -230,7 +230,7 @@ function ebdfa {
 			dirs+=($(etba $1 $2 | sed -n "$x p"))
 		done
 	else
-		dirs=$(etba $@ | sed "s#$2/##" | fzf -m --reverse | sed "s#^#$2/#")
+		dirs=$(etba $@ | sed "s#$work/##" | fzf -m --reverse | sed "s#^#$work/#")
 	fi
 	dirs=${dirs[@]}
 	for x in $dirs
