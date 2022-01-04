@@ -19,6 +19,9 @@ set UI 'publisher' $UI
 
 set PATH $dist/bin $PATH
 
+# Reference on sed instead of rg --replace
+# https://stackoverflow.com/questions/8225822/how-to-make-sed-remove-lines-not-matched-by-a-substitution
+
 # escape path string
 function escape_path
 	 echo $argv | rg '/' --replace '\/'

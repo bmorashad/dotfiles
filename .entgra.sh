@@ -30,7 +30,7 @@ export PATH=$dist/bin:$PATH
 
 # escape path string
 function escape_path {
-	 echo $@ | rg '/' --replace '\/'
+	 echo $@ | sed 's#/#\\\/#g'
 }
 
 
@@ -54,12 +54,12 @@ function ecd {
 # helper function
 function etb {
 	cd $2
-	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$2/#" 
+	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | sed -n 's#src/main/java.*\|react-app/.*##gp' | sort -u | sed "s#^#$2/#" 
 }
 
 function etba {
 	cd $1
-	find -type d | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$1/#"
+	find -type d | sed -n 's#src/main/java.*\|react-app/.*##gp' | sort -u | sed "s#^#$1/#"
 }
 
 # build given packages by path (i.e emif <path-to-package>)
@@ -83,14 +83,14 @@ function entupf {
 	curr_dir=$(pwd)
 	for x in $@
 	do
-		echo -e "[${PURPLE}DEPLOYING${NC}] $x" | rg "$work" --replace ""
-		war=$(ls $x/target | rg '.*war') 
+		echo -e "[${PURPLE}DEPLOYING${NC}] $x" | sed "s#$work##g"
+		war=$(ls $x/target | grep '.*war') 
 		# ui-request-handler deployment exception
 		if test "$war" = "ui-request-handler.war"
 		then
-			distWar=$(ls $warBundles/ | rg "$war")
-			warDir=$(echo $war | rg '.war' --replace '')
-			distWarDir=$(ls $warBundles/ | rg "$warDir" | rg "\.war" -v)
+			distWar=$(ls $warBundles/ | grep "$war")
+			warDir=$(echo $war | sed 's#.war##gp')
+			distWarDir=$(ls $warBundles/ | grep "$warDir" | grep "\.war" -v)
 
 			warRm=()
 			dirWarRm=()
@@ -101,18 +101,18 @@ function entupf {
 
 			if test "$warRm" != ""
 			then
-				echo -e "[${RED}DELETING${NC}] $warRm" | rg "$work" --replace ""
+				echo -e "[${RED}DELETING${NC}] $warRm" | sed "s#$work##g"
 				rm -rf $warRm
 			fi
 			if test "$dirWarRm" != ""
 			then
-				echo -e "[${RED}DELETING${NC}] $dirWarRm" | rg "$work" --replace ""
+				echo -e "[${RED}DELETING${NC}] $dirWarRm" | sed "s#$work##g"
 				rm -rf $dirWarRm
 			fi
 			for ui in ${UI[@]}
 			do
 				ui_name="$ui-$war"
-				echo -e "[${CYAN}COPYING${NC}] $ui/target/$war ${GREEN}-->${NC} $warBundles/$ui-$war" | rg "$work" --replace ""
+				echo -e "[${CYAN}COPYING${NC}] $ui/target/$war ${GREEN}-->${NC} $warBundles/$ui-$war" | sed "s#$work##g"
 				cp $x/target/$war $warBundles/$ui_name
 			done
 			echo -e "${WHITE}------------------------------------------------${NC}"
@@ -120,46 +120,46 @@ function entupf {
 			echo -e "${WHITE}------------------------------------------------${NC}"
 		elif test "$war" != ""
 		then
-			distWar=$(ls $warBundles/ | rg "^$war")
-			warDir=$(echo $war | rg '.war' --replace '')
-			distWarDir=$(ls $warBundles/ | rg "^$warDir\$")
+			distWar=$(ls $warBundles/ | grep "^$war")
+			warDir=$(echo $war | sed 's#.war##gp')
+			distWarDir=$(ls $warBundles/ | grep "^$warDir\$")
 			warRm=$warBundles/$distWar
 			dirWarRm=$warBundles/$distWarDir
 
 			if test "$distWar" != ""
 			then
-				echo -e "[${RED}DELETING${NC}] $warRm" | rg "$work" --replace ""
+				echo -e "[${RED}DELETING${NC}] $warRm" | sed "s#$work##g"
 				rm -rf $warRm
 			fi
 			if test "$distWarDir" != ""
 			then
-				echo -e "[${RED}DELETING${NC}] $dirWarRm" | rg "$work" --replace ""
+				echo -e "[${RED}DELETING${NC}] $dirWarRm" | sed "s#$work##g"
 				rm -rf $dirWarRm
 			fi
-			echo -e "[${CYAN}COPYING${NC}] $x/target/$war ${GREEN}-->${NC} $warBundles" | rg "$work" --replace ""
+			echo -e "[${CYAN}COPYING${NC}] $x/target/$war ${GREEN}-->${NC} $warBundles" | sed "s#$work##g"
 			cp $x/target/$war $warBundles
 			echo -e "${WHITE}------------------------------------------------${NC}"
 			echo -e " ${GREEN}DEPLOYED SUCCESSFULLY${NC}"
 			echo -e "${WHITE}------------------------------------------------${NC}"
 		else
-			jar=$(ls $x/target | rg '.*jar') 
+			jar=$(ls $x/target | grep '.*jar') 
 			if test "$jar" != ""
 			then
 				mkdir -p $patches
 				patchDirLs=$(ls $patches)
-				patch0000=$(ls $patches | rg patch0000)
-				patch5000=$(ls $patches | rg patch5000)
+				patch0000=$(ls $patches | grep patch0000)
+				patch5000=$(ls $patches | grep patch5000)
 				if test "$patchDirLs" = ""
 				then
 					patchDir="patch5000"
 				elif test "$patch5000" != ""
 				then
-					patchDir=$(expr $(ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
+					patchDir=$(expr $(ls $patches/ |  sed 's/[aA-zZ]*[^0-9]//gp' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
 				else
 					patchDir="patch5000"
 				fi
 				mkdir $patches/$patchDir
-				echo -e "[${CYAN}COPYING${NC}] $x/target/$jar ${GREEN}-->${NC} $patches/$patchDir" | rg "$work" --replace ""
+				echo -e "[${CYAN}COPYING${NC}] $x/target/$jar ${GREEN}-->${NC} $patches/$patchDir" | sed "s#$work##g"
 				cp $x/target/$jar $patches/$patchDir
 				echo -e "${WHITE}------------------------------------------------${NC}"
 				echo -e " ${GREEN}DEPLOYED SUCCESSFULLY${NC}"
@@ -272,16 +272,16 @@ function entapply {
 
 # entgra ui watch
 function entuiwatch {
-	ui=$(ls $emm/components/ui | rg ".*ui" | fzf --reverse)
+	ui=$(ls $emm/components/ui | grep ".*ui" | fzf --reverse)
 
 	if test "$ui" != ""
 	then
-		warDir=$(ls $emm/components/ui/$ui/target | rg '\.war' --replace "")
+		warDir=$(ls $emm/components/ui/$ui/target | sed 's#\.war##gp')
 		if test -d "$warBundles/$warDir"
 		then
 			reactApp=$emm/components/ui/$ui/react-app/dist
 
-			builtIndex=$(ls $reactApp | rg 'index\.html')
+			builtIndex=$(ls $reactApp | grep 'index\.html')
 
 			if test -z "$builtIndex"
 			then
