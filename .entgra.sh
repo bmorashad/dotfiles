@@ -54,16 +54,12 @@ function ecd {
 # helper function
 function etb {
 	cd $2
-	# handle weird edge case in ubuntu
-	repo=$(escape_path $2)
-	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$2'/$0' | sed "/^$repo\/\?\$/d"
+	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$2/#" 
 }
 
 function etba {
 	cd $1
-	# handle weird edge case in ubuntu
-	repo=$(escape_path $1)
-	find -type d | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$1'/$0' | sed "/^$repo\/\?\$/d"
+	find -type d | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$1/#"
 }
 
 # build given packages by path (i.e emif <path-to-package>)
@@ -158,13 +154,11 @@ function entupf {
 					patchDir="patch5000"
 				elif test "$patch5000" != ""
 				then
-					# sed at the end handles edge case with Ubuntu
-					patchDir=$(expr $(ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0' | sed '/^patch$/d')
+					patchDir=$(expr $(ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
 				else
 					patchDir="patch5000"
 				fi
 				mkdir $patches/$patchDir
-				echo $patchDir
 				echo -e "[${CYAN}COPYING${NC}] $x/target/$jar ${GREEN}-->${NC} $patches/$patchDir" | rg "$work" --replace ""
 				cp $x/target/$jar $patches/$patchDir
 				echo -e "${WHITE}------------------------------------------------${NC}"

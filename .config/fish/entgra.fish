@@ -34,14 +34,12 @@ end
 # helper function
 function etb 
 	cd $argv[2]
-	# handle weird edge case in ubuntu
-	set repo (escape_path $argv[2])
-	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[2]'/$0' | sed "/^$repo\/\?\$/d"
+	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$argv[2]/#" 
 end
 
 function etba
 	cd $argv[1]
-	fd -t d | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | rg '(.*)' --replace ''$argv[1]'/$0'
+	fd -t d | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$argv[1]/#" 
 end
 
 # fzf cd into a changed package
@@ -135,7 +133,7 @@ function entupf
 				if test "$patchDirLs" = ""
 					set patchDir "patch5000"
 				else if test "$patch5000" != ""
-					set patchDir (math (ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | rg '\d*' --replace 'patch$0')
+					set patchDir (math (ls $patches/ | rg '\w*[^\d]' --replace '' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
 					else
 					set patchDir "patch5000"
 				end
