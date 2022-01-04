@@ -89,7 +89,7 @@ function entupf {
 		if test "$war" = "ui-request-handler.war"
 		then
 			distWar=$(ls $warBundles/ | grep "$war")
-			warDir=$(echo $war | sed 's#.war##gp')
+			warDir=$(echo $war | sed -n 's#.war##gp')
 			distWarDir=$(ls $warBundles/ | grep "$warDir" | grep "\.war" -v)
 
 			warRm=()
@@ -121,7 +121,7 @@ function entupf {
 		elif test "$war" != ""
 		then
 			distWar=$(ls $warBundles/ | grep "^$war")
-			warDir=$(echo $war | sed 's#.war##g')
+			warDir=$(echo $war | sed -n 's#.war##gp')
 			distWarDir=$(ls $warBundles/ | grep "^$warDir\$")
 			warRm=$warBundles/$distWar
 			dirWarRm=$warBundles/$distWarDir
@@ -154,7 +154,7 @@ function entupf {
 					patchDir="patch5000"
 				elif test "$patch5000" != ""
 				then
-					patchDir=$(expr $(ls $patches/ |  sed 's/[a-zA-Z]*[^0-9]//gp' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
+					patchDir=$(expr $(ls $patches/ |  sed -n 's/[a-zA-Z]*[^0-9]//gp' | sort -r | sed -n "1 p") + 1 | sed 's/^/patch/')
 				else
 					patchDir="patch5000"
 				fi
@@ -276,7 +276,7 @@ function entuiwatch {
 
 	if test "$ui" != ""
 	then
-		warDir=$(ls $emm/components/ui/$ui/target | sed 's#\.war##gp')
+		warDir=$(ls $emm/components/ui/$ui/target | sed -n 's#\.war##gp')
 		if test -d "$warBundles/$warDir"
 		then
 			reactApp=$emm/components/ui/$ui/react-app/dist
