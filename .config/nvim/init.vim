@@ -120,6 +120,7 @@ call plug#end()
 
 "enable undo after close"
 if has('persistent_undo')      "check if your vim version supports it
+  " Disable due to some files name being too long LOL 
   set undofile                 "turn on the feature  
   set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
 endif 

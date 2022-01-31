@@ -55,6 +55,8 @@ function fish_greeting
 	rg "\w.*" --colors match:fg:blue
 	echo 'api/grafana/analytics-mgt' | \
 	rg "\w.*" --colors match:fg:blue
+	echo 'feature/latest/ui/is-apps' | \
+	rg "\w.*" --colors match:fg:blue
 	echo
 end
 
@@ -731,3 +733,6 @@ export NNN_OPTS="d"
 export NNN_FIFO='/tmp/nnn.fifo'
 export NNN_PLUG='p:preview-tui;P:pdfview;f:fzcd;o:fzopen;D:diffs;v:imgview;z:fzz'
 export NNN_BMS='i:~/Documents/IIT_L5;d:~/Downloads/'
+
+# run below line to set default nvm version
+# set --universal nvm_default_version v16
