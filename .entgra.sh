@@ -54,7 +54,7 @@ function ecd {
 # helper function
 function etb {
 	cd $2
-	(git diff --name-only -r $1; git ls-files --exclude-standard --others) | sed -n 's#src/main/java.*\|react-app/.*##gp' | sort -u | sed "s#^#$2/#" 
+	(git diff --name-only --diff-filter=d -r $1; git ls-files --exclude-standard --others) | sed -n 's#src/main/java.*\|react-app/.*##gp' | sort -u | sed "s#^#$2/#" 
 }
 
 function etba {

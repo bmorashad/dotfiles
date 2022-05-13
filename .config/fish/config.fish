@@ -51,11 +51,11 @@ function fish_greeting
 	# rg "\-->" --colors match:fg:green --color always | rg "\w.*" --colors match:fg:blue
 	# echo
 	
-	echo  'api/grafana/device-mgt' | \
-	rg "\w.*" --colors match:fg:blue
 	echo 'api/grafana/analytics-mgt' | \
 	rg "\w.*" --colors match:fg:blue
-	echo 'feature/latest/ui/is-apps' | \
+	echo 'api/master/grafana/analytics-mgt' | \
+	rg "\w.*" --colors match:fg:blue
+	echo 'revert/feature/no/sync/ui/sp-apps' | \
 	rg "\w.*" --colors match:fg:blue
 	echo
 end
@@ -619,7 +619,7 @@ end
 function kill_lport
 	set -l listening_procs (sudo ss -tulnp | grep LISTEN)
 	if test "$listening_procs" != ""
-		begin; for x in $listening_procs; echo $x; end; end | fzf --ansi --height '50%' -m | rg '(pid=)(\d+)(,)' --replace '$2' -o | xargs -p -r kill - 9
+		begin; for x in $listening_procs; echo $x; end; end | fzf --ansi --height '50%' -m | rg '(pid=)(\d+)(,)' --replace '$2' -o | xargs -p -r kill -9
 	end
 end
 

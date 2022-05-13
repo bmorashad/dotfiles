@@ -38,6 +38,10 @@ echo "make python2 virtual env"
 virtualenv -p python2 $PYTHON_ENV2_DIR
 echo (source $PYTHON_ENV2_DIR/bin/activate.fish && pip install neovim pynvim && deactivate)
 
+# add docker auto completion to fish
+mkdir -p ~/.config/fish/completions
+wget https://raw.github.com/docker/cli/master/contrib/completion/fish/docker.fish -O ~/.config/fish/completions/docker.fish
+
 # source new changes to fish shell
 echo "source new changes to fish shell"
 source ~/.config/fish/config.fish

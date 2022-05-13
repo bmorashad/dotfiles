@@ -2,6 +2,9 @@ vim.cmd('packadd packer.nvim')
 
 return require('packer').startup(
 	function()
+		-- Gnome default text eidtor theme
+		use 'Mofiqul/adwaita.nvim'
+
 		-- EasyMotion Alt
 		use {
 			'phaazon/hop.nvim',

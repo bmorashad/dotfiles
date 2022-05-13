@@ -8,7 +8,8 @@ export product="$work/product-iots"
 export emm="$work/emm-proprietary-plugins"
 export prorietary="$work/proprietary-product"
 export community="$work/community-product"
-export dist="$prorietary/distribution/ultimate/target/entgra-uem-ultimate-5.0.1-SNAPSHOT"
+export target="$prorietary/distribution/ultimate/target"
+export dist="$target/entgra-uem-ultimate-5.0.1.0-SNAPSHOT"
 export patches="$dist/repository/components/patches"
 export warBundles="$dist/repository/deployment/server/webapps"
 
@@ -37,7 +38,7 @@ end
 # helper function
 function etb 
 	cd $argv[2]
-	begin; git diff --name-only -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$argv[2]/#" 
+	begin; git diff --name-only --diff-filter=d -r $argv[1]; git ls-files --exclude-standard --others; end | rg 'src/main/java.*|react-app/.*' --replace '' | sort -u | sed "s#^#$argv[2]/#" 
 end
 
 function etba
