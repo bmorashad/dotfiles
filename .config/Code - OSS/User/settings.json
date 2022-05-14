@@ -53,8 +53,8 @@
         }
 
       ],
-      "workbench.colorTheme": "Darcula Theme from IntelliJ",
       "workbench.colorCustomizations": {
+      
         "editor.background": "#2b2b2b",
 		"editor.lineHighlightBackground" : "#323232",
 		"sideBar.background": "#3c3f41",
@@ -66,5 +66,6 @@
         "editor.defaultFormatter": "cweijan.vscode-mysql-client2"
       },
       "editor.tabSize": 2,
-      "vim.scroll": 10
+      "vim.scroll": 10,
+      "workbench.colorTheme": "IntelliJ Dark"
 }
