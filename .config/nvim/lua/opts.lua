@@ -1,21 +1,21 @@
 -- Theme
-vim.g.adwaita_mode = "dark"
-vim.cmd([[colorscheme adwaita]])
+-- vim.g.adwaita_mode = "dark"
+-- vim.cmd([[colorscheme adwaita]])
 
 
 -- Gruvbox
--- vim.g.gruvbox_italic = '1'
--- vim.g.gruvbox_transparent_bg = '1'
--- vim.g.gruvbox_contrast_dark = 'medium'
+vim.g.gruvbox_italic = '1'
+vim.g.gruvbox_transparent_bg = '1'
+vim.g.gruvbox_contrast_dark = 'medium'
 
 -- Enfocado
--- vim.g.enfocado_style = 'nature'
+vim.g.enfocado_style = 'nature'
 
 -- set theme
--- vim.cmd [[
---     colorscheme gruvbox
--- ]]
--- vim.o.background = 'dark' -- [dark, light]
+vim.cmd [[
+    colorscheme gruvbox
+]]
+vim.o.background = 'dark' -- [dark, light]
 
 
 vim.o.termguicolors = true

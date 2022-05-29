@@ -9,7 +9,7 @@ export emm="$work/emm-proprietary-plugins"
 export prorietary="$work/proprietary-product"
 export community="$work/community-product"
 export target="$prorietary/distribution/ultimate/target"
-export dist="$target/entgra-uem-ultimate-5.0.1.0-SNAPSHOT"
+export dist="$target/entgra-uem-ultimate-5.0.1-SNAPSHOT"
 export patches="$dist/repository/components/patches"
 export warBundles="$dist/repository/deployment/server/webapps"
 

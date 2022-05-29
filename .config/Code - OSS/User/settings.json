@@ -53,19 +53,20 @@
         }
 
       ],
-      "workbench.colorCustomizations": {
+    //   "workbench.colorCustomizations": {
       
-        "editor.background": "#2b2b2b",
-		"editor.lineHighlightBackground" : "#323232",
-		"sideBar.background": "#3c3f41",
-		"tab.activeBackground": "#313335",
-		"tab.inactiveBackground": "#292b2d"
-      },
+    //     "editor.background": "#2b2b2b",
+		// "editor.lineHighlightBackground" : "#323232",
+		// "sideBar.background": "#3c3f41",
+		// "tab.activeBackground": "#313335",
+		// "tab.inactiveBackground": "#292b2d"
+    //   },
       "database-client.preferConnectionName": true,
       "[sql]": {
         "editor.defaultFormatter": "cweijan.vscode-mysql-client2"
       },
       "editor.tabSize": 2,
       "vim.scroll": 10,
-      "workbench.colorTheme": "IntelliJ Dark"
+      "workbench.colorTheme": "Dartcula Theme - Pure",
+      "workbench.iconTheme": "vscode-jetbrains-icon-theme"
 }

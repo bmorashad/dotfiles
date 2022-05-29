@@ -51,13 +51,13 @@ function fish_greeting
 	# rg "\-->" --colors match:fg:green --color always | rg "\w.*" --colors match:fg:blue
 	# echo
 	
-	echo 'api/grafana/analytics-mgt' | \
-	rg "\w.*" --colors match:fg:blue
-	echo 'api/master/grafana/analytics-mgt' | \
-	rg "\w.*" --colors match:fg:blue
-	echo 'revert/feature/no/sync/ui/sp-apps' | \
-	rg "\w.*" --colors match:fg:blue
-	echo
+	# echo 'api/grafana/analytics-mgt' | \
+	# rg "\w.*" --colors match:fg:blue
+	# echo 'api/master/grafana/analytics-mgt' | \
+	# rg "\w.*" --colors match:fg:blue
+	# echo 'revert/feature/no/sync/ui/sp-apps' | \
+	# rg "\w.*" --colors match:fg:blue
+	# echo
 end
 
 set TODO
