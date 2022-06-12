@@ -42,23 +42,20 @@ return require('packer').startup(
 		use {'morhetz/gruvbox', as = 'gruvbox'}
 		use 'projekt0n/github-nvim-theme'
 		use {
-			'lewis6991/gitsigns.nvim',
-			requires = {
-				'nvim-lua/plenary.nvim'
-			}
-		}
+  'lewis6991/gitsigns.nvim',
+  -- tag = 'release' -- To use the latest release
+}
 		use {
 			'nvim-telescope/telescope.nvim',
 			requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
 		}
+		-- File Explorer
 		use {
-			"kyazdani42/nvim-tree.lua",
-			-- event = "BufWinOpen",
-			-- cmd = "NvimTreeToggle",
-			commit = "fd7f60e242205ea9efc9649101c81a07d5f458bb",
-			config = function()
-				require("lv-nvimtree").config()
-			end,
+			'kyazdani42/nvim-tree.lua',
+			requires = {
+				'kyazdani42/nvim-web-devicons', -- optional, for file icon
+			},
+			tag = 'nightly' -- optional, updated every week. (see issue #1193)
 		}
 		use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons'}
 	end

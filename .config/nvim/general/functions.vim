@@ -46,7 +46,8 @@ function! CompileRun()
 
 		endif
 	elseif &filetype == 'javascript'
-		exec "w !time node %"
+		" exec "w !time node %"
+		exec "w !time node"
 	elseif &filetype == 'sh'
 		exec "w !time bash %"
 	elseif &filetype == 'python'
