@@ -28,11 +28,11 @@
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     // "java",
-    "css",
     "javascript",
     "jsx",
     "latex",
     "html",
+    "svelte",
     // "json",
     "python"
   ],
@@ -158,5 +158,6 @@
     "watchexec",
     "xrwxrwx",
     "yoink"
-  ]
+  ],
+  "svelte.enable-ts-plugin": true
 }

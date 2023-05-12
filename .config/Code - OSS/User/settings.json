@@ -18,6 +18,7 @@
   "vim.useSystemClipboard": true,
   "vim.useCtrlKeys": true,
   "vim.hlsearch": true,
+  "vim.leader": "<space>",
   "vim.visualModeKeyBindings": [
     {
       "before": ["L"],
@@ -44,6 +45,10 @@
     {
       "before": [";"],
       "after": [":"]
+    },
+    {
+      "before": ["<leader>", "/"],
+      "commands": [":noh"]
     }
   ],
   "vim.normalModeKeyBindings": [
@@ -82,11 +87,12 @@
   },
   "editor.tabSize": 2,
   "vim.scroll": 30,
-  "workbench.colorTheme": "Dartcula Theme - Pure",
-  "workbench.iconTheme": "vscode-jetbrains-icon-theme",
   "editor.smoothScrolling": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    // "source.fixAll.eslint": true
   },
-  "eslint.validate": ["javascript"]
+  "eslint.validate": ["javascript"],
+  "workbench.iconTheme": "vscode-jetbrains-icon-theme",
+  "workbench.colorTheme": "Dartcula Theme - Pure"
+  // "editor.fontFamily": "'FuraCode Nerd Font', 'monospace', monospace"
 }

@@ -8,13 +8,21 @@ vim.g.gruvbox_italic = '1'
 vim.g.gruvbox_transparent_bg = '1'
 vim.g.gruvbox_contrast_dark = 'medium'
 
+-- Oxcarbon
+vim.g.oxocarbon_lua_keep_terminal = true
+
+
 -- Enfocado
 vim.g.enfocado_style = 'nature'
 
--- set theme
-vim.cmd [[
-    colorscheme gruvbox
-]]
+-- Themes
+-- sweetie
+-- vim.cmd.colorscheme("sweetie")
+
+-- gruvbox
+vim.cmd("colorscheme gruvbox")
+-- -- vim.cmd("colorscheme oxocarbon-lua")
+
 vim.o.background = 'dark' -- [dark, light]
 
 

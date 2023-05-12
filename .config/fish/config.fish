@@ -3,6 +3,8 @@
 # NOTE: echo "You may want to use fd with -I and -H flag to search for jar/war/etc files"
 # rg
 # NOTE: echo "You may want to use fd with --no-ignore and --hidden flag to search for jar/war/etc files"
+#
+set store "$HOME/.config/fish/store"
 
 function trash
 	mkdir -p ~/.trash
@@ -111,10 +113,53 @@ end
 
 # print prayer times
 function prayer
-	https http://slmuslims.com | rg "(\d{1,}\s*:\s*\d{2}\s*(am|pm))|id\s*=\s*\"\s*(fajr|sunrise|luhar|asar|magrib|ishah)\s*\"" \
-	--replace '$1$3' -o | tr '\n' '|' | rg  "([a|p]m)\s*\|" --replace '$1|||' | sed 's/|||/\n/g' | sed -e "s/\(^\w\)/\u\1/g" \
-	| rg '(\D)(\d{1}:)' --replace '$1,0$2' --passthru | sed 's/,//g' | column -t -s '|' | \
-	rg '^\w+' --colors 'match:fg:cyan' --color always| rg '\d{1,}:.*' --colors 'match:fg:blue'
+	# https http://slmuslims.com | rg "(\d{1,}\s*:\s*\d{2}\s*(am|pm))|id\s*=\s*\"\s*(fajr|sunrise|luhar|asar|magrib|ishah)\s*\"" \
+	# --replace '$1$3' -o | tr '\n' '|' | rg  "([a|p]m)\s*\|" --replace '$1|||' | sed 's/|||/\n/g' | sed -e "s/\(^\w\)/\u\1/g" \
+	# | rg '(\D)(\d{1}:)' --replace '$1,0$2' --passthru | sed 's/,//g' | column -t -s '|' | \
+	# rg '^\w+' --colors 'match:fg:cyan' --color always| rg '\d{1,}:.*' --colors 'match:fg:blue'
+	
+	set curr_date (date '+%m-%d-%Y')
+	if count $argv > /dev/null
+		set curr_date $argv[1]
+	end
+	# Get prayer times
+	set prayer_times (http --form POST http://www.slmuslims.com/index.php \
+                Content-Type:application/x-www-form-urlencoded \
+                cookie:14ccc78b2c2f38ca6d23b656cfb3aa86=1dj0c3r209q3ufufckcjpacai4 \
+                option=com_prayertime \
+                task=getPrayerTimes \
+                format=json \
+                args=$curr_date \
+              --body | sed 's/]//g' | sed 's/\[//g' | sed 's/,/\n/g' | sed 's/"//g')
+
+	set prayers Fajr Sunrise Luhar Asr Maghrib Isha
+	echo DATE: $curr_date
+	echo
+	set i 1; for time in $prayer_times
+                  echo "$prayers[$i]|$time"
+                  set i (math $i + 1)
+              end | sed '$ d' | column -t -s \| | rg '^\w+' --colors 'match:fg:cyan' --color always| rg '\d{1,}:.*' --colors 'match:fg:blue'
+end
+
+function store_prayer_times
+	set store_loc "$store/prayer/times.txt"
+	if count $argv > /dev/null
+		prayer $argv[1] >> $store_loc
+	else
+		prayer > $store_loc
+	end
+	echo >> $store_loc
+end
+
+function store_prayer_times_for_month
+	set curr_date (date "+%m-%d-%Y")
+	set date_default_form (date "+%Y-%m-%d")
+	
+	for i in (seq 1 31)
+		store_prayer_times $curr_date
+		echo Prayer times saved successfully for $curr_date
+		set curr_date (date "+%m-%d-%Y" -d "+$i day $date_default_form")
+	end
 end
 
 
@@ -435,7 +480,7 @@ function install_fonts
 			if test -d $arg
 				if ! count (fd . $arg -t f -e ttf -e otf -d 1) > /dev/null 
 					set valid_folder false
-					echo "$arg folder doesn't contain any fonts(at depth 1)"
+					echo "$arg folder doesn't contain any fonts (at depth 1)"
 					break
 				end
 			else
@@ -625,7 +670,7 @@ end
 
 # helper
 function echo_output_var
-	
+
 end
 
 # Entgra functions
@@ -699,6 +744,11 @@ export PYTHON_ENV_DIR="$HOME/.py_env"
 export PYTHON_ENV3_DIR="$PYTHON_ENV_DIR/py_env3"
 export PYTHON_ENV2_DIR="$PYTHON_ENV_DIR/py_env2"
 
+#pyenv
+# export PYENV_ROOT="$THIRDPARTY_APP_DIR/github/pyenv"
+# set PATH $PYENV_ROOT/bin $PATH
+# pyenv init - | source
+
 set -gx EDITOR nvim
 export EDITOR=nvim
 # sudoedit
@@ -736,3 +786,6 @@ export NNN_BMS='i:~/Documents/IIT_L5;d:~/Downloads/'
 
 # run below line to set default nvm version
 # set --universal nvm_default_version v16
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/bmora/.thirdparty-app/gcloud/google-cloud-sdk/path.fish.inc' ]; . '/home/bmora/.thirdparty-app/gcloud/google-cloud-sdk/path.fish.inc'; end

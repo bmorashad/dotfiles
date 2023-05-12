@@ -1,6 +1,6 @@
 [user]
 	email = bmorashad@gmail.com
-	name = Mohamed Rashd
+	name = Mohamed Rashad
 [filesystem "Oracle Corporation|1.8.0_241|tmpfs"]
 	timestampResolution = 1001 milliseconds
 	minRacyThreshold = 0 nanoseconds
@@ -19,3 +19,8 @@
 [alias]
 # Allows you to easily pick what to rebase
 frbi = "!f() { git log --pretty=oneline --color=always | fzf --ansi | cut -d ' ' -f1 | xargs -r git rebase -i ; }; f"
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

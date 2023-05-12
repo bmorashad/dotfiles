@@ -40,10 +40,6 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 " js 8/28/20
 Plug 'pangloss/vim-javascript'
 
-" Testin
-" To Be Enabled
-Plug 'easymotion/vim-easymotion'
-
 " Motions
 " To Be Enabled
 Plug 'unblevable/quick-scope'
@@ -88,7 +84,7 @@ Plug 'psliwka/vim-smoothie'
 Plug 'alvan/vim-closetag'
 
 Plug 'pangloss/vim-javascript'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'scrooloose/nerdtree'
 " fzf in rust(alternative)
 " Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
@@ -136,11 +132,23 @@ augroup END
 " save sudo files with w!!
 cmap w!! w !sudo tee % >/dev/null
 
-" easymotion
-" map  <Leader>f <Plug>(easymotion-bd-f)
-" nmap S <Plug>(easymotion-overwin-f2)
-" map S <Plug>(easymotion-bd-w)
-" nmap S <Plug>(easymotion-overwin-w)
+" Fix recent coc error when using tabs
+" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 nnoremap s S
 ":syntax on
 
@@ -347,14 +355,6 @@ set shortmess+=c
 
 " always show signcolumns
 " set signcolumn=yes
-
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1

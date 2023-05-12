@@ -22,16 +22,24 @@ vim.api.nvim_set_keymap("n", "Y", "y$", opts_silent)
 vim.api.nvim_set_keymap("v", "K", ":", opts_silent)
 
 -- Commentery
-vim.api.nvim_set_keymap("n", "<leader>cic", "<Plug>kommentary_line_increase", {})
-vim.api.nvim_set_keymap("n", "<leader>ci", "<Plug>kommentary_motion_increase", {})
-vim.api.nvim_set_keymap("v", "<leader>ci", "<Plug>kommentary_visual_increase", {})
-vim.api.nvim_set_keymap("n", "<leader>cdc", "<Plug>kommentary_line_decrease", {})
-vim.api.nvim_set_keymap("n", "<leader>cd", "<Plug>kommentary_motion_decrease", {})
-vim.api.nvim_set_keymap("v", "<leader>cd", "<Plug>kommentary_visual_decrease", {})
 
-vim.api.nvim_set_keymap("n", ",c", "<Plug>kommentary_motion_default", {})
-vim.api.nvim_set_keymap("v", ",c", "<Plug>kommentary_visual_default", {})
-vim.api.nvim_set_keymap("n", ",c", "<Plug>kommentary_line_default", {})
+-- Kommentary Plugin --
+-- vim.api.nvim_set_keymap("n", "<leader>cic", "<Plug>kommentary_line_increase", {})
+-- vim.api.nvim_set_keymap("n", "<leader>ci", "<Plug>kommentary_motion_increase", {})
+-- vim.api.nvim_set_keymap("v", "<leader>ci", "<Plug>kommentary_visual_increase", {})
+-- vim.api.nvim_set_keymap("n", "<leader>cdc", "<Plug>kommentary_line_decrease", {})
+-- vim.api.nvim_set_keymap("n", "<leader>cd", "<Plug>kommentary_motion_decrease", {})
+-- vim.api.nvim_set_keymap("v", "<leader>cd", "<Plug>kommentary_visual_decrease", {})
+
+-- vim.api.nvim_set_keymap("n", ",c", "<Plug>kommentary_motion_default", {})
+-- vim.api.nvim_set_keymap("v", ",c", "<Plug>kommentary_visual_default", {})
+-- vim.api.nvim_set_keymap("n", ",c", "<Plug>kommentary_line_default", {})
+
+vim.api.nvim_set_keymap("n", ",c", "gcc", {})
+vim.api.nvim_set_keymap("v", ",c", "gc", {})
+
+-- End Commentery --
+
 
  
 -- Telescope
