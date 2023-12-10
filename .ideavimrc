@@ -1,0 +1,56 @@
+let mapleader = " "
+nnoremap <leader>/ :noh<CR>
+set incsearch
+set ignorecase
+set smartcase
+" set hsl
+set hls
+nnoremap ; :
+nnoremap L <C-d>
+nnoremap : <C-u>
+nnoremap s S
+nnoremap <leader><leader> <C-F9>
+" copy to system clipboard
+noremap <C-c> "+y
+noremap <C-p> "+p
+
+" IDEA specific
+nnoremap ,s :action Run<CR>
+nmap <leader>? :action GotoAction<CR>
+
+" change font size
+nmap + ;action EditorIncreaseFontSize<CR>
+nmap _ ;action EditorDecreaseFontSize<CR>
+nmap <leader>= :action EditorResetFontSize<CR>
+
+nmap ,f ;action GotoFile<CR>
+nmap ,a ;action FindInPath<CR>
+nmap ,r ;action RenameElement<CR>
+nmap gr ;action ShowUsages<CR>
+nmap gi ;action GotoImplementation<CR>
+nmap gs ;action GotoSuperMethod<CR>
+
+nmap <TAB> ;action NextTab<CR>
+nmap <S-TAB> ;action PreviousTab<CR>
+
+nmap <C-p> ;action ParameterInfo<CR>
+imap <C-p> <C-o> ;action ParameterInfo<CR>
+nmap <leader>n ;action GotoNextError<CR>
+
+
+nmap <leader>ri ;action Inline<CR>
+nmap <leader>rr ;action RenameElement<CR>
+nmap <leader>rev ;action IntroduceVariable<CR>
+vmap <leader>rev ;action IntroduceVariable<CR>
+nmap <leader>rem ;action ExtractMethod<CR>
+vmap <leader>rem ;action ExtractMethod<CR>
+nmap <leader>rm ;action Move<CR>
+nmap <leader>ro ;action OptimizeImports<CR>
+nmap <leader>rG ;action Generate<CR>
+
+nmap <leader>f  ;action ReformatCode<CR>
+
+nmap <, ;action MoveElementLeft<CR>
+nmap >, ;action MoveElementRight<CR>
+
+nmap <leader>gr ;action Vcs.RollbackChangedLines<CR>

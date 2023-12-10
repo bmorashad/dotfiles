@@ -4,3 +4,5 @@ source $HOME/.profile
 export JAVA_HOME=/opt/jdk1.8.0_241/
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
+
+source /home/bmora/.config/broot/launcher/bash/br

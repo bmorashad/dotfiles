@@ -93,6 +93,8 @@
   },
   "eslint.validate": ["javascript"],
   "workbench.iconTheme": "vscode-jetbrains-icon-theme",
-  "workbench.colorTheme": "Dartcula Theme - Pure"
+  "editor.fontFamily": "'JetBrains Mono', 'monospace', monospace",
+  "editor.fontSize": 16,
+  "files.autoSave": "afterDelay"
   // "editor.fontFamily": "'FuraCode Nerd Font', 'monospace', monospace"
 }

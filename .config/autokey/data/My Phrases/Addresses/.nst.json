@@ -1,17 +1,17 @@
 {
     "type": "phrase",
-    "description": "Home Address",
+    "description": "nst",
     "modes": [
         1
     ],
-    "usageCount": 9,
+    "usageCount": 0,
     "prompt": false,
     "omitTrigger": false,
     "matchCase": false,
     "showInTrayMenu": false,
     "abbreviation": {
         "abbreviations": [
-            "adr"
+            "nst"
         ],
         "backspace": true,
         "ignoreCase": false,

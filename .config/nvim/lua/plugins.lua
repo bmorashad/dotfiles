@@ -13,7 +13,7 @@ return require('packer').startup(
 		use {
 			'phaazon/hop.nvim',
 			as = 'hop',
-			branch = 'v1',
+			branch = 'v2',
 			config = function()
 				-- you can configure Hop the way you like here; see :h hop-config
 				require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
