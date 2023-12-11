@@ -41,7 +41,6 @@ vim.api.nvim_set_keymap("v", ",c", "gc", {})
 -- End Commentery --
 
 
- 
 -- Telescope
 vim.api.nvim_set_keymap('n', '<leader>ff', '<cmd>Telescope find_files<cr>', opts_silent)
 vim.api.nvim_set_keymap('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', opts_silent)

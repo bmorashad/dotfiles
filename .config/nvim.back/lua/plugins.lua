@@ -2,6 +2,17 @@ vim.cmd('packadd packer.nvim')
 
 return require('packer').startup(
 	function()
+		use 'ray-x/go.nvim'
+		use 'ray-x/guihua.lua' -- recommended if need floating window support
+		use 'neovim/nvim-lspconfig'
+		use 'nvim-treesitter/nvim-treesitter'
+		use {
+			"olexsmir/gopher.nvim",
+			requires = { -- dependencies
+				"nvim-lua/plenary.nvim",
+				"nvim-treesitter/nvim-treesitter",
+			},
+		}
 		-- Project Manager
 		-- use {
 		-- 	'charludo/projectmgr.nvim'

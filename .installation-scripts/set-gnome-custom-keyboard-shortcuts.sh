@@ -31,3 +31,6 @@ then
 	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/ name "take screenshot"
 fi
 
+read -p "Swap caps key with escape" -n 1 -r
+gsettings set org.gnome.desktop.input-sources xkb-options "['caps:swapescape']"
+

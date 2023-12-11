@@ -6,7 +6,6 @@
   },
   "editor.formatOnSave": true,
   "prettier.printWidth": 70,
-
   "keyboard.dispatch": "keyCode",
   "liveServer.settings.donotShowInfoMsg": true,
   "terminal.integrated.automationShell.linux": "",

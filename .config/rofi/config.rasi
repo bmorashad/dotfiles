@@ -11,4 +11,22 @@ configuration {
     display-window:                 "Window";
     show-icons:true;
 }
+
+configuration{
+    modi: "run,drun,window";
+    lines: 5;
+    show-icons: true;
+    icon-theme: "Oranchelo";
+    terminal: "st";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-window: " 﩯  window";
+    /* display-Network: " 󰤨  Network"; */
+    sidebar-mode: true;
+}
 @import "/usr/share/rofi/themes/fancy.rasi"
+@import "./themes/forest.rasi"
