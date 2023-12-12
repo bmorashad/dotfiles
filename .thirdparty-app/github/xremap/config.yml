@@ -3,13 +3,14 @@ modmap:
     # application:
     #   not: Google-chrome
     remap:
-      CapsLock: Esc
+      # CapsLock: Esc
   # - name: Caps Behaviour Gloabl
   #   remap:
-  #     CapsLock:
-  #       held: ctrl # Required
-  #       alone: esc # Required
-  #       alone_timeout_millis: 1000 # Optional
+      CapsLock:
+        held: leftctrl # Required
+        alone: esc # Required
+        # alone_timeout_millis: 1000 # Optional
+        alone_timeout_millis: 150 # Optional
 # virtual_modifiers:
 #   - CapsLock
 keymap:
