@@ -4,12 +4,12 @@ modmap:
     #   not: Google-chrome
     remap:
       CapsLock: Esc
-  - name: Caps Behaviour Gloabl
-    remap:
-      CapsLock:
-        held: ctrl_l # Required
-        alone: esc # Required
-        alone_timeout_millis: 1000 # Optional
+  # - name: Caps Behaviour Gloabl
+  #   remap:
+  #     CapsLock:
+  #       held: ctrl # Required
+  #       alone: esc # Required
+  #       alone_timeout_millis: 1000 # Optional
 # virtual_modifiers:
 #   - CapsLock
 keymap:
@@ -26,3 +26,9 @@ keymap:
       M-semicolon: C-backspace
       M-backspace: C-backspace
       M-i: backspace
+      # M-d:
+      #   launch: ["bash", "-c", "flameshot", "gui"]
+      # M-o:
+      #   - { launch: ["rofi","-show", "drun", -show-icons"] }
+      # M-x:
+      #   launch: ["sh", "-c", "alacritty -e btop"]
