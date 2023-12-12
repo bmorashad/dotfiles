@@ -80,5 +80,9 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 -- Go.Nvim
-vim.keymap.set("n", "<leader>gsj", "<cmd> GoAddTag json", { noremap = true, desc = "Add json struct tags" })
-vim.keymap.set("n", "<leader>gsy", "<cmd> GoAddTag yml", { noremap = true, desc = "Add yml struct tags" })
+vim.keymap.set("n", "<leader>gsj", "<cmd> GoAddTag json <cr>", { noremap = true, desc = "Add json struct tags" })
+vim.keymap.set("n", "<leader>gsy", "<cmd> GoAddTag yml <cr>", { noremap = true, desc = "Add yml struct tags" })
+
+-- Bufremove
+-- Delete Buffer
+-- vim.keymap.set("n", ",x", "<cmd>lua MiniBufremove.delete()<cr>")

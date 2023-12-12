@@ -23,3 +23,5 @@ PaddleOCR
 dotfiles
 systemd
 thirdparty
+www
+neovim

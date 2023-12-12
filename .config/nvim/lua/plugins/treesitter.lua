@@ -4,19 +4,18 @@ return {
   --   ignore_install = { "markdown", "markdown_inline" },
   --   ensure_installed = {},
   -- },
+  opts = {
+    highlight = {
+      disable = { "markdown" },
+      -- Disable if the file has more than 10000 lines
+      -- (usually done for performance issues with large files when treesitter is loaded)
+      -- disable = function(_, bufnr) -- Disable in large buffers
+      --   return vim.api.nvim_buf_line_count(bufnr) > 10000
+      -- end,
+    },
+  },
   -- opts = function(_, opts)
-  -- return {}
-  -- vim.list_extend(opts.ensure_installed, {
-  --   "go",
-  --   "gomod",
-  --   "gowork",
-  --   "gosum",
-  -- })
-  -- vim.list_extend(opts.ignore_install, {
-  --   "go",
-  -- })
-  -- opts.ensure_installed = "Hello"
-  -- return opts.ensure_installed
+  --   return {}
   -- end,
   -- config = function(_, opts)
   --   -- return {}
