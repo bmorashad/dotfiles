@@ -1,0 +1,7 @@
+keybindings:
+  # Ctrl-O: :view opens
+  # Ctrl-S: :shell
+  # Ctrl-F: :filter active
+  # Alt-Shift-I: :filter inactive
+  q: :exec
+  # Add or modify shortcuts based on your preferences

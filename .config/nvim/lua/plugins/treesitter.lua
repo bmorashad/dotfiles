@@ -1,0 +1,34 @@
+return {
+  "nvim-treesitter/nvim-treesitter",
+  -- opts = {
+  --   ignore_install = { "markdown", "markdown_inline" },
+  --   ensure_installed = {},
+  -- },
+  -- opts = function(_, opts)
+  --   return {}
+  -- vim.list_extend(opts.ensure_installed, {
+  --   "go",
+  --   "gomod",
+  --   "gowork",
+  --   "gosum",
+  -- })
+  -- vim.list_extend(opts.ignore_install, {
+  --   "go",
+  -- })
+  -- opts.ensure_installed = "Hello"
+  -- return opts.ensure_installed
+  -- end,
+  -- config = function(_, opts)
+  --   -- return {}
+  --   if opts and opts.ensure_installed then
+  --     -- Languages to remove from ensure_installed
+  --     local languages_to_remove = { "go" } -- Modify this list as needed
+  --
+  --     -- Remove specified languages from ensure_installed
+  --     opts.ensure_installed = vim.tbl_filter(function(lang)
+  --       return not vim.tbl_contains(languages_to_remove, lang)
+  --     end, opts.ensure_installed)
+  --   end
+  --   return opts
+  -- end,
+}

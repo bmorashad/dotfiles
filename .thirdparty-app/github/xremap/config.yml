@@ -1,0 +1,28 @@
+modmap:
+  - name: Swap Caps with Esc
+    # application:
+    #   not: Google-chrome
+    remap:
+      CapsLock: Esc
+  - name: Caps Behaviour Gloabl
+    remap:
+      CapsLock:
+        held: ctrl_l # Required
+        alone: esc # Required
+        alone_timeout_millis: 1000 # Optional
+# virtual_modifiers:
+#   - CapsLock
+keymap:
+  - name: Global
+    # application:
+    #   only: Google-chrome
+    remap:
+      M-j: down
+      M-k: up
+      M-l: right
+      M-h: left
+      M-b: C-left
+      M-n: C-right
+      M-semicolon: C-backspace
+      M-backspace: C-backspace
+      M-i: backspace
