@@ -5,7 +5,7 @@ return {
   --   ensure_installed = {},
   -- },
   -- opts = function(_, opts)
-  --   return {}
+  -- return {}
   -- vim.list_extend(opts.ensure_installed, {
   --   "go",
   --   "gomod",

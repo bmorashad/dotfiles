@@ -333,7 +333,7 @@ function notes_grep_fzf
 	--colors match:fg:yellow --colors match:style:nobold --color=always | sed 's/\/home\/bmora\/.notes\///' ||true" \
         --ansi --phony --query "" --layout=reverse \
         --prompt 'regex: ' \
-            --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md" \
+        --preview "rg {q} $NOTES_CLI_HOME/{} --smart-case --color=always --context 5 | bat --style plain --color always -l md" \
         --preview-window sharp:wrap:right:65% --bind J:preview-down,K:preview-up --color prompt:166,border:#4a4a4a \
         --border sharp | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0}' | xargs -r -d '\n' nvim -O
 end
@@ -546,8 +546,34 @@ function go20
     set PATH /usr/bin $PATH
 end
 
+# NOTE: old func uses virtualenv while it's in the process of replacing it with pyenv
+# Removing virtualenv ATM is a problem since pyenv deactivate function doesn't undo the prompt change
+# Hence must depend on virtualenv deactivate function for that
+
+# pyenv helpers
+function pyactivate
+    pyenv activate $argv
+    source $PYENV_ROOT/versions/$argv/bin/activate.fish
+end
+function pydeactivate
+    source $PYENV_ROOT/versions/$argv/bin/activate.fish
+    deactivate
+    pyenv deactivate
+end
+
+
 # switch local python3 evn
 function toggle_local_py_env
+    if test -n "$VIRTUAL_ENV"
+        pydeactivate
+    else
+        pyenv activate py3_env
+        source $PYENV_ROOT/versions/py3_env/bin/activate.fish
+    end
+end
+
+# NOTE: old func uses virtualenv while it's in the process of replacing it with pyenv
+function toggle_local_py_env_old
     if test -n "$VIRTUAL_ENV"
         deactivate
     else
@@ -730,12 +756,6 @@ function cpsvc
     kubectl get svc -A | tail -n +2 | fzf | awk '{print $5":"$6}' | rg ":\d{5}/TCP.*" -r "" | xclip -r -selection clipboard
 end
 
-
-# pyenv helpers
-function pyactivate
-    pyenv activate $argv
-    source $PYENV_ROOT/versions/$argv/bin/activate.fish
-end
 
 # helper
 function echo_output_var

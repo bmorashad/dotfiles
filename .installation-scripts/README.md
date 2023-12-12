@@ -4,7 +4,7 @@
 - backup-existing-dotfiles.sh
 - pre-install-tools.sh
 - install-tools.sh
-- post-install-tools.sh
+- post-install-tools.fish
 - set-keyboard-shortcuts.sh
 - systemd-daemon-setups.sh
 - install-thirdparty-apps.sh

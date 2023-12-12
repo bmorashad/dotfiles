@@ -56,7 +56,7 @@ cd $GITHUB_APP_DIR
 mkdir xrempa
 cd xremap
 curl -s https://api.github.com/repos/k0kubun/xremap/releases/latest | grep "browser_download_url.*x86_64-${displayServer}.zip" | cut -d : -f 2,3 | tr -d \" | wget -qi -
-ls | grep .zip | unzip
+ls --sort newest | grep .zip | head -n 1 | unzip
 
 "${BOLD}Snap installing k9s${NC}"
 sudo snap install k9s

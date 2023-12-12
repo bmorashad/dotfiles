@@ -9,7 +9,7 @@ echo "installing fisher plugin manager (https://github.com/jorgebucaran/fisher) 
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 
 # installing forgit: git with fzf 
-echo "installing forgit: git with fzf <https://github.com/wfxr/forgit>" 
+echo "installing forgit: git with fzf <https://github.com/wfxr/forgit>"
 fisher install wfxr/forgit
 
 # install nvm for fish (not the mainstream)
@@ -37,6 +37,22 @@ echo (source $PYTHON_ENV3_DIR/bin/activate.fish && pip install neovim pynvim && 
 echo "make python2 virtual env"
 virtualenv -p python2 $PYTHON_ENV2_DIR
 echo (source $PYTHON_ENV2_DIR/bin/activate.fish && pip install neovim pynvim && deactivate)
+
+# NOTE: Replace virtualenv with Pyenv setup gracefully
+# Removing virtualenv fully ATM is a problem since pyenv deactivate function doesn't undo the prompt change
+# Hence must depend on virtualenv deactivate function for that
+# See notes at config.fish
+echo "Installing pyenv"
+curl https://pyenv.run | bash
+pyenv init - | source
+set -Ux PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin
+pyenv install 3.8
+pyenv global 3.8
+pyenv version
+pyenv virtualenv 3.8 py3_env
+# pyenv deactivate
+
 
 # add docker auto completion to fish
 mkdir -p ~/.config/fish/completions
