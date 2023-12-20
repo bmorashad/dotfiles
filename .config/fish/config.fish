@@ -224,15 +224,15 @@ function install_with_fzf
         # if last argument contains '-'(dash) in it(i.e install_with_fzf neovim -e)
         if test (expr substr $argv[-1] 1 1) = -
             # if so pass the last argument(with the dash) to fzf command as an argument and remaining args to eopkg search
-            eopkg search $argv[1..-2] | fzf --ansi -m -0 $argv[-1] | awk '{print $1}' | xargs -o -r sudo eopkg it
+            eopkg search $argv[1..-2] | fzf --ansi -m -0 $argv[-1] --height '30%' | awk '{print $1}' | xargs -o -r sudo eopkg it
         else
             # else pass the all args to eopkg search
-            eopkg search $argv | fzf --ansi -m -0 | awk '{print $1}' | xargs -o -r sudo eopkg it
+            eopkg search $argv | fzf --ansi -m -0 --height '30%' | awk '{print $1}' | xargs -o -r sudo eopkg it
         end
         # if no arguments passed(i.e install_with_fzf)
     else
         # eopkg la | fzf --ansi -m | awk '{print $1}' | tr '\n' ' ' | xargs -r sudo eopkg it $argv;
-        eopkg la | fzf --ansi -m | awk '{print $1}' | xargs -o -r sudo eopkg it
+        eopkg la | fzf --ansi -m --height '30%' | awk '{print $1}' | xargs -o -r sudo eopkg it
     end
     # eopkg search $argv | fzf --ansi -m | awk '{print $1}' | tr '\n' ' ' | xargs -r sudo eopkg it $argv;
     # Begin test Test
