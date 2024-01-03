@@ -730,7 +730,7 @@ end
 
 # delete containers fzf
 function drm
-    docker rm (docker ps -a | tail -n +2 | fzf -m --height=30% -q $argv | awk '{print $1}')
+    docker rm (docker ps -a | tail -n +2 | fzf -m --height=30% $argv | awk '{print $1}')
 end
 
 # delete images fzf
@@ -776,7 +776,10 @@ set PATH $HOME/netbeans-8.2rc/bin $PATH
 set PATH $HOME/Downloads/IntelliJ.Community/ideaIC-2021.2.2/idea-IC-212.5284.40/bin $PATH
 
 # set go 1.18 as default
-set PATH $HOME/sdk/go1.18/bin $PATH
+# set PATH $HOME/sdk/go1.18/bin $PATH
+
+# set go <latest> as default
+set PATH /usr/bin $PATH
 
 
 
