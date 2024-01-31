@@ -83,6 +83,9 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 vim.keymap.set("n", "<leader>gsj", "<cmd> GoAddTag json <cr>", { noremap = true, desc = "Add json struct tags" })
 vim.keymap.set("n", "<leader>gsy", "<cmd> GoAddTag yml <cr>", { noremap = true, desc = "Add yml struct tags" })
 
+-- Stop vim yanking visually selected text
+vim.keymap.set("x", "p", "pgvy", { noremap = true, desc = "Stop vim yanking visually selected text" })
+
 -- Bufremove
 -- Delete Buffer
 -- vim.keymap.set("n", ",x", "<cmd>lua MiniBufremove.delete()<cr>")

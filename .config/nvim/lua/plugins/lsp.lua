@@ -7,7 +7,8 @@ return {
     init = function()
       local keys = require("lazyvim.plugins.lsp.keymaps").get()
       -- change a keymap
-      keys[#keys + 1] = { "gr", vim.lsp.buf.definition }
+      -- keys[#keys + 1] = { "gr", vim.lsp.buf.definition }
+      keys[#keys + 1] = { "gr", require("telescope.builtin").lsp_definitions }
       keys[#keys + 1] = { "gd", require("telescope.builtin").lsp_references }
       keys[#keys + 1] = { "gi", require("telescope.builtin").lsp_implementations }
       -- disable a keymap

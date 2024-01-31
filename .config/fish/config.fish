@@ -721,6 +721,13 @@ function kill_lport
     end
 end
 
+function cpip
+    # ip addr show | grep inet | grep -v '127.0.0.1' | awk '{print $2}' | cut -d/ -f1
+    set ip (ip route get 1 | awk '{print $7}')
+    echo $ip
+    echo $ip | xclip -r -selection clipboard
+end
+
 # docker remove none images
 function drmi_none
     # set -l removed_none_img (docker rmi (docker images -f 'dangling=true' -q))
@@ -735,12 +742,16 @@ end
 
 # delete images fzf
 function drmi
-    docker rmi (docker images | tail -n +2 | fzf -m --height=30% -q $argv | awk '{print $3}')
+    docker rmi (docker images | tail -n +2 | fzf -m --height=30% $argv | awk '{print $3}')
 end
 
 # docker release
 function dockrelease
-    docker build -t $argv[1] . && docker tag $argv[1] $argv[2] && docker push $argv[1]
+    set dockFile $argv[3]
+    if ! test -z $dockFile
+        set dockFile Dockerfile
+    end
+    docker build -f $argv[3] $argv[4..-1] -t $argv[1] . && docker tag $argv[1] $argv[2] && docker push $argv[1]
 end
 
 # copy pod name to clipboard FZF
@@ -797,9 +808,6 @@ set PATH $HOME/.local/bin $PATH
 # bash -i -c "jenv $argv"
 # end
 
-set -x JAVA_HOME /opt/java/jdk1.8.0_241 $JAVA_HOME
-# set -x JAVA_HOME /opt/jdk-11.0.6 $JAVA_HOME
-
 #Zoxide fast navigation
 zoxide init fish | source
 
@@ -812,7 +820,8 @@ set PATH $HOME/.jenv/bin $PATH
 #Expo CLI
 # set PATH $HOME/.nvm/versions/node/v12.18.3/lib/node_modules/npm/node_modules/bin $PATH
 # set PATH $HOME/.nvm/versions/node/ $PATH
-set PATH $HOME/.local/share/nvm/v14.15.5/lib/node_modules/ $PATH
+set PATH $HOME/.local/share/nvm/v20.11.0/bin $PATH
+set PATH $HOME/.local/share/nvm/v20.11.0/lib/node_modules/ $PATH
 
 # Spring Boot CLI Path
 # export SPRING_HOME = "$HOME/.spring-boot-cli"
@@ -829,6 +838,7 @@ set PATH ~/.thirdparty-app/gcp/google-cloud-sdk/bin $PATH
 
 #k9s
 set PATH /snap/k9s/155/bin $PATH
+set PATH /snap/bin $PATH
 
 
 #linkerd
@@ -849,6 +859,10 @@ set PATH $THIRDPARTY_APP_DIR/github/xremap $PATH
 set PATH /opt/java/jdk1.8.0_391/bin $PATH
 # set PATH /opt/jdk1.8.0_241/bin $PATH
 # # set PATH /opt/jdk-11.0.6/bin $PATH
+#
+set -x JAVA_HOME /opt/java/jdk1.8.0_391 $JAVA_HOME
+# set -x JAVA_HOME /opt/jdk-11.0.6 $JAVA_HOME
+
 
 # # set PATH for thirdparty bin
 set PATH $HOME/.thirdparty-app/bin $PATH
@@ -929,6 +943,11 @@ export GOPRIVATE="git.mytaxi.lk/*"
 export ETCD_CONF_NODES="10.120.51.196:2379"
 export ETCD_CONF_PASS="MjkqP53D"
 export ETCD_CONF_USER="delivery-reader-protected"
+
+# elastic
+export ELASTIC_PASSWORD="S*AynOntKN6KUA5=rasv"
+export ELASTIC_OTHER_TOKEN="eyJ2ZXIiOiI4LjExLjMiLCJhZHIiOlsiMTcyLjI4LjAuMjo5MjAwIl0sImZnciI6IjljN2QyNWIyNmVlNzA2MTgyMWIyMjEzMjQ1YmQ0MzJjZDMxMjkzN2M5NDYxYjZjNzkzM2JhMzJhNjk1MjZkMzEiLCJrZXkiOiJMRmFENkl3QllMakx4QWVia0dySDpZX1hEdWNSbVR0U0JVYWZ4YjI1OVhBIn0="
+export ELASTIC_KIBANA_TOKEN="eyJ2ZXIiOiI4LjExLjMiLCJhZHIiOlsiMTcyLjI4LjAuMjo5MjAwIl0sImZnciI6IjljN2QyNWIyNmVlNzA2MTgyMWIyMjEzMjQ1YmQ0MzJjZDMxMjkzN2M5NDYxYjZjNzkzM2JhMzJhNjk1MjZkMzEiLCJrZXkiOiJLbGFENkl3QllMakx4QWVia0dyRTp4ZE9pR1p4eFNYeW9TNzhCTjN1eC1RIn0="
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/rashad/.thirdparty-app/gcp/google-cloud-sdk/path.fish.inc' ]

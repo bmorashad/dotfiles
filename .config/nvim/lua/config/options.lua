@@ -6,4 +6,5 @@ vim.g.loaded_netrwPlugin = 1
 vim.g.gruvbox_material_background = "medium"
 vim.g.gruvbox_material_better_performance = 1
 vim.g.gruvbox_material_forground = "original"
+vim.o.conceallevel = 0
 -- vim.g.mapleader = ","
