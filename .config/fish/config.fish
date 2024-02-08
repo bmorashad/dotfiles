@@ -482,6 +482,24 @@ function notes_hashtag_with_name_fzf_old
     # xargs -r -d '\n' nvim -o
 end
 
+function all_incomplete_todo_notes_with_fzf
+    rg '\[\W\]' $NOTES_CLI_HOME
+end
+
+function incomplete_todo_notes_with_fzf
+    if count $argv >/dev/null
+        set note (notes ls -A --oneline | env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
+        if ! test -z (echo $note)
+            rg '\[\W\]' $note
+        end
+    else
+        set note (notes ls -A --oneline | env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
+        if ! test -z (echo $note)
+            rg '\[\W\]' $note
+        end
+    end
+end
+
 
 # install fonts
 
