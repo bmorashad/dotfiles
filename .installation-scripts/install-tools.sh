@@ -7,7 +7,7 @@ echo "installing dev tools"
 sudo eopkg install -c system.devel
 # Solus Repo
 sudo eopkg install sof-firmware alsa-tools starship nnn fd ripgrep autokey-py3 \
-	fish rust golang cargo htop bat exa alacritty tmux tdrop xdotool fzf neovim tealdeer \
+	fish rust golang cargo htop bat eza alacritty tmux tdrop xdotool fzf neovim tealdeer \
 	broot glow borg virtualenv rofi pipenv xev openssh-server rsync nmap httpie inxi jq unzip
 
 # Rust
