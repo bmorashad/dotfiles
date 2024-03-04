@@ -490,12 +490,12 @@ function incomplete_todo_notes_with_fzf
     if count $argv >/dev/null
         set note (notes ls -A --oneline | env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf --ansi -m -q "$argv" | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
         if ! test -z (echo $note)
-            rg '\[\W\]' $note
+            rg '\[\W\]' -C 2 $note | glow -p
         end
     else
         set note (notes ls -A --oneline | env FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS $NOTES_CLI_FZF $NOTES_CLI_FZF_PREVIEW" fzf --ansi -m | sed 's/\.md.*//' | awk -v notes_path="$NOTES_CLI_HOME/" '{print notes_path $0".md"}')
         if ! test -z (echo $note)
-            rg '\[\W\]' $note
+            rg '\[\W\]' -C 2 $note | glow -p
         end
     end
 end
@@ -765,10 +765,15 @@ end
 
 # docker release
 function dockrelease
+    set dockTag $argv[2]
     set dockFile $argv[3]
     if ! test -z $dockFile
         set dockFile Dockerfile
     end
+    if ! test -z $dockTag
+        set dockTag $argv[1]
+    end
+
     docker build -f $argv[3] $argv[4..-1] -t $argv[1] . && docker tag $argv[1] $argv[2] && docker push $argv[1]
 end
 

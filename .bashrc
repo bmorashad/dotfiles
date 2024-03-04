@@ -7,5 +7,6 @@ export PATH=$HOME/.cargo/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
 export PATH=$HOME/.thirdparty-app/gcp/google-cloud-sdk/bin:$PATH
 export PATH=$HOME/.thirdparty-app/bin:$PATH
+export PATH=/snap/k9s/155/bin:$PATH
 
 #source /home/bmora/.config/broot/launcher/bash/br
