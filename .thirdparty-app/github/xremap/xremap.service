@@ -1,0 +1,10 @@
+[Unit]
+Description=Xremap Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/rashad/.thirdparty-app/github/xremap/xremap /home/rashad/.thirdparty-app/github/xremap/config.yml
+
+[Install]
+WantedBy=multi-user.target
