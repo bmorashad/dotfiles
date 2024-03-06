@@ -61,4 +61,7 @@ ls --sort newest | grep .zip | head -n 1 | xargs unzip
 "${BOLD}Snap installing k9s${NC}"
 sudo snap install k9s
 
+"${BOLD}Install homebrew${NC}"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 echo "tada done :)"

@@ -897,7 +897,12 @@ set PATH $HOME/go/bin $PATH
 # set PATH $HOME/diff-so-fancy $PATH
 #
 # # directory for thridparty apps
+
+
+set PATH /home/linuxbrew/.linuxbrew/bin $PATH
+
 export THIRDPARTY_APP_DIR="$HOME/.thirdparty-app"
+
 export GITHUB_APP_DIR="$THIRDPARTY_APP_DIR/github"
 #
 # # virtual python env directory
