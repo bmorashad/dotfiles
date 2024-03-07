@@ -19,9 +19,10 @@ config.default_prog = { "/usr/bin/fish", "-l" }
 -- You can specify some parameters to influence the font selection;
 -- for example, this selects a Bold, Italic font variant.
 -- config.font = wezterm.font("JetBrains Mono")
-config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = 600 })
+-- config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = 500 })
 config.font = wezterm.font_with_fallback({
 	{ family = "JetBrainsMono Nerd Font", weight = 600, scale = 1.0 },
+	-- harfbuzz_features = { "calt=0", "clig=0", "liga=0" },
 })
 config.font_size = 11.6
 config.freetype_load_flags = "DEFAULT"
@@ -215,7 +216,7 @@ config.foreground_text_hsb = {
 }
 
 config.colors = {
-	background = "#1c1c1c",
+	-- background = "#1c1c1c",
 }
 
 -- config.use_cap_height_to_scale_fallback_fonts = false
