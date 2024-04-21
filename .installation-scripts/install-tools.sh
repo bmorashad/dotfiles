@@ -7,15 +7,17 @@ echo "installing dev tools"
 sudo eopkg install -c system.devel
 # Solus Repo
 sudo eopkg install sof-firmware alsa-tools starship nnn fd ripgrep autokey-py3 \
-	fish rust golang cargo htop bat eza alacritty tmux tdrop xdotool fzf neovim tealdeer \
-	broot glow borg virtualenv rofi pipenv xev openssh-server rsync nmap httpie inxi jq unzip
+	fish rust golang cargo htop bat eza alacritty kitty tmux tdrop xdotool fzf neovim tealdeer \
+	broot glow borg virtualenv rofi pipenv xev openssh-server rsync nmap httpie inxi jq unzip kubectl
 
 # Rust
 echo "${BOLD}Installing cli tools written in rust${NC}"
 cargo install git-delta du-dust procs zoxide
 
 echo "${BOLD}Cloning sad for sed (https://github.com/ms-jpq/sad)${NC}"
-git clone https://github.com/ms-jpq/sad $GITHUB_APP_DIR/sad
+mkdir -p $GITHUB_APP_DIR/sad
+cd $GITHUB_APP_DIR/sad
+git clone https://github.com/ms-jpq/sad
 echo "${BOLD}Installing sad in a subshell${NC}"
 (cd $GITHUB_APP_DIR/sad && cargo install --locked --all-features --path .)
 echo -e "${RED}${BOLD}NOTE:${NC} make sure sad installation is successfull by running sad"
@@ -23,7 +25,7 @@ echo -e "${RED}${BOLD}NOTE:${NC} make sure sad installation is successfull by ru
 # Golang
 # install my cli notes app
 echo "${BOLD}Installing my cli notes app...${NC}"
-GO111MODULE=on go get -u github.com/rhysd/notes-cli/cmd/notes
+GO111MODULE=on go install github.com/rhysd/notes-cli/cmd/notes@latest
 
 # vim-plug: plugin manager for vim
 # https://github.com/junegunn/vim-plug
@@ -53,12 +55,13 @@ else
 fi
 echo "${RED}[WARNING]${NC} Installing xremap for x86_64 architecture"
 cd $GITHUB_APP_DIR
-mkdir xrempa
+mkdir -p xremap
 cd xremap
-curl -s https://api.github.com/repos/k0kubun/xremap/releases/latest | grep "browser_download_url.*x86_64-${displayServer}.zip" | cut -d : -f 2,3 | tr -d \" | wget -qi -
-ls --sort newest | grep .zip | head -n 1 | xargs unzip
+xremap_release=$(curl -s https://api.github.com/repos/k0kubun/xremap/releases/latest | grep "browser_download_url.*x86_64-${displayServer}.zip" | cut -d : -f 2,3 | tr -d \")
+wget $xremap_release
+eza --sort newest | grep .zip | head -n 1 | xargs unzip
 
-"${BOLD}Snap installing k9s${NC}"
+echo "${BOLD}Snap installing k9s${NC}"
 sudo snap install k9s
 
 "${BOLD}Install homebrew${NC}"

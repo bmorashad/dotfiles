@@ -4,7 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
+<<<<<<< Updated upstream
 ExecStart=$HOME/.thirdparty-app/github/xremap/xremap $HOME/.thirdparty-app/github/xremap/config.yml
+=======
+ExecStart=/home/bmurashad/.thirdparty-app/github/xremap/xremap /home/bmurashad/.thirdparty-app/github/xremap/config.yml
+>>>>>>> Stashed changes
 
 [Install]
 WantedBy=multi-user.target
